@@ -1,5 +1,5 @@
 
-// app.js - module
+// app.js - modulelet
 (() => {
   /*** Utility ***/
   const TAU = Math.PI * 2;
@@ -120,6 +120,8 @@
   let addVertexMode = false;
   let showRoomNames = true;
   let showRoomLengths = true;
+  let moveSharedEdgesEnabled = true;
+
 
   const grid = { show: true };
   const SNAP_TOL = 0.3;
@@ -303,6 +305,12 @@
     showRoomLengths = e.target.checked;
     draw();
   });
+
+  document.getElementById("sharedEdgeToggle").addEventListener("change", (e) => {
+    moveSharedEdgesEnabled = e.target.checked;
+    toast(`Shared Edge Movement: ${moveSharedEdgesEnabled ? "ON" : "OFF"}`);
+  });
+
 
 
 
@@ -758,6 +766,64 @@
   //   }
   // }
 
+  // function moveSharedEdge(movingPoly, edgeIdx, shift) {
+  //   const sharedEdges = findSharedEdges();
+  //   const movingCoords = movingPoly.coords;
+  //   const p1 = movingCoords[edgeIdx];
+  //   const p2 = movingCoords[(edgeIdx + 1) % movingCoords.length];
+
+  //   const edgeKey = [p1[0], p1[1], p2[0], p2[1]]
+  //     .map(v => Math.round(v * 1000) / 1000)
+  //     .join(',');
+
+  //   const reverseKey = [p2[0], p2[1], p1[0], p1[1]]
+  //     .map(v => Math.round(v * 1000) / 1000)
+  //     .join(',');
+
+  //   const sharedKey = sharedEdges.has(edgeKey) ? edgeKey : reverseKey;
+  //   const sharedPolys = sharedEdges.get(sharedKey);
+
+  //   // If no shared edge, move only current polygon and then try to align
+  //   if (!sharedPolys || sharedPolys.length === 1) {
+  //     const coords = movingPoly.coords;
+  //     const a = coords[edgeIdx];
+  //     const b = coords[(edgeIdx + 1) % coords.length];
+  //     let newA = [a[0] + shift[0], a[1] + shift[1]];
+  //     let newB = [b[0] + shift[0], b[1] + shift[1]];
+
+  //     // Apply align logic to both points
+  //     if (alignEnabled) {
+  //       newA = alignPoint(newA, movingPoly);
+  //       newB = alignPoint(newB, movingPoly);
+  //     }
+
+  //     coords[edgeIdx] = newA;
+  //     coords[(edgeIdx + 1) % coords.length] = newB;
+  //     return;
+  //   }
+
+  //   // Otherwise, move shared edge in all connected polygons
+  //   for (const poly of sharedPolys) {
+  //     const coords = poly.coords;
+  //     for (let i = 0; i < coords.length; i++) {
+  //       const a = coords[i];
+  //       const b = coords[(i + 1) % coords.length];
+
+  //       const isSameEdge =
+  //         (Math.abs(a[0] - p1[0]) < 0.01 && Math.abs(a[1] - p1[1]) < 0.01 &&
+  //           Math.abs(b[0] - p2[0]) < 0.01 && Math.abs(b[1] - p2[1]) < 0.01) ||
+  //         (Math.abs(a[0] - p2[0]) < 0.01 && Math.abs(a[1] - p2[1]) < 0.01 &&
+  //           Math.abs(b[0] - p1[0]) < 0.01 && Math.abs(b[1] - p1[1]) < 0.01);
+
+  //       if (isSameEdge) {
+  //         coords[i] = [a[0] + shift[0], a[1] + shift[1]];
+  //         coords[(i + 1) % coords.length] = [b[0] + shift[0], b[1] + shift[1]];
+  //         break;
+  //       }
+  //     }
+  //   }
+  // }
+
   function moveSharedEdge(movingPoly, edgeIdx, shift) {
     const sharedEdges = findSharedEdges();
     const movingCoords = movingPoly.coords;
@@ -775,15 +841,15 @@
     const sharedKey = sharedEdges.has(edgeKey) ? edgeKey : reverseKey;
     const sharedPolys = sharedEdges.get(sharedKey);
 
-    // If no shared edge, move only current polygon and then try to align
-    if (!sharedPolys || sharedPolys.length === 1) {
+    // ✅ When toggle is OFF, move only selected polygon’s edge
+    if (!moveSharedEdgesEnabled || !sharedPolys || sharedPolys.length === 1) {
       const coords = movingPoly.coords;
       const a = coords[edgeIdx];
       const b = coords[(edgeIdx + 1) % coords.length];
       let newA = [a[0] + shift[0], a[1] + shift[1]];
       let newB = [b[0] + shift[0], b[1] + shift[1]];
 
-      // Apply align logic to both points
+      // Optional alignment snap
       if (alignEnabled) {
         newA = alignPoint(newA, movingPoly);
         newB = alignPoint(newB, movingPoly);
@@ -794,13 +860,12 @@
       return;
     }
 
-    // Otherwise, move shared edge in all connected polygons
+    // ✅ When ON, move all polygons sharing this edge
     for (const poly of sharedPolys) {
       const coords = poly.coords;
       for (let i = 0; i < coords.length; i++) {
         const a = coords[i];
         const b = coords[(i + 1) % coords.length];
-
         const isSameEdge =
           (Math.abs(a[0] - p1[0]) < 0.01 && Math.abs(a[1] - p1[1]) < 0.01 &&
             Math.abs(b[0] - p2[0]) < 0.01 && Math.abs(b[1] - p2[1]) < 0.01) ||
@@ -815,6 +880,7 @@
       }
     }
   }
+
 
   /**
    * Helper for aligning a single moved vertex with nearby room edges/points.
@@ -980,21 +1046,84 @@
       ctx.fill();
     }
 
+    // // draw edge lengths
+    // if (showRoomLengths) {
+    //   for (let i = 0; i < poly.coords.length; i++) {
+    //     const a = poly.coords[i];
+    //     const b = poly.coords[(i + 1) % poly.coords.length];
+    //     const length = Math.hypot(b[0] - a[0], b[1] - a[1]) * unitFactors[currentUnit];
+    //     const mid = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+    //     const sm = worldToScreen(mid[0], mid[1]);
+    //     ctx.font = "bold 11px ui-sans-serif, system-ui, -apple-system";
+    //     ctx.fillStyle = "#ffffffff";
+    //     ctx.textAlign = "center";
+    //     ctx.textBaseline = "middle";
+    //     ctx.fillText(length.toFixed(2) + " " + currentUnit, sm.x, sm.y);
+    //   }
+    // }
+
     // draw edge lengths
     if (showRoomLengths) {
       for (let i = 0; i < poly.coords.length; i++) {
         const a = poly.coords[i];
         const b = poly.coords[(i + 1) % poly.coords.length];
         const length = Math.hypot(b[0] - a[0], b[1] - a[1]) * unitFactors[currentUnit];
+
+        // midpoint
         const mid = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
-        const sm = worldToScreen(mid[0], mid[1]);
+
+        // direction of edge
+        const dx = b[0] - a[0];
+        const dy = b[1] - a[1];
+        const angle = Math.atan2(dy, dx);
+
+        // --- find inward offset ---
+        const centroid = poly.centroid || poly.coords.reduce((acc, [x, y]) => [acc[0] + x, acc[1] + y], [0, 0]);
+        centroid[0] /= poly.coords.length;
+        centroid[1] /= poly.coords.length;
+
+        // edge normal vector
+        const nx = -dy;
+        const ny = dx;
+        const normLen = Math.hypot(nx, ny);
+        const ux = nx / normLen;
+        const uy = ny / normLen;
+
+        // direction from edge to centroid
+        const toCentroidX = centroid[0] - mid[0];
+        const toCentroidY = centroid[1] - mid[1];
+        const dot = toCentroidX * ux + toCentroidY * uy;
+        const inward = dot > 0 ? 1 : -1;
+
+        // offset text slightly inward (in world units)
+        const offset = 0.15; // tweak for more/less inward spacing
+        const labelPos = [
+          mid[0] + ux * inward * offset,
+          mid[1] + uy * inward * offset,
+        ];
+
+        // convert to screen coordinates
+        const sm = worldToScreen(labelPos[0], labelPos[1]);
+
+        // --- ensure text is upright ---
+        let fixedAngle = angle;
+        if (fixedAngle > Math.PI / 2 || fixedAngle < -Math.PI / 2) {
+          fixedAngle += Math.PI;
+        }
+
+        // --- draw rotated text ---
+        ctx.save();
+        ctx.translate(sm.x, sm.y);
+        ctx.rotate(fixedAngle);
         ctx.font = "bold 11px ui-sans-serif, system-ui, -apple-system";
         ctx.fillStyle = "#ffffffff";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillText(length.toFixed(2) + " " + currentUnit, sm.x, sm.y);
+        ctx.fillText(length.toFixed(2) + " " + currentUnit, 0, 0);
+        ctx.restore();
       }
     }
+
 
 
     // centroid label and area
