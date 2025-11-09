@@ -1,0 +1,240 @@
+:root {
+  --bg: #0f172a;
+  --panel: #111827;
+  --ink: #e5e7eb;
+  --muted: #9ca3af;
+  --accent: #38bdf8;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Inter, "Helvetica Neue", Arial;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  height: 100%;
+}
+
+.sidebar {
+  background: var(--panel);
+  border-right: 1px solid #1f2937;
+  padding: 16px;
+  overflow: auto;
+}
+
+.sidebar h1 {
+  font-size: 18px;
+  margin: 0 0 12px;
+}
+
+.sidebar .row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 10px 0;
+  flex-wrap: wrap;
+}
+
+.sidebar button,
+.sidebar label[for=loadFile] {
+  background: #1f2937;
+  color: var(--ink);
+  border: 1px solid #374151;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.sidebar button:hover,
+.sidebar label[for=loadFile]:hover {
+  border-color: #4b5563;
+}
+
+.sidebar input[type=checkbox] {
+  transform: scale(1.1);
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.legend {
+  font-size: 12px;
+  border-top: 1px dashed #334155;
+  margin-top: 12px;
+  padding-top: 12px;
+}
+
+#canvasWrap {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+}
+
+#c {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: #0b1220;
+  cursor: crosshair;
+  user-select: none;
+}
+
+.toast {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  background: rgba(15, 23, 42, .9);
+  border: 1px solid #334155;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  color: var(--muted);
+  transition: opacity .2s ease;
+  opacity: 0.9;
+}
+
+canvas {
+  cursor: default;
+  user-select: none;
+}
+canvas.panning {
+  cursor: grabbing !important;
+}
+
+canvas {
+  cursor: crosshair; /* Default “+” cursor */
+  user-select: none;
+}
+canvas.panning {
+  cursor: grabbing !important;
+}
+
+/* Match dropdown style to sidebar buttons */
+#unitSelect {
+  background: #1f2937;
+  color: var(--ink);
+  border: 1px solid #374151;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  cursor: pointer;
+  width: 30%;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  transition: background 0.2s ease, border 0.2s ease;
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink) 50%),
+                    linear-gradient(135deg, var(--ink) 50%, transparent 50%);
+  background-position: calc(100% - 18px) calc(50% - 3px),
+                       calc(100% - 12px) calc(50% - 3px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+#unitSelect:hover {
+  border-color: #4b5563;
+  background: #1e293b;
+}
+
+#unitSelect:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.3);
+}
+
+
+/* --- Toggle Switch Styling --- */
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--ink);
+  user-select: none;
+  position: relative;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.toggle .slider {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  background: #1f2937;
+  border: 1px solid #374151;
+  border-radius: 999px;
+  transition: all 0.25s ease;
+}
+
+.toggle .slider::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 15px;
+  height: 15px;
+  background: var(--muted);
+  border-radius: 50%;
+  transition: all 0.25s ease;
+}
+
+/* Active state (checked) */
+.toggle input:checked + .slider {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.toggle input:checked + .slider::after {
+  transform: translateX(16px);
+  background: white;
+}
+
+/* Hover state */
+.toggle:hover .slider {
+  border-color: #4b5563;
+}
+
+/* Label text beside toggle */
+.label-text {
+  color: var(--ink);
+  font-size: 13px;
+}
+
+/* Snap input styling */
+.snap-control {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.snap-control input {
+  background: #1f2937;
+  color: var(--ink);
+  border: 1px solid #374151;
+  border-radius: 8px;
+  padding: 4px 6px;
+  width: 70px;
+  transition: border-color 0.2s ease;
+}
+
+.snap-control input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4);
+}
