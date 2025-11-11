@@ -36,6 +36,7 @@
     }
     return { x: cx / (6 * a), y: cy / (6 * a) };
   }
+
   function pointInPoly(p, poly) {
     const x = p.x,
       y = p.y;
@@ -52,6 +53,7 @@
     }
     return inside;
   }
+
   const distPtSeg = (p, a, b) => {
     const ax = a[0],
       ay = a[1],
@@ -110,6 +112,7 @@
     drag: false,
     start: { x: 0, y: 0, wx: 0, wy: 0 },
   };
+
   let panning = false;
   let shiftHeld = false;
   let snapEnabled = false;
@@ -133,6 +136,7 @@
     undoStack.push(snap);
     if (undoStack.length > 30) undoStack.shift();
   }
+
   function undo() {
     if (!undoStack.length) return;
     const last = undoStack.pop();
@@ -142,41 +146,6 @@
     });
     draw();
   }
-
-  /*** Loading & Saving ***/
-  // document.getElementById("loadFile").addEventListener("change", async (e) => {
-  //   const f = e.target.files?.[0];
-  //   if (!f) return;
-  //   const text = await f.text();
-  //   try {
-  //     data = JSON.parse(text);
-  //     // Combine all room arrays in wardInfo (e.g., coreRoomLayout, toiletLayout, etc.)
-  //     const layouts = Object.values(data.wardInfo || {})
-  //       .flat()
-  //       .filter(Boolean);
-
-  //     polygons = layouts
-  //       .map((room) => {
-  //         if (!room.vertices || !room.vertices.length) return null;
-  //         const coords = room.vertices.map((v) => [Number(v.X), Number(v.Y)]);
-  //         const lineColor = randomColor();
-  //         return {
-  //           room,
-  //           coords,
-  //           color: lineColor,
-  //           selected_vertex: null,
-  //           selected_edge: null,
-  //         };
-  //       })
-  //       .filter(Boolean);
-  //     fitView();
-  //     draw();
-  //     toast("Loaded " + polygons.length + " rooms");
-  //   } catch (err) {
-  //     console.error(err);
-  //     toast("❌ Invalid JSON");
-  //   }
-  // });
 
   function randomColor() {
     const h = Math.random();
@@ -322,50 +291,6 @@
     }
   });
 
-  function cleanRoomPolygons(rooms) {
-    const EPS = 1e-6; // Tolerance for float comparison
-    const isSame = (a, b) =>
-      Math.abs(a[0] - b[0]) < EPS && Math.abs(a[1] - b[1]) < EPS;
-
-    for (const room of rooms) {
-      if (!room.coords || room.coords.length < 2) continue;
-
-      const cleaned = [];
-      let skipNext = false;
-
-      for (let i = 0; i < room.coords.length; i++) {
-        if (skipNext) {
-          skipNext = false;
-          continue;
-        }
-
-        const a = room.coords[i];
-        const b = room.coords[(i + 1) % room.coords.length];
-
-        if (isSame(a, b)) {
-          // remove both duplicate points
-          skipNext = true;
-          continue;
-        }
-
-        cleaned.push(a);
-      }
-
-      // Check last and first again
-      if (cleaned.length >= 2) {
-        const first = cleaned[0];
-        const last = cleaned[cleaned.length - 1];
-        if (isSame(first, last)) {
-          cleaned.pop();
-        }
-      }
-
-      if (cleaned.length >= 3) {
-        room.coords = cleaned;
-      }
-    }
-  }
-
   function saveJSON() {
     // --- Step 1: Function to remove consecutive duplicate coordinates ---
     const EPS = 1e-6;
@@ -453,16 +378,12 @@
     draw();
   });
 
-  document
-    .getElementById("showLengthsToggle")
-    .addEventListener("change", (e) => {
+  document.getElementById("showLengthsToggle").addEventListener("change", (e) => {
       showRoomLengths = e.target.checked;
       draw();
     });
 
-  document
-    .getElementById("sharedEdgeToggle")
-    .addEventListener("change", (e) => {
+  document.getElementById("sharedEdgeToggle").addEventListener("change", (e) => {
       moveSharedEdgesEnabled = e.target.checked;
       toast(`Shared Edge Movement: ${moveSharedEdgesEnabled ? "ON" : "OFF"}`);
     });
@@ -472,9 +393,11 @@
     grid.show = e.target.checked;
     draw();
   });
+
   document.getElementById("alignToggle").addEventListener("change", (e) => {
     alignEnabled = e.target.checked;
   });
+
   document.getElementById("snapStep").addEventListener("input", (e) => {
     const v = Number(e.target.value) || 1;
     snapStep = v;
@@ -532,12 +455,14 @@
       }
     }
   });
+
   window.addEventListener("keyup", (e) => {
     if (e.key === "Shift") shiftHeld = false;
   });
 
   // Mouse events
   canvas.addEventListener("contextmenu", (e) => e.preventDefault());
+
   canvas.addEventListener("mousedown", (e) => {
     const rect = canvas.getBoundingClientRect();
     mouse.x = e.clientX - rect.left;
@@ -670,43 +595,6 @@
       pushState();
       return;
     }
-
-    // if (addVertexMode && selected) {
-    //   const { wx, wy } = mouse;
-    //   const edgeIdx = nearestEdge(selected, [wx, wy]);
-    //   if (edgeIdx == null) {
-    //     toast("⚠️ Click closer to an edge");
-    //     return;
-    //   }
-
-    //   // Compute projection of click point on that edge
-    //   const a = selected.coords[edgeIdx];
-    //   const b = selected.coords[(edgeIdx + 1) % selected.coords.length];
-    //   const ab = [b[0] - a[0], b[1] - a[1]];
-    //   const ap = [wx - a[0], wy - a[1]];
-    //   const len2 = ab[0] ** 2 + ab[1] ** 2;
-    //   let t = (ap[0] * ab[0] + ap[1] * ab[1]) / len2;
-    //   t = Math.max(0.001, Math.min(0.999, t));
-    //   let newPt = [a[0] + ab[0] * t, a[1] + ab[1] * t];
-
-    //   // --- snap to existing vertices nearby ---
-    //   const SNAP_TOL = 0.2;
-    //   for (const poly of polygons) {
-    //     for (const [vx, vy] of poly.coords) {
-    //       if (Math.abs(vx - newPt[0]) < SNAP_TOL) newPt[0] = vx;
-    //       if (Math.abs(vy - newPt[1]) < SNAP_TOL) newPt[1] = vy;
-    //     }
-    //   }
-
-    //   // Insert the vertex into that edge
-    //   selected.coords.splice(edgeIdx + 1, 0, newPt);
-    //   toast("✅ Vertex added");
-
-    //   addVertexMode = false;
-    //   canvas.style.cursor = "default";
-    //   draw();
-    //   return;
-    // }
 
     const poly = polygons.find((p) => pointInPoly({ x: w.x, y: w.y }, p));
 
@@ -895,6 +783,7 @@
     }
     return bestd < tol ? best : null;
   }
+
   function nearestEdge(poly, p) {
     const cs = poly.coords;
     if (!cs.length) return null;
@@ -917,7 +806,6 @@
     return bestd < baseTol ? best : null;
   }
 
-  // Add this function to detect shared edges between polygons
   function findSharedEdges() {
     const sharedEdges = new Map(); // key: "x1,y1,x2,y2", value: array of polygons sharing this edge
 
@@ -947,109 +835,8 @@
         }
       }
     }
-
     return sharedEdges;
   }
-
-  // Update the edge movement code to move all shared edges
-  // function moveSharedEdge(movingPoly, edgeIdx, shift) {
-  //   const sharedEdges = findSharedEdges();
-  //   const movingCoords = movingPoly.coords;
-  //   const p1 = movingCoords[edgeIdx];
-  //   const p2 = movingCoords[(edgeIdx + 1) % movingCoords.length];
-
-  //   // Find the edge key for the moving edge
-  //   const edgeKey = [p1[0], p1[1], p2[0], p2[1]]
-  //     .map(v => Math.round(v * 1000) / 1000)
-  //     .join(',');
-
-  //   const reverseKey = [p2[0], p2[1], p1[0], p1[1]]
-  //     .map(v => Math.round(v * 1000) / 1000)
-  //     .join(',');
-
-  //   const sharedKey = sharedEdges.has(edgeKey) ? edgeKey : reverseKey;
-  //   const sharedPolys = sharedEdges.get(sharedKey) || [movingPoly];
-
-  //   // Move this edge in all polygons that share it
-  //   for (const poly of sharedPolys) {
-  //     const coords = poly.coords;
-  //     for (let i = 0; i < coords.length; i++) {
-  //       const a = coords[i];
-  //       const b = coords[(i + 1) % coords.length];
-
-  //       // Check if this is the same edge (in either direction)
-  //       const isSameEdge =
-  //         (Math.abs(a[0] - p1[0]) < 0.01 && Math.abs(a[1] - p1[1]) < 0.01 &&
-  //           Math.abs(b[0] - p2[0]) < 0.01 && Math.abs(b[1] - p2[1]) < 0.01) ||
-  //         (Math.abs(a[0] - p2[0]) < 0.01 && Math.abs(a[1] - p2[1]) < 0.01 &&
-  //           Math.abs(b[0] - p1[0]) < 0.01 && Math.abs(b[1] - p1[1]) < 0.01);
-
-  //       if (isSameEdge) {
-  //         coords[i] = [a[0] + shift[0], a[1] + shift[1]];
-  //         coords[(i + 1) % coords.length] = [b[0] + shift[0], b[1] + shift[1]];
-  //         break;
-  //       }
-  //     }
-  //   }
-  // }
-
-  // function moveSharedEdge(movingPoly, edgeIdx, shift) {
-  //   const sharedEdges = findSharedEdges();
-  //   const movingCoords = movingPoly.coords;
-  //   const p1 = movingCoords[edgeIdx];
-  //   const p2 = movingCoords[(edgeIdx + 1) % movingCoords.length];
-
-  //   const edgeKey = [p1[0], p1[1], p2[0], p2[1]]
-  //     .map(v => Math.round(v * 1000) / 1000)
-  //     .join(',');
-
-  //   const reverseKey = [p2[0], p2[1], p1[0], p1[1]]
-  //     .map(v => Math.round(v * 1000) / 1000)
-  //     .join(',');
-
-  //   const sharedKey = sharedEdges.has(edgeKey) ? edgeKey : reverseKey;
-  //   const sharedPolys = sharedEdges.get(sharedKey);
-
-  //   // If no shared edge, move only current polygon and then try to align
-  //   if (!sharedPolys || sharedPolys.length === 1) {
-  //     const coords = movingPoly.coords;
-  //     const a = coords[edgeIdx];
-  //     const b = coords[(edgeIdx + 1) % coords.length];
-  //     let newA = [a[0] + shift[0], a[1] + shift[1]];
-  //     let newB = [b[0] + shift[0], b[1] + shift[1]];
-
-  //     // Apply align logic to both points
-  //     if (alignEnabled) {
-  //       newA = alignPoint(newA, movingPoly);
-  //       newB = alignPoint(newB, movingPoly);
-  //     }
-
-  //     coords[edgeIdx] = newA;
-  //     coords[(edgeIdx + 1) % coords.length] = newB;
-  //     return;
-  //   }
-
-  //   // Otherwise, move shared edge in all connected polygons
-  //   for (const poly of sharedPolys) {
-  //     const coords = poly.coords;
-  //     for (let i = 0; i < coords.length; i++) {
-  //       const a = coords[i];
-  //       const b = coords[(i + 1) % coords.length];
-
-  //       const isSameEdge =
-  //         (Math.abs(a[0] - p1[0]) < 0.01 && Math.abs(a[1] - p1[1]) < 0.01 &&
-  //           Math.abs(b[0] - p2[0]) < 0.01 && Math.abs(b[1] - p2[1]) < 0.01) ||
-  //         (Math.abs(a[0] - p2[0]) < 0.01 && Math.abs(a[1] - p2[1]) < 0.01 &&
-  //           Math.abs(b[0] - p1[0]) < 0.01 && Math.abs(b[1] - p1[1]) < 0.01);
-
-  //       if (isSameEdge) {
-  //         coords[i] = [a[0] + shift[0], a[1] + shift[1]];
-  //         coords[(i + 1) % coords.length] = [b[0] + shift[0], b[1] + shift[1]];
-  //         break;
-  //       }
-  //     }
-  //   }
-  // }
 
   function moveSharedEdge(movingPoly, edgeIdx, shift) {
     const sharedEdges = findSharedEdges();
@@ -1214,69 +1001,6 @@
     ctx.setLineDash([]);
   }
 
-  // function draw() {
-  //   ctx.clearRect(0, 0, canvas.width / DPR, canvas.height / DPR);
-  //   drawGrid();
-
-  //   for (const poly of polygons) {
-  //     const isSel = poly === selected;
-
-  //     // fill
-  //     ctx.beginPath();
-  //     poly.coords.forEach(([x, y], i) => {
-  //       const s = worldToScreen(x, y);
-  //       if (i === 0) ctx.moveTo(s.x, s.y);
-  //       else ctx.lineTo(s.x, s.y);
-  //     });
-  //     ctx.closePath();
-  //     ctx.fillStyle = "rgba(56,189,248,0.08)";
-  //     ctx.fill();
-
-  //     // outline
-  //     // outline (walls)
-  //     ctx.lineWidth = isSel ? 3.5 : 2.5;
-  //     ctx.strokeStyle = isSel ? "#ef4444" : poly.color;
-  //     ctx.lineJoin = "round";
-  //     ctx.lineCap = "round";
-  //     ctx.stroke();
-
-  //     // vertices
-  //     for (const [x, y] of poly.coords) {
-  //       const s = worldToScreen(x, y);
-  //       ctx.beginPath();
-  //       ctx.arc(s.x, s.y, 3, 0, TAU);
-  //       ctx.fillStyle = "#cbd5e1";
-  //       ctx.fill();
-  //     }
-
-  //     // centroid label
-  //     const c = centroid(poly);
-  //     const sc = worldToScreen(c.x, c.y);
-  //     ctx.font = "bold 12px ui-sans-serif, system-ui, -apple-system";
-  //     ctx.textAlign = "center";
-  //     ctx.textBaseline = "middle";
-  //     ctx.fillStyle = isSel ? "#ef4444" : "#1e40af";
-  //     ctx.fillText(poly.room.roomName || "Room", sc.x, sc.y);
-  //   }
-
-  //   // hover edge highlight
-  //   if (highlightEdge.poly && highlightEdge.idx != null) {
-  //     const cs = highlightEdge.poly.coords;
-  //     const i = highlightEdge.idx;
-  //     const a = worldToScreen(cs[i][0], cs[i][1]);
-  //     const b = worldToScreen(
-  //       cs[(i + 1) % cs.length][0],
-  //       cs[(i + 1) % cs.length][1]
-  //     );
-  //     ctx.beginPath();
-  //     ctx.moveTo(a.x, a.y);
-  //     ctx.lineTo(b.x, b.y);
-  //     ctx.strokeStyle = "rgba(250,204,21,0.9)";
-  //     ctx.lineWidth = 3;
-  //     ctx.stroke();
-  //   }
-  // }
-
   function polygonArea(coords) {
     let area = 0;
     for (let i = 0; i < coords.length; i++) {
@@ -1324,23 +1048,6 @@
       ctx.fill();
     }
 
-    // // draw edge lengths
-    // if (showRoomLengths) {
-    //   for (let i = 0; i < poly.coords.length; i++) {
-    //     const a = poly.coords[i];
-    //     const b = poly.coords[(i + 1) % poly.coords.length];
-    //     const length = Math.hypot(b[0] - a[0], b[1] - a[1]) * unitFactors[currentUnit];
-    //     const mid = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
-    //     const sm = worldToScreen(mid[0], mid[1]);
-    //     ctx.font = "bold 11px ui-sans-serif, system-ui, -apple-system";
-    //     ctx.fillStyle = "#ffffffff";
-    //     ctx.textAlign = "center";
-    //     ctx.textBaseline = "middle";
-    //     ctx.fillText(length.toFixed(2) + " " + currentUnit, sm.x, sm.y);
-    //   }
-    // }
-
-    // draw edge lengths
     // draw edge lengths — skip if column
     if (showRoomLengths && !poly.isFixed) {
       for (let i = 0; i < poly.coords.length; i++) {
@@ -1498,13 +1205,6 @@
     view.y = minY - (vh / (2 * view.scale) - h / 2) - pad;
   }
 
-  // function randomColor() {
-  //   const h = Math.random();
-  //   const s = 0.6,
-  //     l = 0.55;
-  //   const rgb = hslToRgb(h, s, l);
-  //   return `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
-  // }
   function hslToRgb(h, s, l) {
     let r, g, b;
     if (s === 0) {
