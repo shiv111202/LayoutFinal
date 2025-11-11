@@ -322,14 +322,105 @@
     }
   });
 
+  function cleanRoomPolygons(rooms) {
+    const EPS = 1e-6; // Tolerance for float comparison
+    const isSame = (a, b) =>
+      Math.abs(a[0] - b[0]) < EPS && Math.abs(a[1] - b[1]) < EPS;
+
+    for (const room of rooms) {
+      if (!room.coords || room.coords.length < 2) continue;
+
+      const cleaned = [];
+      let skipNext = false;
+
+      for (let i = 0; i < room.coords.length; i++) {
+        if (skipNext) {
+          skipNext = false;
+          continue;
+        }
+
+        const a = room.coords[i];
+        const b = room.coords[(i + 1) % room.coords.length];
+
+        if (isSame(a, b)) {
+          // remove both duplicate points
+          skipNext = true;
+          continue;
+        }
+
+        cleaned.push(a);
+      }
+
+      // Check last and first again
+      if (cleaned.length >= 2) {
+        const first = cleaned[0];
+        const last = cleaned[cleaned.length - 1];
+        if (isSame(first, last)) {
+          cleaned.pop();
+        }
+      }
+
+      if (cleaned.length >= 3) {
+        room.coords = cleaned;
+      }
+    }
+  }
+
   function saveJSON() {
+    // --- Step 1: Function to remove consecutive duplicate coordinates ---
+    const EPS = 1e-6;
+    const isSame = (a, b) =>
+      Math.abs(a[0] - b[0]) < EPS && Math.abs(a[1] - b[1]) < EPS;
+
+    function cleanCoords(coords) {
+      if (!coords || coords.length < 2) return coords;
+
+      const cleaned = [];
+      let skipNext = false;
+
+      for (let i = 0; i < coords.length; i++) {
+        if (skipNext) {
+          skipNext = false;
+          continue;
+        }
+
+        const a = coords[i];
+        const b = coords[(i + 1) % coords.length];
+
+        // If two consecutive points are the same → remove both
+        if (isSame(a, b)) {
+          skipNext = true;
+          continue;
+        }
+
+        cleaned.push(a);
+      }
+
+      // Check last and first again
+      if (cleaned.length >= 2) {
+        const first = cleaned[0];
+        const last = cleaned[cleaned.length - 1];
+        if (isSame(first, last)) {
+          cleaned.pop();
+        }
+      }
+
+      return cleaned.length >= 3 ? cleaned : coords; // keep valid polygons
+    }
+
+    // --- Step 2: Clean and save polygons ---
     polygons.forEach((p) => {
-      p.room.vertices = p.coords.map(([x, y]) => ({
+      // Clean coordinates before saving
+      const cleanedCoords = cleanCoords(p.coords);
+
+      p.room.vertices = cleanedCoords.map(([x, y]) => ({
         X: Number(x),
         Y: Number(y),
         Z: 0,
       }));
     });
+
+    // --- Step 3: Save as JSON (same as before) ---
     const blob = new Blob([JSON.stringify(data, null, 2)], {
       type: "application/json",
     });
@@ -340,6 +431,7 @@
     URL.revokeObjectURL(a.href);
     toast("Saved edited.json");
   }
+
   document.getElementById("saveBtn").addEventListener("click", saveJSON);
   document.getElementById("resetViewBtn").addEventListener("click", () => {
     fitView();
