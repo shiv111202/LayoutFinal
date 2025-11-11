@@ -1,77 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      🏗 Building Editor (Right-click: Pan | Scroll: Zoom | Shift=Perpendicular |
+      G=GridSnap | R=Rename | S=Save | U=Undo)
+    </title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>🏗 Building Editor (Right-click: Pan | Scroll: Zoom | Shift=Perpendicular | G=GridSnap | R=Rename | S=Save |
-    U=Undo)</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-
-<body>
-  <div class="app">
-    <aside class="sidebar">
-      <h1>🏗 Building Editor (Web)</h1>
-      <div class="row">
-        <input id="loadFile" type="file" accept=".json" hidden />
-        <label for="loadFile">📂 Load JSON</label>
-        <button id="saveBtn">💾 Save</button>
-        <button id="resetViewBtn">🧭 Reset View</button>
-        <button id="addVertexBtn" class="tool-btn">✂️ Add Vertex</button>
-        <select id="unitSelect">
-          <option value="m" selected>m</option>
-          <option value="cm">cm</option>
-          <option value="mm">mm</option>
-          <option value="ft">ft</option>
-        </select>
-
-      </div>
-      <!-- <div class="row">
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <h1>🏗 Building Editor (Web)</h1>
+        <div class="row">
+          <input id="loadFile" type="file" accept=".json" hidden />
+          <label for="loadFile">📂 Load JSON</label>
+          <button id="saveBtn">💾 Save</button>
+          <button id="resetViewBtn">🧭 Reset View</button>
+          <button id="addVertexBtn" class="tool-btn">✂️ Add Vertex</button>
+          <select id="unitSelect">
+            <option value="m" selected>m</option>
+            <option value="cm">cm</option>
+            <option value="mm">mm</option>
+            <option value="ft">ft</option>
+          </select>
+        </div>
+        <!-- <div class="row">
         <label><input id="gridToggle" type="checkbox" checked /> Grid</label>
         <label><input id="alignToggle" type="checkbox" checked /> Align to other rooms</label>
         <label>Snap step <input id="snapStep" type="number" step="0.1" value="1"
             style="width:70px;margin-left:6px"></label>
       </div> -->
-      <div class="row toggles">
-        <label class="toggle">
-          <input id="gridToggle" type="checkbox" checked />
-          <span class="slider"></span>
-          <span class="label-text">Grid Lines</span>
-        </label>
+        <div class="row toggles">
+          <label class="toggle">
+            <input id="gridToggle" type="checkbox" checked />
+            <span class="slider"></span>
+            <span class="label-text">Grid Lines</span>
+          </label>
 
-        <label class="toggle">
-          <input id="alignToggle" type="checkbox" checked />
-          <span class="slider"></span>
-          <span class="label-text">Align to other rooms</span>
-        </label>
+          <label class="toggle">
+            <input id="alignToggle" type="checkbox" checked />
+            <span class="slider"></span>
+            <span class="label-text">Align to other rooms</span>
+          </label>
 
-        <label class="toggle">
-          <input id="showNamesToggle" type="checkbox" checked />
-          <span class="slider"></span>
-          <span class="label-text">Show Room Names</span>
-        </label>
+          <label class="toggle">
+            <input id="showNamesToggle" type="checkbox" />
+            <span class="slider"></span>
+            <span class="label-text">Show Room Names</span>
+          </label>
 
-        <label class="toggle">
-          <input id="showLengthsToggle" type="checkbox" checked />
-          <span class="slider"></span>
-          <span class="label-text">Show Room Lengths</span>
-        </label>
+          <label class="toggle">
+            <input id="showLengthsToggle" type="checkbox" />
+            <span class="slider"></span>
+            <span class="label-text">Show Room Lengths</span>
+          </label>
 
-        <label class="toggle">
-          <input id="sharedEdgeToggle" type="checkbox" checked />
-          <span class="slider"></span>
-          <span class="label-text">Move Shared Edges</span>
-        </label>
+          <label class="toggle">
+            <input id="sharedEdgeToggle" type="checkbox" />
+            <span class="slider"></span>
+            <span class="label-text">Move Shared Edges</span>
+          </label>
 
+          <label class="snap-control" style="visibility: hidden">
+            Snap step
+            <input id="snapStep" type="number" step="0.1" value="1" />
+          </label>
+        </div>
 
-        <label class="snap-control" style="visibility: hidden;">
-          Snap step
-          <input id="snapStep" type="number" step="0.1" value="1" />
-        </label>
-      </div>
-
-      <!-- <div class="legend">
+        <!-- <div class="legend">
         <div class="hint">Left-click a room to select. Drag a vertex to move it. Drag near an edge to move that edge;
           hold <b>Shift</b> to slide only perpendicular to the edge.</div>
         <div class="hint" style="margin-top:6px">Right-click (or middle button) and drag to pan. Scroll to zoom at
@@ -79,67 +78,71 @@
         <div class="hint" style="margin-top:6px">Hover highlights the nearest edge. Labels show room names; selected
           room label turns red.</div>
       </div> -->
-      <div class="legend">
-        <h3 class="legend-title">🧭 Controls & Shortcuts</h3>
+        <div class="legend">
+          <h3 class="legend-title">🧭 Controls & Shortcuts</h3>
 
-        <div class="legend-section">
-          <h4>🖱️ Mouse</h4>
-          <ul>
-            <li><b>Left Click</b> — Select a room or vertex</li>
-            <li><b>Drag vertex</b> — Move vertex</li>
-            <li><b>Drag near edge</b> — Move edge</li>
-            <li><b>Shift + Drag edge</b> — Slide edge perpendicular only</li>
-            <li><b>Right / Middle drag</b> — Pan the canvas</li>
-            <li><b>Scroll</b> — Zoom at cursor</li>
-          </ul>
+          <div class="legend-section">
+            <h4>🖱️ Mouse</h4>
+            <ul>
+              <li><b>Left Click</b> — Select a room or vertex</li>
+              <li><b>Drag vertex</b> — Move vertex</li>
+              <li><b>Drag near edge</b> — Move edge</li>
+              <li><b>Shift + Drag edge</b> — Slide edge perpendicular only</li>
+              <li><b>Right / Middle drag</b> — Pan the canvas</li>
+              <li><b>Scroll</b> — Zoom at cursor</li>
+            </ul>
+          </div>
+
+          <div class="legend-section">
+            <h4>⌨️ Keyboard</h4>
+            <ul>
+              <li><b>G</b> — Toggle grid snap</li>
+              <li><b>R</b> — Rename selected room</li>
+              <li><b>S</b> — Save edited layout</li>
+              <li><b>U</b> / <b>Ctrl+Z</b> — Undo last change</li>
+              <li><b>C</b> — ✂️ Add Vertex mode (click edge to insert)</li>
+              <li><b>Esc</b> — Cancel Add Vertex or current action</li>
+              <li><b>A</b> — Align selected edge to another (coming soon)</li>
+            </ul>
+          </div>
+
+          <div class="legend-section">
+            <h4>🧰 Tools</h4>
+            <ul>
+              <li><b>Grid</b> — Toggle drawing grid visibility</li>
+              <li><b>Align</b> — Snap edges to adjacent rooms</li>
+              <li><b>Snap Step</b> — Adjust grid snapping precision</li>
+              <li><b>Units</b> — Choose display units (m, cm, mm, ft)</li>
+              <li><b>✂️ Add Vertex</b> — Insert new vertex along edge</li>
+              <li><b>💾 Save</b> — Export modified layout JSON</li>
+              <li><b>📂 Load</b> — Import JSON layout</li>
+              <li><b>🔄 Reset</b> — Fit all rooms in view</li>
+            </ul>
+          </div>
+
+          <div class="legend-section">
+            <h4>💡 Tips</h4>
+            <ul>
+              <li>Hover edges — Highlight nearest edge in yellow</li>
+              <li>
+                Selected room label turns <b style="color: #ef4444">red</b>
+              </li>
+              <li>Use <b>Undo</b> freely — all edits are reversible</li>
+              <li>Zoom in for precise vertex editing</li>
+            </ul>
+          </div>
         </div>
+      </aside>
+      <main id="canvasWrap">
+        <canvas id="c"></canvas>
+        <div class="toast" id="toast">Ready</div>
+      </main>
+    </div>
 
-        <div class="legend-section">
-          <h4>⌨️ Keyboard</h4>
-          <ul>
-            <li><b>G</b> — Toggle grid snap</li>
-            <li><b>R</b> — Rename selected room</li>
-            <li><b>S</b> — Save edited layout</li>
-            <li><b>U</b> / <b>Ctrl+Z</b> — Undo last change</li>
-            <li><b>C</b> — ✂️ Add Vertex mode (click edge to insert)</li>
-            <li><b>Esc</b> — Cancel Add Vertex or current action</li>
-            <li><b>A</b> — Align selected edge to another (coming soon)</li>
-          </ul>
-        </div>
-
-        <div class="legend-section">
-          <h4>🧰 Tools</h4>
-          <ul>
-            <li><b>Grid</b> — Toggle drawing grid visibility</li>
-            <li><b>Align</b> — Snap edges to adjacent rooms</li>
-            <li><b>Snap Step</b> — Adjust grid snapping precision</li>
-            <li><b>Units</b> — Choose display units (m, cm, mm, ft)</li>
-            <li><b>✂️ Add Vertex</b> — Insert new vertex along edge</li>
-            <li><b>💾 Save</b> — Export modified layout JSON</li>
-            <li><b>📂 Load</b> — Import JSON layout</li>
-            <li><b>🔄 Reset</b> — Fit all rooms in view</li>
-          </ul>
-        </div>
-
-        <div class="legend-section">
-          <h4>💡 Tips</h4>
-          <ul>
-            <li>Hover edges — Highlight nearest edge in yellow</li>
-            <li>Selected room label turns <b style="color:#ef4444">red</b></li>
-            <li>Use <b>Undo</b> freely — all edits are reversible</li>
-            <li>Zoom in for precise vertex editing</li>
-          </ul>
-        </div>
-      </div>
-
-    </aside>
-    <main id="canvasWrap">
-      <canvas id="c"></canvas>
-      <div class="toast" id="toast">Ready</div>
-    </main>
-  </div>
-
-  <script src="app.js" type="module"></script>
-</body>
-
+    <script src="app.js" type="module"></script>
+    <!-- <script type="module">
+      import { initApp } from "./core/main.js";
+      initApp();
+    </script> -->
+  </body>
 </html>
