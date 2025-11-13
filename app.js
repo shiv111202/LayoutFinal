@@ -36,7 +36,6 @@
     }
     return { x: cx / (6 * a), y: cy / (6 * a) };
   }
-
   function pointInPoly(p, poly) {
     const x = p.x,
       y = p.y;
@@ -53,7 +52,6 @@
     }
     return inside;
   }
-
   const distPtSeg = (p, a, b) => {
     const ax = a[0],
       ay = a[1],
@@ -112,7 +110,6 @@
     drag: false,
     start: { x: 0, y: 0, wx: 0, wy: 0 },
   };
-
   let panning = false;
   let shiftHeld = false;
   let snapEnabled = false;
@@ -124,6 +121,7 @@
   let showRoomLengths = false;
   let moveSharedEdgesEnabled = false;
   let gridLines = [];
+  let wardPolys = [];
 
   const grid = { show: true };
   const SNAP_TOL = 0.3;
@@ -136,7 +134,6 @@
     undoStack.push(snap);
     if (undoStack.length > 30) undoStack.shift();
   }
-
   function undo() {
     if (!undoStack.length) return;
     const last = undoStack.pop();
@@ -147,6 +144,41 @@
     draw();
   }
 
+  /*** Loading & Saving ***/
+  // document.getElementById("loadFile").addEventListener("change", async (e) => {
+  //   const f = e.target.files?.[0];
+  //   if (!f) return;
+  //   const text = await f.text();
+  //   try {
+  //     data = JSON.parse(text);
+  //     // Combine all room arrays in wardInfo (e.g., coreRoomLayout, toiletLayout, etc.)
+  //     const layouts = Object.values(data.wardInfo || {})
+  //       .flat()
+  //       .filter(Boolean);
+
+  //     polygons = layouts
+  //       .map((room) => {
+  //         if (!room.vertices || !room.vertices.length) return null;
+  //         const coords = room.vertices.map((v) => [Number(v.X), Number(v.Y)]);
+  //         const lineColor = randomColor();
+  //         return {
+  //           room,
+  //           coords,
+  //           color: lineColor,
+  //           selected_vertex: null,
+  //           selected_edge: null,
+  //         };
+  //       })
+  //       .filter(Boolean);
+  //     fitView();
+  //     draw();
+  //     toast("Loaded " + polygons.length + " rooms");
+  //   } catch (err) {
+  //     console.error(err);
+  //     toast("❌ Invalid JSON");
+  //   }
+  // });
+
   function randomColor() {
     const h = Math.random();
     const s = 0.6,
@@ -156,14 +188,48 @@
   }
 
   // --- Precompute neighbors once ---
+  // function computeNeighbors() {
+  //   for (const poly of polygons) poly.neighbors = new Set();
+
+  //   const EPS = 0.1; // tolerance for shared vertices
+  //   for (let i = 0; i < polygons.length; i++) {
+  //     const a = polygons[i];
+  //     for (let j = i + 1; j < polygons.length; j++) {
+  //       const b = polygons[j];
+
+  //       // Check if any vertices are close enough to be considered touching
+  //       let shared = false;
+  //       for (const [ax, ay] of a.coords) {
+  //         for (const [bx, by] of b.coords) {
+  //           if (Math.abs(ax - bx) < EPS && Math.abs(ay - by) < EPS) {
+  //             shared = true;
+  //             break;
+  //           }
+  //         }
+  //         if (shared) break;
+  //       }
+
+  //       if (shared) {
+  //         a.neighbors.add(b);
+  //         b.neighbors.add(a);
+  //       }
+  //     }
+  //   }
+  //   console.log("✅ Neighbor relationships computed");
+  // }
+
   function computeNeighbors() {
     for (const poly of polygons) poly.neighbors = new Set();
 
     const EPS = 0.1; // tolerance for shared vertices
+
     for (let i = 0; i < polygons.length; i++) {
       const a = polygons[i];
+      if (a.isFixed) continue; // ✅ skip columns entirely
+
       for (let j = i + 1; j < polygons.length; j++) {
         const b = polygons[j];
+        if (b.isFixed) continue; // ✅ skip columns entirely
 
         // Check if any vertices are close enough to be considered touching
         let shared = false;
@@ -183,7 +249,7 @@
         }
       }
     }
-    console.log("✅ Neighbor relationships computed");
+    console.log("✅ Neighbor relationships computed (columns excluded)");
   }
 
   document.getElementById("loadFile").addEventListener("change", async (e) => {
@@ -201,6 +267,7 @@
         "evZone",
         "internalRoadPolygons",
         "externalRoadPolygons",
+        "footpathPolygons",
       ];
 
       function collectRoomsAndGrids(obj, parentKey = "") {
@@ -232,7 +299,70 @@
       }
 
       gridLines = []; // reset before each load
+      // const layouts = collectRoomsAndGrids(data);
+
+      // // --- Maintain consistent colors per room name ---
+      // const colorMap = {};
+      // function getColorForRoom(name) {
+      //   const key = name?.trim() || "Unnamed";
+      //   if (!colorMap[key]) colorMap[key] = randomColor();
+      //   return colorMap[key];
+      // }
+
+      // // --- Build polygons for all rooms ---
+      // polygons = layouts.map((room) => {
+      //   const coords = room.vertices.map((v) => [Number(v.X), Number(v.Y)]);
+      //   const lineColor = getColorForRoom(room.roomName);
+      //   return {
+      //     room,
+      //     coords,
+      //     color: lineColor,
+      //     selected_vertex: null,
+      //     selected_edge: null,
+      //     isFixed: !!room._isFixed, // preserve immovable property
+      //   };
+      // });
+
       const layouts = collectRoomsAndGrids(data);
+
+      // --- Identify wardInfo boundary polygon ---
+
+      if (data.wardInfo) {
+        for (const [key, arr] of Object.entries(data.wardInfo)) {
+          if (Array.isArray(arr)) {
+            const valid = arr.filter(
+              (r) => r && r.vertices && r.vertices.length
+            );
+            wardPolys.push(
+              ...valid.map((r) => ({
+                room: r,
+                coords: r.vertices.map((v) => [Number(v.X), Number(v.Y)]),
+              }))
+            );
+          }
+        }
+      }
+
+      // --- Helper: Check if polygon is inside any wardInfo boundary ---
+      function isInsideWard(poly) {
+        if (!wardPolys.length) return true; // fallback if no wardInfo boundary
+        const c = centroid(poly);
+        return wardPolys.some((w) => pointInPoly(c, w));
+      }
+
+      // --- Filter: only include rooms inside or children of wardInfo ---
+      const filteredLayouts = layouts.filter((room) => {
+        const coords = room.vertices.map((v) => [Number(v.X), Number(v.Y)]);
+        const poly = { coords };
+        const inside = isInsideWard(poly);
+
+        const isChildOfWard =
+          room._parentKey?.includes("wardInfo") ||
+          room.roomGroup?.includes("wardInfo");
+
+        if (room._isFixed && !inside && !isChildOfWard) return false; // exclude out-of-bound columns
+        return true;
+      });
 
       // --- Maintain consistent colors per room name ---
       const colorMap = {};
@@ -242,8 +372,8 @@
         return colorMap[key];
       }
 
-      // --- Build polygons for all rooms ---
-      polygons = layouts.map((room) => {
+      // --- Build polygons for filtered rooms only ---
+      polygons = filteredLayouts.map((room) => {
         const coords = room.vertices.map((v) => [Number(v.X), Number(v.Y)]);
         const lineColor = getColorForRoom(room.roomName);
         return {
@@ -258,33 +388,8 @@
 
       fitView();
       computeNeighbors();
-
-      // --- Compute boundary box from all polygons ---
-      let minX = Infinity,
-        minY = Infinity,
-        maxX = -Infinity,
-        maxY = -Infinity;
-      for (const p of polygons) {
-        for (const [x, y] of p.coords) {
-          minX = Math.min(minX, x);
-          minY = Math.min(minY, y);
-          maxX = Math.max(maxX, x);
-          maxY = Math.max(maxY, y);
-        }
-      }
-
-      // Add small padding if you want a margin
-      const BORDER_PADDING = 0;
-      minX -= BORDER_PADDING;
-      minY -= BORDER_PADDING;
-      maxX += BORDER_PADDING;
-      maxY += BORDER_PADDING;
-
-      window.layoutBounds = { minX, minY, maxX, maxY };
-      console.log("📏 Layout bounds:", window.layoutBounds);
-
       draw();
-      toast(`Loaded ${polygons.length} rooms from selected json.`);
+      toast(`Loaded ${polygons.length} rooms from wardInfo`);
     } catch (err) {
       console.error("Error loading JSON:", err);
       toast("❌ Invalid or malformed JSON");
@@ -292,60 +397,13 @@
   });
 
   function saveJSON() {
-    // --- Step 1: Function to remove consecutive duplicate coordinates ---
-    const EPS = 1e-6;
-    const isSame = (a, b) =>
-      Math.abs(a[0] - b[0]) < EPS && Math.abs(a[1] - b[1]) < EPS;
-
-    function cleanCoords(coords) {
-      if (!coords || coords.length < 2) return coords;
-
-      const cleaned = [];
-      let skipNext = false;
-
-      for (let i = 0; i < coords.length; i++) {
-        if (skipNext) {
-          skipNext = false;
-          continue;
-        }
-
-        const a = coords[i];
-        const b = coords[(i + 1) % coords.length];
-
-        // If two consecutive points are the same → remove both
-        if (isSame(a, b)) {
-          skipNext = true;
-          continue;
-        }
-
-        cleaned.push(a);
-      }
-
-      // Check last and first again
-      if (cleaned.length >= 2) {
-        const first = cleaned[0];
-        const last = cleaned[cleaned.length - 1];
-        if (isSame(first, last)) {
-          cleaned.pop();
-        }
-      }
-
-      return cleaned.length >= 3 ? cleaned : coords; // keep valid polygons
-    }
-
-    // --- Step 2: Clean and save polygons ---
     polygons.forEach((p) => {
-      // Clean coordinates before saving
-      const cleanedCoords = cleanCoords(p.coords);
-
-      p.room.vertices = cleanedCoords.map(([x, y]) => ({
+      p.room.vertices = p.coords.map(([x, y]) => ({
         X: Number(x),
         Y: Number(y),
         Z: 0,
       }));
     });
-
-    // --- Step 3: Save as JSON (same as before) ---
     const blob = new Blob([JSON.stringify(data, null, 2)], {
       type: "application/json",
     });
@@ -356,7 +414,6 @@
     URL.revokeObjectURL(a.href);
     toast("Saved edited.json");
   }
-
   document.getElementById("saveBtn").addEventListener("click", saveJSON);
   document.getElementById("resetViewBtn").addEventListener("click", () => {
     fitView();
@@ -378,12 +435,16 @@
     draw();
   });
 
-  document.getElementById("showLengthsToggle").addEventListener("change", (e) => {
+  document
+    .getElementById("showLengthsToggle")
+    .addEventListener("change", (e) => {
       showRoomLengths = e.target.checked;
       draw();
     });
 
-  document.getElementById("sharedEdgeToggle").addEventListener("change", (e) => {
+  document
+    .getElementById("sharedEdgeToggle")
+    .addEventListener("change", (e) => {
       moveSharedEdgesEnabled = e.target.checked;
       toast(`Shared Edge Movement: ${moveSharedEdgesEnabled ? "ON" : "OFF"}`);
     });
@@ -393,11 +454,9 @@
     grid.show = e.target.checked;
     draw();
   });
-
   document.getElementById("alignToggle").addEventListener("change", (e) => {
     alignEnabled = e.target.checked;
   });
-
   document.getElementById("snapStep").addEventListener("input", (e) => {
     const v = Number(e.target.value) || 1;
     snapStep = v;
@@ -455,14 +514,12 @@
       }
     }
   });
-
   window.addEventListener("keyup", (e) => {
     if (e.key === "Shift") shiftHeld = false;
   });
 
   // Mouse events
   canvas.addEventListener("contextmenu", (e) => e.preventDefault());
-
   canvas.addEventListener("mousedown", (e) => {
     const rect = canvas.getBoundingClientRect();
     mouse.x = e.clientX - rect.left;
@@ -596,6 +653,43 @@
       return;
     }
 
+    // if (addVertexMode && selected) {
+    //   const { wx, wy } = mouse;
+    //   const edgeIdx = nearestEdge(selected, [wx, wy]);
+    //   if (edgeIdx == null) {
+    //     toast("⚠️ Click closer to an edge");
+    //     return;
+    //   }
+
+    //   // Compute projection of click point on that edge
+    //   const a = selected.coords[edgeIdx];
+    //   const b = selected.coords[(edgeIdx + 1) % selected.coords.length];
+    //   const ab = [b[0] - a[0], b[1] - a[1]];
+    //   const ap = [wx - a[0], wy - a[1]];
+    //   const len2 = ab[0] ** 2 + ab[1] ** 2;
+    //   let t = (ap[0] * ab[0] + ap[1] * ab[1]) / len2;
+    //   t = Math.max(0.001, Math.min(0.999, t));
+    //   let newPt = [a[0] + ab[0] * t, a[1] + ab[1] * t];
+
+    //   // --- snap to existing vertices nearby ---
+    //   const SNAP_TOL = 0.2;
+    //   for (const poly of polygons) {
+    //     for (const [vx, vy] of poly.coords) {
+    //       if (Math.abs(vx - newPt[0]) < SNAP_TOL) newPt[0] = vx;
+    //       if (Math.abs(vy - newPt[1]) < SNAP_TOL) newPt[1] = vy;
+    //     }
+    //   }
+
+    //   // Insert the vertex into that edge
+    //   selected.coords.splice(edgeIdx + 1, 0, newPt);
+    //   toast("✅ Vertex added");
+
+    //   addVertexMode = false;
+    //   canvas.style.cursor = "default";
+    //   draw();
+    //   return;
+    // }
+
     const poly = polygons.find((p) => pointInPoly({ x: w.x, y: w.y }, p));
 
     if (poly) {
@@ -668,15 +762,15 @@
       if (!alignEnabled) return [x, y];
       const candidates = current.neighbors ? [...current.neighbors] : [];
 
-      // Optionally also include their neighbors-of-neighbors
+      // Optionally include neighbors-of-neighbors
       for (const n of [...candidates]) {
         if (n.neighbors) {
           for (const nn of n.neighbors) candidates.push(nn);
         }
       }
 
+      // ✅ Skip alignment with fixed (column) polygons
       for (const poly of new Set(candidates)) {
-        // if (poly === current) continue;
         if (poly === current || poly.isFixed) continue;
         for (const [vx, vy] of poly.coords) {
           if (Math.abs(vx - x) < SNAP_TOL) x = vx;
@@ -690,12 +784,6 @@
       let x = snapped(mouse.wx),
         y = snapped(mouse.wy);
       [x, y] = align(x, y, selected);
-
-      // --- Clamp to boundary ---
-      const { minX, minY, maxX, maxY } = window.layoutBounds;
-      x = Math.min(maxX, Math.max(minX, x));
-      y = Math.min(maxY, Math.max(minY, y));
-
       selected.coords[selected.selected_vertex] = [x, y];
       draw();
       return;
@@ -720,21 +808,9 @@
         shift = [n[0] * dot, n[1] * dot];
       }
 
-      // --- Apply boundary constraint to edge movement ---
-      const tempPoly = structuredClone(selected);
-      moveSharedEdge(tempPoly, idx, shift);
+      // Use the new shared edge movement function
+      moveSharedEdge(selected, idx, shift);
 
-      // Check if any vertex goes out of bounds
-      const { minX, minY, maxX, maxY } = window.layoutBounds;
-      const isOutOfBounds = tempPoly.coords.some(
-        ([x, y]) => x < minX || x > maxX || y < minY || y > maxY
-      );
-
-      if (!isOutOfBounds) {
-        moveSharedEdge(selected, idx, shift);
-      } else {
-        toast("⚠️ Movement blocked — exceeds layout boundary");
-      }
       draw();
       return;
     }
@@ -783,7 +859,6 @@
     }
     return bestd < tol ? best : null;
   }
-
   function nearestEdge(poly, p) {
     const cs = poly.coords;
     if (!cs.length) return null;
@@ -806,10 +881,12 @@
     return bestd < baseTol ? best : null;
   }
 
+  // Add this function to detect shared edges between polygons
   function findSharedEdges() {
     const sharedEdges = new Map(); // key: "x1,y1,x2,y2", value: array of polygons sharing this edge
 
     for (const poly of polygons) {
+      if (poly.isFixed) continue;
       const coords = poly.coords;
       for (let i = 0; i < coords.length; i++) {
         const p1 = coords[i];
@@ -835,8 +912,109 @@
         }
       }
     }
+
     return sharedEdges;
   }
+
+  // Update the edge movement code to move all shared edges
+  // function moveSharedEdge(movingPoly, edgeIdx, shift) {
+  //   const sharedEdges = findSharedEdges();
+  //   const movingCoords = movingPoly.coords;
+  //   const p1 = movingCoords[edgeIdx];
+  //   const p2 = movingCoords[(edgeIdx + 1) % movingCoords.length];
+
+  //   // Find the edge key for the moving edge
+  //   const edgeKey = [p1[0], p1[1], p2[0], p2[1]]
+  //     .map(v => Math.round(v * 1000) / 1000)
+  //     .join(',');
+
+  //   const reverseKey = [p2[0], p2[1], p1[0], p1[1]]
+  //     .map(v => Math.round(v * 1000) / 1000)
+  //     .join(',');
+
+  //   const sharedKey = sharedEdges.has(edgeKey) ? edgeKey : reverseKey;
+  //   const sharedPolys = sharedEdges.get(sharedKey) || [movingPoly];
+
+  //   // Move this edge in all polygons that share it
+  //   for (const poly of sharedPolys) {
+  //     const coords = poly.coords;
+  //     for (let i = 0; i < coords.length; i++) {
+  //       const a = coords[i];
+  //       const b = coords[(i + 1) % coords.length];
+
+  //       // Check if this is the same edge (in either direction)
+  //       const isSameEdge =
+  //         (Math.abs(a[0] - p1[0]) < 0.01 && Math.abs(a[1] - p1[1]) < 0.01 &&
+  //           Math.abs(b[0] - p2[0]) < 0.01 && Math.abs(b[1] - p2[1]) < 0.01) ||
+  //         (Math.abs(a[0] - p2[0]) < 0.01 && Math.abs(a[1] - p2[1]) < 0.01 &&
+  //           Math.abs(b[0] - p1[0]) < 0.01 && Math.abs(b[1] - p1[1]) < 0.01);
+
+  //       if (isSameEdge) {
+  //         coords[i] = [a[0] + shift[0], a[1] + shift[1]];
+  //         coords[(i + 1) % coords.length] = [b[0] + shift[0], b[1] + shift[1]];
+  //         break;
+  //       }
+  //     }
+  //   }
+  // }
+
+  // function moveSharedEdge(movingPoly, edgeIdx, shift) {
+  //   const sharedEdges = findSharedEdges();
+  //   const movingCoords = movingPoly.coords;
+  //   const p1 = movingCoords[edgeIdx];
+  //   const p2 = movingCoords[(edgeIdx + 1) % movingCoords.length];
+
+  //   const edgeKey = [p1[0], p1[1], p2[0], p2[1]]
+  //     .map(v => Math.round(v * 1000) / 1000)
+  //     .join(',');
+
+  //   const reverseKey = [p2[0], p2[1], p1[0], p1[1]]
+  //     .map(v => Math.round(v * 1000) / 1000)
+  //     .join(',');
+
+  //   const sharedKey = sharedEdges.has(edgeKey) ? edgeKey : reverseKey;
+  //   const sharedPolys = sharedEdges.get(sharedKey);
+
+  //   // If no shared edge, move only current polygon and then try to align
+  //   if (!sharedPolys || sharedPolys.length === 1) {
+  //     const coords = movingPoly.coords;
+  //     const a = coords[edgeIdx];
+  //     const b = coords[(edgeIdx + 1) % coords.length];
+  //     let newA = [a[0] + shift[0], a[1] + shift[1]];
+  //     let newB = [b[0] + shift[0], b[1] + shift[1]];
+
+  //     // Apply align logic to both points
+  //     if (alignEnabled) {
+  //       newA = alignPoint(newA, movingPoly);
+  //       newB = alignPoint(newB, movingPoly);
+  //     }
+
+  //     coords[edgeIdx] = newA;
+  //     coords[(edgeIdx + 1) % coords.length] = newB;
+  //     return;
+  //   }
+
+  //   // Otherwise, move shared edge in all connected polygons
+  //   for (const poly of sharedPolys) {
+  //     const coords = poly.coords;
+  //     for (let i = 0; i < coords.length; i++) {
+  //       const a = coords[i];
+  //       const b = coords[(i + 1) % coords.length];
+
+  //       const isSameEdge =
+  //         (Math.abs(a[0] - p1[0]) < 0.01 && Math.abs(a[1] - p1[1]) < 0.01 &&
+  //           Math.abs(b[0] - p2[0]) < 0.01 && Math.abs(b[1] - p2[1]) < 0.01) ||
+  //         (Math.abs(a[0] - p2[0]) < 0.01 && Math.abs(a[1] - p2[1]) < 0.01 &&
+  //           Math.abs(b[0] - p1[0]) < 0.01 && Math.abs(b[1] - p1[1]) < 0.01);
+
+  //       if (isSameEdge) {
+  //         coords[i] = [a[0] + shift[0], a[1] + shift[1]];
+  //         coords[(i + 1) % coords.length] = [b[0] + shift[0], b[1] + shift[1]];
+  //         break;
+  //       }
+  //     }
+  //   }
+  // }
 
   function moveSharedEdge(movingPoly, edgeIdx, shift) {
     const sharedEdges = findSharedEdges();
@@ -865,8 +1043,55 @@
 
       // Optional alignment snap
       if (alignEnabled) {
-        newA = alignPoint(newA, movingPoly);
-        newB = alignPoint(newB, movingPoly);
+        // --- Normal vertex alignment ---
+        // newA = alignPoint(newA, movingPoly);
+        // newB = alignPoint(newB, movingPoly);
+
+        // --- Additional parallel-edge snap ---
+        const dir = [newB[0] - newA[0], newB[1] - newA[1]];
+        const len = Math.hypot(dir[0], dir[1]);
+        if (len > 1e-6) {
+          const ux = dir[0] / len;
+          const uy = dir[1] / len;
+          const nx = -uy,
+            ny = ux;
+
+          const SNAP_DIST = 0.1; // distance tolerance
+          const ANGLE_TOL = 0; // ≈ 3° in radians
+
+          for (const poly of polygons) {
+            if (poly === movingPoly || poly.isFixed) continue;
+
+            const cs = poly.coords;
+            for (let i = 0; i < cs.length; i++) {
+              const a = cs[i];
+              const b = cs[(i + 1) % cs.length];
+              const ab = [b[0] - a[0], b[1] - a[1]];
+              const abLen = Math.hypot(ab[0], ab[1]);
+              if (abLen < 1e-6) continue;
+
+              // normalized direction of neighbor edge
+              const vx = ab[0] / abLen;
+              const vy = ab[1] / abLen;
+
+              // ✅ check near-parallel
+              const dot = ux * vx + uy * vy;
+              if (Math.abs(Math.abs(dot) - 1) > ANGLE_TOL) continue;
+
+              // signed distance from moving edge to this neighbor line
+              const distA = (newA[0] - a[0]) * nx + (newA[1] - a[1]) * ny;
+              const distB = (newB[0] - a[0]) * nx + (newB[1] - a[1]) * ny;
+              const avgDist = (distA + distB) / 2;
+
+              if (Math.abs(avgDist) < SNAP_DIST) {
+                // ✅ snap both vertices to that neighbor’s line
+                newA = [newA[0] - avgDist * nx, newA[1] - avgDist * ny];
+                newB = [newB[0] - avgDist * nx, newB[1] - avgDist * ny];
+                break;
+              }
+            }
+          }
+        }
       }
 
       coords[edgeIdx] = newA;
@@ -903,103 +1128,174 @@
    * Helper for aligning a single moved vertex with nearby room edges/points.
    */
   function alignPoint([x, y], current) {
+    const SNAP_TOL = 0.3; // vertex snap
+    const EDGE_TOL = 0.25; // distance tolerance for edge alignment
     const candidates = current.neighbors ? [...current.neighbors] : [];
+
+    // Include neighbors-of-neighbors
     for (const n of [...candidates]) {
       if (n.neighbors) {
         for (const nn of n.neighbors) candidates.push(nn);
       }
     }
 
+    // 🔸 Avoid aligning with self or columns
     for (const poly of new Set(candidates)) {
-      // if (poly === current) continue;
       if (poly === current || poly.isFixed) continue;
+
+      // ✅ 1. SNAP TO NEARBY VERTICES (as before)
       for (const [vx, vy] of poly.coords) {
-        if (Math.abs(vx - x) < 0.3) x = vx; // SNAP_TOL
-        if (Math.abs(vy - y) < 0.3) y = vy;
+        if (Math.abs(vx - x) < SNAP_TOL) x = vx;
+        if (Math.abs(vy - y) < SNAP_TOL) y = vy;
+      }
+
+      // ✅ 2. ALIGN TO NEARBY EDGES
+      const cs = poly.coords;
+      for (let i = 0; i < cs.length; i++) {
+        const a = cs[i];
+        const b = cs[(i + 1) % cs.length];
+
+        const ab = [b[0] - a[0], b[1] - a[1]];
+        const len = Math.hypot(ab[0], ab[1]);
+        if (len < 1e-6) continue;
+
+        // Unit normal vector
+        const nx = ab[1] / len;
+        const ny = -ab[0] / len;
+
+        // Signed distance from (x,y) to edge line
+        const dist = (x - a[0]) * nx + (y - a[1]) * ny;
+
+        // If within tolerance, project onto edge line
+        if (Math.abs(dist) < EDGE_TOL) {
+          x -= dist * nx;
+          y -= dist * ny;
+        }
       }
     }
+
     return [x, y];
   }
 
   /*** Rendering ***/
   function drawGrid() {
     if (!grid.show) return;
-
     const xlim = screenToWorld(0, 0).x;
     const xhi = screenToWorld(canvas.width / DPR, 0).x;
     const ylim = screenToWorld(0, 0).y;
     const yhi = screenToWorld(0, canvas.height / DPR).y;
+    const step = Math.max(0.2, snapStep);
+    const startX = Math.floor(xlim / step) * step;
+    const endX = Math.ceil(xhi / step) * step;
+    const startY = Math.floor(ylim / step) * step;
+    const endY = Math.ceil(yhi / step) * step;
 
-    let step = Math.max(0.2, snapStep);
-    let baseX = 0,
-      baseY = 0;
-
-    // 🔹 Align with drawGrids if gridLines exist
-    if (gridLines && gridLines.length > 0) {
-      const allX = gridLines.map((g) => [g.startPoint.X, g.endPoint.X]).flat();
-      const allY = gridLines.map((g) => [g.startPoint.Y, g.endPoint.Y]).flat();
-
-      // Sort and compute nearest uniform step
-      allX.sort((a, b) => a - b);
-      allY.sort((a, b) => a - b);
-
-      // Try to infer grid spacing (assuming equally spaced lines)
-      if (allX.length > 1) {
-        const diffs = [];
-        for (let i = 1; i < allX.length; i++) {
-          const d = Math.abs(allX[i] - allX[i - 1]);
-          if (d > 0.01) diffs.push(d);
-        }
-        if (diffs.length) step = Math.min(...diffs); // smallest spacing between grid lines
-      }
-
-      baseX = allX[0];
-      baseY = allY[0];
-    }
-
-    // 🔹 Compute grid boundaries aligned with gridLines
-    const startX = Math.floor((xlim - baseX) / step) * step + baseX;
-    const endX = Math.ceil((xhi - baseX) / step) * step + baseX;
-    const startY = Math.floor((ylim - baseY) / step) * step + baseY;
-    const endY = Math.ceil((yhi - baseY) / step) * step + baseY;
-
-    // 🔹 Draw light grid (same look)
     ctx.lineWidth = 1;
     ctx.strokeStyle = "rgba(148, 163, 184, 0.04)";
     ctx.beginPath();
-
     for (let x = startX; x <= endX; x += step) {
       const s = worldToScreen(x, 0);
       ctx.moveTo(s.x, 0);
       ctx.lineTo(s.x, canvas.height / DPR);
     }
-
     for (let y = startY; y <= endY; y += step) {
       const s = worldToScreen(0, y);
       ctx.moveTo(0, s.y);
       ctx.lineTo(canvas.width / DPR, s.y);
     }
-
     ctx.stroke();
   }
 
   function drawGrids() {
-    if (!gridLines.length) return;
-
+    if (!gridLines.length || !wardPolys.length) return;
     ctx.lineWidth = 1.2;
     ctx.strokeStyle = "rgba(180,180,180,0.6)";
     ctx.setLineDash([4, 4]);
 
     ctx.beginPath();
+
     for (const g of gridLines) {
-      const s = worldToScreen(g.startPoint.X, g.startPoint.Y);
-      const e = worldToScreen(g.endPoint.X, g.endPoint.Y);
-      ctx.moveTo(s.x, s.y);
-      ctx.lineTo(e.x, e.y);
+      const midX = (g.startPoint.X + g.endPoint.X) / 2;
+      const midY = (g.startPoint.Y + g.endPoint.Y) / 2;
+      const inside = wardPolys.some((w) =>
+        pointInPoly({ x: midX, y: midY }, w)
+      );
+
+      // ✅ Only draw grid lines whose midpoint is inside ward boundary
+      if (inside) {
+        const s = worldToScreen(g.startPoint.X, g.startPoint.Y);
+        const e = worldToScreen(g.endPoint.X, g.endPoint.Y);
+        ctx.moveTo(s.x, s.y);
+        ctx.lineTo(e.x, e.y);
+      }
     }
+
     ctx.stroke();
     ctx.setLineDash([]);
   }
+
+  // function draw() {
+  //   ctx.clearRect(0, 0, canvas.width / DPR, canvas.height / DPR);
+  //   drawGrid();
+
+  //   for (const poly of polygons) {
+  //     const isSel = poly === selected;
+
+  //     // fill
+  //     ctx.beginPath();
+  //     poly.coords.forEach(([x, y], i) => {
+  //       const s = worldToScreen(x, y);
+  //       if (i === 0) ctx.moveTo(s.x, s.y);
+  //       else ctx.lineTo(s.x, s.y);
+  //     });
+  //     ctx.closePath();
+  //     ctx.fillStyle = "rgba(56,189,248,0.08)";
+  //     ctx.fill();
+
+  //     // outline
+  //     // outline (walls)
+  //     ctx.lineWidth = isSel ? 3.5 : 2.5;
+  //     ctx.strokeStyle = isSel ? "#ef4444" : poly.color;
+  //     ctx.lineJoin = "round";
+  //     ctx.lineCap = "round";
+  //     ctx.stroke();
+
+  //     // vertices
+  //     for (const [x, y] of poly.coords) {
+  //       const s = worldToScreen(x, y);
+  //       ctx.beginPath();
+  //       ctx.arc(s.x, s.y, 3, 0, TAU);
+  //       ctx.fillStyle = "#cbd5e1";
+  //       ctx.fill();
+  //     }
+
+  //     // centroid label
+  //     const c = centroid(poly);
+  //     const sc = worldToScreen(c.x, c.y);
+  //     ctx.font = "bold 12px ui-sans-serif, system-ui, -apple-system";
+  //     ctx.textAlign = "center";
+  //     ctx.textBaseline = "middle";
+  //     ctx.fillStyle = isSel ? "#ef4444" : "#1e40af";
+  //     ctx.fillText(poly.room.roomName || "Room", sc.x, sc.y);
+  //   }
+
+  //   // hover edge highlight
+  //   if (highlightEdge.poly && highlightEdge.idx != null) {
+  //     const cs = highlightEdge.poly.coords;
+  //     const i = highlightEdge.idx;
+  //     const a = worldToScreen(cs[i][0], cs[i][1]);
+  //     const b = worldToScreen(
+  //       cs[(i + 1) % cs.length][0],
+  //       cs[(i + 1) % cs.length][1]
+  //     );
+  //     ctx.beginPath();
+  //     ctx.moveTo(a.x, a.y);
+  //     ctx.lineTo(b.x, b.y);
+  //     ctx.strokeStyle = "rgba(250,204,21,0.9)";
+  //     ctx.lineWidth = 3;
+  //     ctx.stroke();
+  //   }
+  // }
 
   function polygonArea(coords) {
     let area = 0;
@@ -1048,6 +1344,23 @@
       ctx.fill();
     }
 
+    // // draw edge lengths
+    // if (showRoomLengths) {
+    //   for (let i = 0; i < poly.coords.length; i++) {
+    //     const a = poly.coords[i];
+    //     const b = poly.coords[(i + 1) % poly.coords.length];
+    //     const length = Math.hypot(b[0] - a[0], b[1] - a[1]) * unitFactors[currentUnit];
+    //     const mid = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+    //     const sm = worldToScreen(mid[0], mid[1]);
+    //     ctx.font = "bold 11px ui-sans-serif, system-ui, -apple-system";
+    //     ctx.fillStyle = "#ffffffff";
+    //     ctx.textAlign = "center";
+    //     ctx.textBaseline = "middle";
+    //     ctx.fillText(length.toFixed(2) + " " + currentUnit, sm.x, sm.y);
+    //   }
+    // }
+
+    // draw edge lengths
     // draw edge lengths — skip if column
     if (showRoomLengths && !poly.isFixed) {
       for (let i = 0; i < poly.coords.length; i++) {
@@ -1136,6 +1449,35 @@
     drawGrid();
     drawGrids();
 
+    // === Draw red bounding box around wardInfo ===
+    if (wardPolys && wardPolys.length) {
+      // compute overall ward boundary limits
+      let minX = Infinity,
+        minY = Infinity,
+        maxX = -Infinity,
+        maxY = -Infinity;
+
+      for (const w of wardPolys) {
+        for (const [x, y] of w.coords) {
+          minX = Math.min(minX, x);
+          minY = Math.min(minY, y);
+          maxX = Math.max(maxX, x);
+          maxY = Math.max(maxY, y);
+        }
+      }
+
+      // convert to screen coords
+      const sMin = worldToScreen(minX, minY);
+      const sMax = worldToScreen(maxX, maxY);
+
+      ctx.save();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "rgba(255,0,0,0.9)";
+      ctx.setLineDash([5, 3]); // optional dashed style
+      ctx.strokeRect(sMin.x, sMax.y, sMax.x - sMin.x, sMin.y - sMax.y);
+      ctx.restore();
+    }
+
     // Draw non-selected rooms first
     for (const poly of polygons) {
       if (poly === selected) continue;
@@ -1163,15 +1505,6 @@
       ctx.strokeStyle = "rgba(250,204,21,0.9)";
       ctx.lineWidth = 3;
       ctx.stroke();
-    }
-
-    if (window.layoutBounds) {
-      const { minX, minY, maxX, maxY } = window.layoutBounds;
-      const s1 = worldToScreen(minX, minY);
-      const s2 = worldToScreen(maxX, maxY);
-      ctx.strokeStyle = "rgba(255, 0, 0, 0.6)";
-      ctx.lineWidth = 2;
-      ctx.strokeRect(s1.x, s2.y, s2.x - s1.x, s1.y - s2.y);
     }
   }
 
@@ -1205,6 +1538,13 @@
     view.y = minY - (vh / (2 * view.scale) - h / 2) - pad;
   }
 
+  // function randomColor() {
+  //   const h = Math.random();
+  //   const s = 0.6,
+  //     l = 0.55;
+  //   const rgb = hslToRgb(h, s, l);
+  //   return `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
+  // }
   function hslToRgb(h, s, l) {
     let r, g, b;
     if (s === 0) {
