@@ -2,14 +2,6 @@
 (() => {
   /*** Utility ***/
   const TAU = Math.PI * 2;
-  // const toast = (msg) => {
-  //   const t = document.getElementById("toast");
-  //   t.textContent = msg;
-  //   t.style.opacity = 1;
-  //   clearTimeout(t._h);
-  //   t._h = setTimeout(() => (t.style.opacity = 0.7), 1200);
-  // };
-
   const toast = (msg) => {
     const t = document.getElementById("toast");
     t.textContent = msg;
@@ -23,7 +15,6 @@
     t._h2 = setTimeout(() => (t.style.opacity = 0), 5000);
   };
 
-  // Basic centroid for simple polygon (non-self-intersecting)
   function centroid(poly) {
     const pts = poly.coords;
     let a = 0,
@@ -49,6 +40,7 @@
     }
     return { x: cx / (6 * a), y: cy / (6 * a) };
   }
+
   function pointInPoly(p, poly) {
     const x = p.x,
       y = p.y;
@@ -65,6 +57,7 @@
     }
     return inside;
   }
+
   const distPtSeg = (p, a, b) => {
     const ax = a[0],
       ay = a[1],
@@ -98,21 +91,10 @@
     document.getElementById("canvasWrap")
   );
 
-  let data = { wardInfo: { coreRoomLayout: [] } };
+  let data = {};
   let polygons = [];
   let selected = null;
   let highlightEdge = { poly: null, idx: null };
-
-  // Viewport
-  let view = { x: 0, y: 0, scale: 1.0 };
-  function worldToScreen(wx, wy) {
-    return { x: (wx - view.x) * view.scale, y: (wy - view.y) * view.scale };
-  }
-  function screenToWorld(sx, sy) {
-    return { x: sx / view.scale + view.x, y: sy / view.scale + view.y };
-  }
-
-  // Interactions
   let mouse = {
     x: 0,
     y: 0,
@@ -135,57 +117,20 @@
   let moveSharedEdgesEnabled = false;
   let gridLines = [];
   let wardPolys = [];
-
-  // let roomConstraints = {};
-  // fetch("room_ata.json")
-  //   .then((r) => r.json())
-  //   .then((data) => {
-  //     data.forEach((r) => {
-  //       roomConstraints[r.room_names.trim().toLowerCase()] = {
-  //         min_width: r.min_width,
-  //         min_height: r.min_height,
-  //       };
-  //     });
-  //     console.log("✅ Loaded room constraints:", roomConstraints);
-  //   })
-  //   .catch((err) => console.warn("⚠️ Could not load room constraints:", err));
-
   let roomConstraints = {};
-
-  // 🔸 File loading logic
-  document
-    .getElementById("loadRestriction")
-    .addEventListener("change", (event) => {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        try {
-          const data = JSON.parse(e.target.result);
-          data.forEach((r) => {
-            const name = r.room_names?.trim().toLowerCase();
-            if (!name) return;
-            roomConstraints[name] = {
-              min_width: Number(r.min_width) || 0,
-              min_height: Number(r.min_height) || 0,
-            };
-          });
-
-          console.log("✅ Loaded room constraints:", roomConstraints);
-          toast(
-            `✅ Loaded ${Object.keys(roomConstraints).length} room constraints`
-          );
-        } catch (err) {
-          console.error("⚠️ Error parsing JSON:", err);
-          toast("⚠️ Invalid JSON file format");
-        }
-      };
-      reader.readAsText(file);
-    });
-
   const grid = { show: true };
   const SNAP_TOL = 0.3;
+  let currentUnit = "m";
+  const unitFactors = { m: 1, cm: 100, mm: 1000, ft: 3.28084 };
+
+  // Viewport
+  let view = { x: 0, y: 0, scale: 1.0 };
+  function worldToScreen(wx, wy) {
+    return { x: (wx - view.x) * view.scale, y: (wy - view.y) * view.scale };
+  }
+  function screenToWorld(sx, sy) {
+    return { x: sx / view.scale + view.x, y: sy / view.scale + view.y };
+  }
 
   function pushState() {
     const snap = polygons.map((p) => ({
@@ -195,6 +140,7 @@
     undoStack.push(snap);
     if (undoStack.length > 30) undoStack.shift();
   }
+
   function undo() {
     if (!undoStack.length) return;
     const last = undoStack.pop();
@@ -263,6 +209,7 @@
         "internalRoadPolygons",
         "externalRoadPolygons",
         "footpathPolygons",
+        "clinicInfo",
       ];
 
       function collectRoomsAndGrids(obj, parentKey = "") {
@@ -358,15 +305,95 @@
         };
       });
 
+      // --- Collect all unique floor numbers ---
+      const floors = [
+        ...new Set(
+          filteredLayouts
+            .map((r) => r.applicableFloors)
+            .filter((f) => f != null)
+        ),
+      ].sort((a, b) => a - b);
+
+      // --- Populate floor dropdown dynamically ---
+      const floorSelect = document.getElementById("floorSelect");
+      floorSelect.innerHTML =
+        `<option value="all" selected>All Floors</option>` +
+        floors.map((f) => `<option value="${f}">Floor ${f}</option>`).join("");
+
+      // --- Add event listener to filter rooms by floor ---
+      floorSelect.addEventListener("change", (e) => {
+        const selectedFloor = e.target.value;
+        polygons =
+          selectedFloor === "all"
+            ? filteredLayouts.map((room) => ({
+                room,
+                coords: room.vertices.map((v) => [Number(v.X), Number(v.Y)]),
+                color: getColorForRoom(room.roomName),
+                selected_vertex: null,
+                selected_edge: null,
+                isFixed: !!room._isFixed,
+              }))
+            : filteredLayouts
+                .filter((room) => room.applicableFloors == selectedFloor)
+                .map((room) => ({
+                  room,
+                  coords: room.vertices.map((v) => [Number(v.X), Number(v.Y)]),
+                  color: getColorForRoom(room.roomName),
+                  selected_vertex: null,
+                  selected_edge: null,
+                  isFixed: !!room._isFixed,
+                }));
+
+        computeNeighbors();
+        draw();
+        fitView();
+        toast(
+          selectedFloor === "all"
+            ? "Showing all floors"
+            : `Showing floor ${selectedFloor}`
+        );
+      });
+
       fitView();
       computeNeighbors();
       draw();
-      toast(`Loaded ${polygons.length} rooms from wardInfo`);
+      toast(`Loaded ${polygons.length} rooms from JSON.`);
     } catch (err) {
       console.error("Error loading JSON:", err);
       toast("❌ Invalid or malformed JSON");
     }
   });
+
+  document
+    .getElementById("loadRestriction")
+    .addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const data = JSON.parse(e.target.result);
+          data.forEach((r) => {
+            const name = r.room_names?.trim().toLowerCase();
+            if (!name) return;
+            roomConstraints[name] = {
+              min_width: Number(r.min_width) || 0,
+              min_height: Number(r.min_height) || 0,
+            };
+          });
+
+          console.log("✅ Loaded room constraints:", roomConstraints);
+          toast(
+            `✅ Loaded ${Object.keys(roomConstraints).length} room constraints`
+          );
+        } catch (err) {
+          console.error("⚠️ Error parsing JSON:", err);
+          toast("⚠️ Invalid JSON file format");
+        }
+      };
+      reader.readAsText(file);
+    });
 
   function saveJSON() {
     polygons.forEach((p) => {
@@ -386,7 +413,9 @@
     URL.revokeObjectURL(a.href);
     toast("Saved edited.json");
   }
+
   document.getElementById("saveBtn").addEventListener("click", saveJSON);
+
   document.getElementById("resetViewBtn").addEventListener("click", () => {
     fitView();
     draw();
@@ -426,17 +455,16 @@
     grid.show = e.target.checked;
     draw();
   });
+
   document.getElementById("alignToggle").addEventListener("change", (e) => {
     alignEnabled = e.target.checked;
   });
+
   document.getElementById("snapStep").addEventListener("input", (e) => {
     const v = Number(e.target.value) || 1;
     snapStep = v;
     draw();
   });
-
-  let currentUnit = "m";
-  const unitFactors = { m: 1, cm: 100, mm: 1000, ft: 3.28084 };
 
   document.getElementById("unitSelect").addEventListener("change", (e) => {
     currentUnit = e.target.value;
@@ -486,12 +514,14 @@
       }
     }
   });
+
   window.addEventListener("keyup", (e) => {
     if (e.key === "Shift") shiftHeld = false;
   });
 
   // Mouse events
   canvas.addEventListener("contextmenu", (e) => e.preventDefault());
+
   canvas.addEventListener("mousedown", (e) => {
     const rect = canvas.getBoundingClientRect();
     mouse.x = e.clientX - rect.left;
@@ -724,7 +754,7 @@
       const worldBefore = screenToWorld(x, y);
       const delta = -e.deltaY;
       const k = Math.exp(delta * 0.0012);
-      view.scale = Math.min(300, Math.max(0.02, view.scale * k));
+      view.scale = Math.min(300, Math.max(8, view.scale * k));
       const worldAfter = screenToWorld(x, y);
       view.x += worldBefore.x - worldAfter.x;
       view.y += worldBefore.y - worldAfter.y;
@@ -747,6 +777,7 @@
     }
     return bestd < tol ? best : null;
   }
+
   function nearestEdge(poly, p) {
     const cs = poly.coords;
     if (!cs.length) return null;
@@ -769,7 +800,6 @@
     return bestd < baseTol ? best : null;
   }
 
-  // Add this function to detect shared edges between polygons
   function findSharedEdges() {
     const sharedEdges = new Map(); // key: "x1,y1,x2,y2", value: array of polygons sharing this edge
 
@@ -803,185 +833,6 @@
 
     return sharedEdges;
   }
-
-  // function moveSharedEdge(movingPoly, edgeIdx, shift) {
-  //   const sharedEdges = findSharedEdges();
-  //   const movingCoords = movingPoly.coords;
-  //   const p1 = movingCoords[edgeIdx];
-  //   const p2 = movingCoords[(edgeIdx + 1) % movingCoords.length];
-
-  //   const edgeKey = [p1[0], p1[1], p2[0], p2[1]]
-  //     .map((v) => Math.round(v * 1000) / 1000)
-  //     .join(",");
-  //   const reverseKey = [p2[0], p2[1], p1[0], p1[1]]
-  //     .map((v) => Math.round(v * 1000) / 1000)
-  //     .join(",");
-  //   const sharedKey = sharedEdges.has(edgeKey) ? edgeKey : reverseKey;
-  //   const sharedPolys = sharedEdges.get(sharedKey);
-
-  //   // === STEP 1: Proposed new edge ===
-  //   let newA = [p1[0] + shift[0], p1[1] + shift[1]];
-  //   let newB = [p2[0] + shift[0], p2[1] + shift[1]];
-
-  //   // === STEP 2: Alignment snap ===
-  //   if (alignEnabled) {
-  //     const dir = [newB[0] - newA[0], newB[1] - newA[1]];
-  //     const len = Math.hypot(dir[0], dir[1]);
-  //     if (len > 1e-6) {
-  //       const ux = dir[0] / len;
-  //       const uy = dir[1] / len;
-  //       const nx = -uy,
-  //         ny = ux;
-  //       const SNAP_DIST = 0.1;
-  //       const ANGLE_TOL = 0.05;
-
-  //       for (const poly of polygons) {
-  //         if (poly === movingPoly || poly.isFixed) continue;
-  //         const cs = poly.coords;
-  //         for (let i = 0; i < cs.length; i++) {
-  //           const a = cs[i];
-  //           const b = cs[(i + 1) % cs.length];
-  //           const ab = [b[0] - a[0], b[1] - a[1]];
-  //           const abLen = Math.hypot(ab[0], ab[1]);
-  //           if (abLen < 1e-6) continue;
-  //           const vx = ab[0] / abLen;
-  //           const vy = ab[1] / abLen;
-  //           const dot = ux * vx + uy * vy;
-  //           if (Math.abs(Math.abs(dot) - 1) > ANGLE_TOL) continue;
-  //           const distA = (newA[0] - a[0]) * nx + (newA[1] - a[1]) * ny;
-  //           const distB = (newB[0] - a[0]) * nx + (newB[1] - a[1]) * ny;
-  //           const avgDist = (distA + distB) / 2;
-  //           if (Math.abs(avgDist) < SNAP_DIST) {
-  //             newA = [newA[0] - avgDist * nx, newA[1] - avgDist * ny];
-  //             newB = [newB[0] - avgDist * nx, newB[1] - avgDist * ny];
-  //             break;
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-
-  //   // === STEP 3: Compute geometry ===
-  //   const testCoords = movingCoords.map(([x, y]) => [x, y]);
-  //   testCoords[edgeIdx] = newA;
-  //   testCoords[(edgeIdx + 1) % testCoords.length] = newB;
-
-  //   const xs = testCoords.map(([x]) => x);
-  //   const ys = testCoords.map(([_, y]) => y);
-  //   const newWidth = Math.max(...xs) - Math.min(...xs);
-  //   const newHeight = Math.max(...ys) - Math.min(...ys);
-
-  //   const isHorizontal = Math.abs(p1[1] - p2[1]) < 0.05;
-  //   const isVertical = Math.abs(p1[0] - p2[0]) < 0.05;
-
-  //   const name = (movingPoly.room.roomName || "").trim().toLowerCase();
-  //   const constraint = roomConstraints[name];
-
-  //   // === STEP 4: Get edge normal direction (for proper snap) ===
-  //   // Normal direction points *into* the room
-  //   const dir = [p2[0] - p1[0], p2[1] - p1[1]];
-  //   const len = Math.hypot(dir[0], dir[1]);
-  //   const nx = len > 0 ? -dir[1] / len : 0;
-  //   const ny = len > 0 ? dir[0] / len : 0;
-
-  //   // === STEP 5: Snap to minimum allowed size ===
-  //   if (constraint) {
-  //     if (
-  //       isHorizontal &&
-  //       constraint.min_height > 0 &&
-  //       newHeight < constraint.min_height
-  //     ) {
-  //       const currYs = movingCoords.map(([_, y]) => y);
-  //       const currH = Math.max(...currYs) - Math.min(...currYs);
-  //       const delta = constraint.min_height - currH;
-
-  //       // move edge outward along its normal (not opposite)
-  //       newA = [p1[0] + nx * delta, p1[1] + ny * delta];
-  //       newB = [p2[0] + nx * delta, p2[1] + ny * delta];
-
-  //       toast(
-  //         `↕️ '${movingPoly.room.roomName}' snapped to min height (${constraint.min_height}m)`
-  //       );
-  //     }
-
-  //     if (
-  //       isVertical &&
-  //       constraint.min_width > 0 &&
-  //       newWidth < constraint.min_width
-  //     ) {
-  //       const currXs = movingCoords.map(([x]) => x);
-  //       const currW = Math.max(...currXs) - Math.min(...currXs);
-  //       const delta = constraint.min_width - currW;
-
-  //       newA = [p1[0] + nx * delta, p1[1] + ny * delta];
-  //       newB = [p2[0] + nx * delta, p2[1] + ny * delta];
-
-  //       toast(
-  //         `↔️ '${movingPoly.room.roomName}' snapped to min width (${constraint.min_width}m)`
-  //       );
-  //     }
-  //   }
-
-  //   // === STEP 6: Restrict to ward boundary ===
-  //   if (wardPolys && wardPolys.length) {
-  //     let minX = Infinity,
-  //       minY = Infinity,
-  //       maxX = -Infinity,
-  //       maxY = -Infinity;
-  //     for (const w of wardPolys) {
-  //       for (const [x, y] of w.coords) {
-  //         minX = Math.min(minX, x);
-  //         minY = Math.min(minY, y);
-  //         maxX = Math.max(maxX, x);
-  //         maxY = Math.max(maxY, y);
-  //       }
-  //     }
-
-  //     const clamp = (v, lo, hi) => Math.max(lo, Math.min(v, hi));
-  //     const boundedA = [clamp(newA[0], minX, maxX), clamp(newA[1], minY, maxY)];
-  //     const boundedB = [clamp(newB[0], minX, maxX), clamp(newB[1], minY, maxY)];
-
-  //     if (
-  //       boundedA[0] !== newA[0] ||
-  //       boundedA[1] !== newA[1] ||
-  //       boundedB[0] !== newB[0] ||
-  //       boundedB[1] !== newB[1]
-  //     ) {
-  //       newA = boundedA;
-  //       newB = boundedB;
-  //       toast(`🚫 '${movingPoly.room.roomName}' snapped to ward boundary`);
-  //     }
-  //   }
-
-  //   // === STEP 7: Apply move ===
-  //   if (!moveSharedEdgesEnabled || !sharedPolys || sharedPolys.length === 1) {
-  //     movingCoords[edgeIdx] = newA;
-  //     movingCoords[(edgeIdx + 1) % movingCoords.length] = newB;
-  //     return;
-  //   }
-
-  //   for (const poly of sharedPolys) {
-  //     const coords = poly.coords;
-  //     for (let i = 0; i < coords.length; i++) {
-  //       const a = coords[i];
-  //       const b = coords[(i + 1) % coords.length];
-  //       const isSameEdge =
-  //         (Math.abs(a[0] - p1[0]) < 0.01 &&
-  //           Math.abs(a[1] - p1[1]) < 0.01 &&
-  //           Math.abs(b[0] - p2[0]) < 0.01 &&
-  //           Math.abs(b[1] - p2[1]) < 0.01) ||
-  //         (Math.abs(a[0] - p2[0]) < 0.01 &&
-  //           Math.abs(a[1] - p2[1]) < 0.01 &&
-  //           Math.abs(b[0] - p1[0]) < 0.01 &&
-  //           Math.abs(b[1] - p1[1]) < 0.01);
-  //       if (isSameEdge) {
-  //         coords[i] = newA;
-  //         coords[(i + 1) % coords.length] = newB;
-  //         break;
-  //       }
-  //     }
-  //   }
-  // }
 
   function moveSharedEdge(movingPoly, edgeIdx, shift) {
     const sharedEdges = findSharedEdges();
@@ -1163,9 +1014,7 @@
     }
   }
 
-  /**
-   * Helper for aligning a single moved vertex with nearby room edges/points.
-   */
+  //Helper for aligning a single moved vertex with nearby room edges/points.
   function alignPoint([x, y], current) {
     const SNAP_TOL = 0.3; // vertex snap
     const EDGE_TOL = 0.25; // distance tolerance for edge alignment
@@ -1283,7 +1132,6 @@
     return Math.abs(area / 2);
   }
 
-  // Helper to draw one polygon
   function drawPolygon(poly, isSel) {
     // fill
     // fill with semi-transparent room color
