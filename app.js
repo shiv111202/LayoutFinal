@@ -2,12 +2,25 @@
 (() => {
   /*** Utility ***/
   const TAU = Math.PI * 2;
+  // const toast = (msg) => {
+  //   const t = document.getElementById("toast");
+  //   t.textContent = msg;
+  //   t.style.opacity = 1;
+  //   clearTimeout(t._h);
+  //   t._h = setTimeout(() => (t.style.opacity = 0.7), 1200);
+  // };
+
   const toast = (msg) => {
     const t = document.getElementById("toast");
     t.textContent = msg;
     t.style.opacity = 1;
     clearTimeout(t._h);
+
+    // fade to 0.7 after 1.2s
     t._h = setTimeout(() => (t.style.opacity = 0.7), 1200);
+
+    // fade out completely after 2.5s
+    t._h2 = setTimeout(() => (t.style.opacity = 0), 5000);
   };
 
   // Basic centroid for simple polygon (non-self-intersecting)
@@ -123,6 +136,54 @@
   let gridLines = [];
   let wardPolys = [];
 
+  // let roomConstraints = {};
+  // fetch("room_ata.json")
+  //   .then((r) => r.json())
+  //   .then((data) => {
+  //     data.forEach((r) => {
+  //       roomConstraints[r.room_names.trim().toLowerCase()] = {
+  //         min_width: r.min_width,
+  //         min_height: r.min_height,
+  //       };
+  //     });
+  //     console.log("✅ Loaded room constraints:", roomConstraints);
+  //   })
+  //   .catch((err) => console.warn("⚠️ Could not load room constraints:", err));
+
+  let roomConstraints = {};
+
+  // 🔸 File loading logic
+  document
+    .getElementById("loadRestriction")
+    .addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const data = JSON.parse(e.target.result);
+          data.forEach((r) => {
+            const name = r.room_names?.trim().toLowerCase();
+            if (!name) return;
+            roomConstraints[name] = {
+              min_width: Number(r.min_width) || 0,
+              min_height: Number(r.min_height) || 0,
+            };
+          });
+
+          console.log("✅ Loaded room constraints:", roomConstraints);
+          toast(
+            `✅ Loaded ${Object.keys(roomConstraints).length} room constraints`
+          );
+        } catch (err) {
+          console.error("⚠️ Error parsing JSON:", err);
+          toast("⚠️ Invalid JSON file format");
+        }
+      };
+      reader.readAsText(file);
+    });
+
   const grid = { show: true };
   const SNAP_TOL = 0.3;
 
@@ -144,41 +205,6 @@
     draw();
   }
 
-  /*** Loading & Saving ***/
-  // document.getElementById("loadFile").addEventListener("change", async (e) => {
-  //   const f = e.target.files?.[0];
-  //   if (!f) return;
-  //   const text = await f.text();
-  //   try {
-  //     data = JSON.parse(text);
-  //     // Combine all room arrays in wardInfo (e.g., coreRoomLayout, toiletLayout, etc.)
-  //     const layouts = Object.values(data.wardInfo || {})
-  //       .flat()
-  //       .filter(Boolean);
-
-  //     polygons = layouts
-  //       .map((room) => {
-  //         if (!room.vertices || !room.vertices.length) return null;
-  //         const coords = room.vertices.map((v) => [Number(v.X), Number(v.Y)]);
-  //         const lineColor = randomColor();
-  //         return {
-  //           room,
-  //           coords,
-  //           color: lineColor,
-  //           selected_vertex: null,
-  //           selected_edge: null,
-  //         };
-  //       })
-  //       .filter(Boolean);
-  //     fitView();
-  //     draw();
-  //     toast("Loaded " + polygons.length + " rooms");
-  //   } catch (err) {
-  //     console.error(err);
-  //     toast("❌ Invalid JSON");
-  //   }
-  // });
-
   function randomColor() {
     const h = Math.random();
     const s = 0.6,
@@ -186,37 +212,6 @@
     const rgb = hslToRgb(h, s, l);
     return `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
   }
-
-  // --- Precompute neighbors once ---
-  // function computeNeighbors() {
-  //   for (const poly of polygons) poly.neighbors = new Set();
-
-  //   const EPS = 0.1; // tolerance for shared vertices
-  //   for (let i = 0; i < polygons.length; i++) {
-  //     const a = polygons[i];
-  //     for (let j = i + 1; j < polygons.length; j++) {
-  //       const b = polygons[j];
-
-  //       // Check if any vertices are close enough to be considered touching
-  //       let shared = false;
-  //       for (const [ax, ay] of a.coords) {
-  //         for (const [bx, by] of b.coords) {
-  //           if (Math.abs(ax - bx) < EPS && Math.abs(ay - by) < EPS) {
-  //             shared = true;
-  //             break;
-  //           }
-  //         }
-  //         if (shared) break;
-  //       }
-
-  //       if (shared) {
-  //         a.neighbors.add(b);
-  //         b.neighbors.add(a);
-  //       }
-  //     }
-  //   }
-  //   console.log("✅ Neighbor relationships computed");
-  // }
 
   function computeNeighbors() {
     for (const poly of polygons) poly.neighbors = new Set();
@@ -298,30 +293,7 @@
         return rooms;
       }
 
-      gridLines = []; // reset before each load
-      // const layouts = collectRoomsAndGrids(data);
-
-      // // --- Maintain consistent colors per room name ---
-      // const colorMap = {};
-      // function getColorForRoom(name) {
-      //   const key = name?.trim() || "Unnamed";
-      //   if (!colorMap[key]) colorMap[key] = randomColor();
-      //   return colorMap[key];
-      // }
-
-      // // --- Build polygons for all rooms ---
-      // polygons = layouts.map((room) => {
-      //   const coords = room.vertices.map((v) => [Number(v.X), Number(v.Y)]);
-      //   const lineColor = getColorForRoom(room.roomName);
-      //   return {
-      //     room,
-      //     coords,
-      //     color: lineColor,
-      //     selected_vertex: null,
-      //     selected_edge: null,
-      //     isFixed: !!room._isFixed, // preserve immovable property
-      //   };
-      // });
+      gridLines = [];
 
       const layouts = collectRoomsAndGrids(data);
 
@@ -536,53 +508,6 @@
       return;
     }
 
-    // --- ADD VERTEX MODE HANDLER ---
-    // if (addVertexMode && selected && e.button === 0) {
-    //   const wx = mouse.wx;
-    //   const wy = mouse.wy;
-
-    //   // Find nearest edge to mouse
-    //   const edgeIdx = nearestEdge(selected, [wx, wy]);
-    //   if (edgeIdx == null) {
-    //     toast("⚠️ Click closer to an edge");
-    //     return;
-    //   }
-
-    //   // Compute the projected point on that edge
-    //   const a = selected.coords[edgeIdx];
-    //   const b = selected.coords[(edgeIdx + 1) % selected.coords.length];
-    //   const ab = [b[0] - a[0], b[1] - a[1]];
-    //   const ap = [wx - a[0], wy - a[1]];
-    //   const len2 = ab[0] ** 2 + ab[1] ** 2;
-    //   let t = (ap[0] * ab[0] + ap[1] * ab[1]) / len2;
-    //   t = Math.max(0.001, Math.min(0.999, t));
-
-    //   let newPt = [a[0] + ab[0] * t, a[1] + ab[1] * t];
-
-    //   // --- SNAP to nearby vertex/edge ---
-    //   const SNAP_TOL = 0.15;
-    //   for (const poly of polygons) {
-    //     for (const [vx, vy] of poly.coords) {
-    //       if (Math.abs(vx - newPt[0]) < SNAP_TOL) newPt[0] = vx;
-    //       if (Math.abs(vy - newPt[1]) < SNAP_TOL) newPt[1] = vy;
-    //     }
-    //   }
-
-    //   // ✅ Save state before modifying
-    //   pushState();
-
-    //   // Insert vertex into that edge
-    //   selected.coords.splice(edgeIdx + 1, 0, newPt);
-
-    //   toast("✅ Vertex added successfully");
-
-    //   // Exit mode
-    //   addVertexMode = false;
-    //   canvas.style.cursor = "default";
-    //   draw();
-    //   return; // <- Important: prevent normal selection logic from running
-    // }
-
     if (addVertexMode && selected && e.button === 0) {
       const wx = mouse.wx;
       const wy = mouse.wy;
@@ -652,43 +577,6 @@
       pushState();
       return;
     }
-
-    // if (addVertexMode && selected) {
-    //   const { wx, wy } = mouse;
-    //   const edgeIdx = nearestEdge(selected, [wx, wy]);
-    //   if (edgeIdx == null) {
-    //     toast("⚠️ Click closer to an edge");
-    //     return;
-    //   }
-
-    //   // Compute projection of click point on that edge
-    //   const a = selected.coords[edgeIdx];
-    //   const b = selected.coords[(edgeIdx + 1) % selected.coords.length];
-    //   const ab = [b[0] - a[0], b[1] - a[1]];
-    //   const ap = [wx - a[0], wy - a[1]];
-    //   const len2 = ab[0] ** 2 + ab[1] ** 2;
-    //   let t = (ap[0] * ab[0] + ap[1] * ab[1]) / len2;
-    //   t = Math.max(0.001, Math.min(0.999, t));
-    //   let newPt = [a[0] + ab[0] * t, a[1] + ab[1] * t];
-
-    //   // --- snap to existing vertices nearby ---
-    //   const SNAP_TOL = 0.2;
-    //   for (const poly of polygons) {
-    //     for (const [vx, vy] of poly.coords) {
-    //       if (Math.abs(vx - newPt[0]) < SNAP_TOL) newPt[0] = vx;
-    //       if (Math.abs(vy - newPt[1]) < SNAP_TOL) newPt[1] = vy;
-    //     }
-    //   }
-
-    //   // Insert the vertex into that edge
-    //   selected.coords.splice(edgeIdx + 1, 0, newPt);
-    //   toast("✅ Vertex added");
-
-    //   addVertexMode = false;
-    //   canvas.style.cursor = "default";
-    //   draw();
-    //   return;
-    // }
 
     const poly = polygons.find((p) => pointInPoly({ x: w.x, y: w.y }, p));
 
@@ -916,48 +804,6 @@
     return sharedEdges;
   }
 
-  // Update the edge movement code to move all shared edges
-  // function moveSharedEdge(movingPoly, edgeIdx, shift) {
-  //   const sharedEdges = findSharedEdges();
-  //   const movingCoords = movingPoly.coords;
-  //   const p1 = movingCoords[edgeIdx];
-  //   const p2 = movingCoords[(edgeIdx + 1) % movingCoords.length];
-
-  //   // Find the edge key for the moving edge
-  //   const edgeKey = [p1[0], p1[1], p2[0], p2[1]]
-  //     .map(v => Math.round(v * 1000) / 1000)
-  //     .join(',');
-
-  //   const reverseKey = [p2[0], p2[1], p1[0], p1[1]]
-  //     .map(v => Math.round(v * 1000) / 1000)
-  //     .join(',');
-
-  //   const sharedKey = sharedEdges.has(edgeKey) ? edgeKey : reverseKey;
-  //   const sharedPolys = sharedEdges.get(sharedKey) || [movingPoly];
-
-  //   // Move this edge in all polygons that share it
-  //   for (const poly of sharedPolys) {
-  //     const coords = poly.coords;
-  //     for (let i = 0; i < coords.length; i++) {
-  //       const a = coords[i];
-  //       const b = coords[(i + 1) % coords.length];
-
-  //       // Check if this is the same edge (in either direction)
-  //       const isSameEdge =
-  //         (Math.abs(a[0] - p1[0]) < 0.01 && Math.abs(a[1] - p1[1]) < 0.01 &&
-  //           Math.abs(b[0] - p2[0]) < 0.01 && Math.abs(b[1] - p2[1]) < 0.01) ||
-  //         (Math.abs(a[0] - p2[0]) < 0.01 && Math.abs(a[1] - p2[1]) < 0.01 &&
-  //           Math.abs(b[0] - p1[0]) < 0.01 && Math.abs(b[1] - p1[1]) < 0.01);
-
-  //       if (isSameEdge) {
-  //         coords[i] = [a[0] + shift[0], a[1] + shift[1]];
-  //         coords[(i + 1) % coords.length] = [b[0] + shift[0], b[1] + shift[1]];
-  //         break;
-  //       }
-  //     }
-  //   }
-  // }
-
   // function moveSharedEdge(movingPoly, edgeIdx, shift) {
   //   const sharedEdges = findSharedEdges();
   //   const movingCoords = movingPoly.coords;
@@ -965,51 +811,172 @@
   //   const p2 = movingCoords[(edgeIdx + 1) % movingCoords.length];
 
   //   const edgeKey = [p1[0], p1[1], p2[0], p2[1]]
-  //     .map(v => Math.round(v * 1000) / 1000)
-  //     .join(',');
-
+  //     .map((v) => Math.round(v * 1000) / 1000)
+  //     .join(",");
   //   const reverseKey = [p2[0], p2[1], p1[0], p1[1]]
-  //     .map(v => Math.round(v * 1000) / 1000)
-  //     .join(',');
-
+  //     .map((v) => Math.round(v * 1000) / 1000)
+  //     .join(",");
   //   const sharedKey = sharedEdges.has(edgeKey) ? edgeKey : reverseKey;
   //   const sharedPolys = sharedEdges.get(sharedKey);
 
-  //   // If no shared edge, move only current polygon and then try to align
-  //   if (!sharedPolys || sharedPolys.length === 1) {
-  //     const coords = movingPoly.coords;
-  //     const a = coords[edgeIdx];
-  //     const b = coords[(edgeIdx + 1) % coords.length];
-  //     let newA = [a[0] + shift[0], a[1] + shift[1]];
-  //     let newB = [b[0] + shift[0], b[1] + shift[1]];
+  //   // === STEP 1: Proposed new edge ===
+  //   let newA = [p1[0] + shift[0], p1[1] + shift[1]];
+  //   let newB = [p2[0] + shift[0], p2[1] + shift[1]];
 
-  //     // Apply align logic to both points
-  //     if (alignEnabled) {
-  //       newA = alignPoint(newA, movingPoly);
-  //       newB = alignPoint(newB, movingPoly);
+  //   // === STEP 2: Alignment snap ===
+  //   if (alignEnabled) {
+  //     const dir = [newB[0] - newA[0], newB[1] - newA[1]];
+  //     const len = Math.hypot(dir[0], dir[1]);
+  //     if (len > 1e-6) {
+  //       const ux = dir[0] / len;
+  //       const uy = dir[1] / len;
+  //       const nx = -uy,
+  //         ny = ux;
+  //       const SNAP_DIST = 0.1;
+  //       const ANGLE_TOL = 0.05;
+
+  //       for (const poly of polygons) {
+  //         if (poly === movingPoly || poly.isFixed) continue;
+  //         const cs = poly.coords;
+  //         for (let i = 0; i < cs.length; i++) {
+  //           const a = cs[i];
+  //           const b = cs[(i + 1) % cs.length];
+  //           const ab = [b[0] - a[0], b[1] - a[1]];
+  //           const abLen = Math.hypot(ab[0], ab[1]);
+  //           if (abLen < 1e-6) continue;
+  //           const vx = ab[0] / abLen;
+  //           const vy = ab[1] / abLen;
+  //           const dot = ux * vx + uy * vy;
+  //           if (Math.abs(Math.abs(dot) - 1) > ANGLE_TOL) continue;
+  //           const distA = (newA[0] - a[0]) * nx + (newA[1] - a[1]) * ny;
+  //           const distB = (newB[0] - a[0]) * nx + (newB[1] - a[1]) * ny;
+  //           const avgDist = (distA + distB) / 2;
+  //           if (Math.abs(avgDist) < SNAP_DIST) {
+  //             newA = [newA[0] - avgDist * nx, newA[1] - avgDist * ny];
+  //             newB = [newB[0] - avgDist * nx, newB[1] - avgDist * ny];
+  //             break;
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+
+  //   // === STEP 3: Compute geometry ===
+  //   const testCoords = movingCoords.map(([x, y]) => [x, y]);
+  //   testCoords[edgeIdx] = newA;
+  //   testCoords[(edgeIdx + 1) % testCoords.length] = newB;
+
+  //   const xs = testCoords.map(([x]) => x);
+  //   const ys = testCoords.map(([_, y]) => y);
+  //   const newWidth = Math.max(...xs) - Math.min(...xs);
+  //   const newHeight = Math.max(...ys) - Math.min(...ys);
+
+  //   const isHorizontal = Math.abs(p1[1] - p2[1]) < 0.05;
+  //   const isVertical = Math.abs(p1[0] - p2[0]) < 0.05;
+
+  //   const name = (movingPoly.room.roomName || "").trim().toLowerCase();
+  //   const constraint = roomConstraints[name];
+
+  //   // === STEP 4: Get edge normal direction (for proper snap) ===
+  //   // Normal direction points *into* the room
+  //   const dir = [p2[0] - p1[0], p2[1] - p1[1]];
+  //   const len = Math.hypot(dir[0], dir[1]);
+  //   const nx = len > 0 ? -dir[1] / len : 0;
+  //   const ny = len > 0 ? dir[0] / len : 0;
+
+  //   // === STEP 5: Snap to minimum allowed size ===
+  //   if (constraint) {
+  //     if (
+  //       isHorizontal &&
+  //       constraint.min_height > 0 &&
+  //       newHeight < constraint.min_height
+  //     ) {
+  //       const currYs = movingCoords.map(([_, y]) => y);
+  //       const currH = Math.max(...currYs) - Math.min(...currYs);
+  //       const delta = constraint.min_height - currH;
+
+  //       // move edge outward along its normal (not opposite)
+  //       newA = [p1[0] + nx * delta, p1[1] + ny * delta];
+  //       newB = [p2[0] + nx * delta, p2[1] + ny * delta];
+
+  //       toast(
+  //         `↕️ '${movingPoly.room.roomName}' snapped to min height (${constraint.min_height}m)`
+  //       );
   //     }
 
-  //     coords[edgeIdx] = newA;
-  //     coords[(edgeIdx + 1) % coords.length] = newB;
+  //     if (
+  //       isVertical &&
+  //       constraint.min_width > 0 &&
+  //       newWidth < constraint.min_width
+  //     ) {
+  //       const currXs = movingCoords.map(([x]) => x);
+  //       const currW = Math.max(...currXs) - Math.min(...currXs);
+  //       const delta = constraint.min_width - currW;
+
+  //       newA = [p1[0] + nx * delta, p1[1] + ny * delta];
+  //       newB = [p2[0] + nx * delta, p2[1] + ny * delta];
+
+  //       toast(
+  //         `↔️ '${movingPoly.room.roomName}' snapped to min width (${constraint.min_width}m)`
+  //       );
+  //     }
+  //   }
+
+  //   // === STEP 6: Restrict to ward boundary ===
+  //   if (wardPolys && wardPolys.length) {
+  //     let minX = Infinity,
+  //       minY = Infinity,
+  //       maxX = -Infinity,
+  //       maxY = -Infinity;
+  //     for (const w of wardPolys) {
+  //       for (const [x, y] of w.coords) {
+  //         minX = Math.min(minX, x);
+  //         minY = Math.min(minY, y);
+  //         maxX = Math.max(maxX, x);
+  //         maxY = Math.max(maxY, y);
+  //       }
+  //     }
+
+  //     const clamp = (v, lo, hi) => Math.max(lo, Math.min(v, hi));
+  //     const boundedA = [clamp(newA[0], minX, maxX), clamp(newA[1], minY, maxY)];
+  //     const boundedB = [clamp(newB[0], minX, maxX), clamp(newB[1], minY, maxY)];
+
+  //     if (
+  //       boundedA[0] !== newA[0] ||
+  //       boundedA[1] !== newA[1] ||
+  //       boundedB[0] !== newB[0] ||
+  //       boundedB[1] !== newB[1]
+  //     ) {
+  //       newA = boundedA;
+  //       newB = boundedB;
+  //       toast(`🚫 '${movingPoly.room.roomName}' snapped to ward boundary`);
+  //     }
+  //   }
+
+  //   // === STEP 7: Apply move ===
+  //   if (!moveSharedEdgesEnabled || !sharedPolys || sharedPolys.length === 1) {
+  //     movingCoords[edgeIdx] = newA;
+  //     movingCoords[(edgeIdx + 1) % movingCoords.length] = newB;
   //     return;
   //   }
 
-  //   // Otherwise, move shared edge in all connected polygons
   //   for (const poly of sharedPolys) {
   //     const coords = poly.coords;
   //     for (let i = 0; i < coords.length; i++) {
   //       const a = coords[i];
   //       const b = coords[(i + 1) % coords.length];
-
   //       const isSameEdge =
-  //         (Math.abs(a[0] - p1[0]) < 0.01 && Math.abs(a[1] - p1[1]) < 0.01 &&
-  //           Math.abs(b[0] - p2[0]) < 0.01 && Math.abs(b[1] - p2[1]) < 0.01) ||
-  //         (Math.abs(a[0] - p2[0]) < 0.01 && Math.abs(a[1] - p2[1]) < 0.01 &&
-  //           Math.abs(b[0] - p1[0]) < 0.01 && Math.abs(b[1] - p1[1]) < 0.01);
-
+  //         (Math.abs(a[0] - p1[0]) < 0.01 &&
+  //           Math.abs(a[1] - p1[1]) < 0.01 &&
+  //           Math.abs(b[0] - p2[0]) < 0.01 &&
+  //           Math.abs(b[1] - p2[1]) < 0.01) ||
+  //         (Math.abs(a[0] - p2[0]) < 0.01 &&
+  //           Math.abs(a[1] - p2[1]) < 0.01 &&
+  //           Math.abs(b[0] - p1[0]) < 0.01 &&
+  //           Math.abs(b[1] - p1[1]) < 0.01);
   //       if (isSameEdge) {
-  //         coords[i] = [a[0] + shift[0], a[1] + shift[1]];
-  //         coords[(i + 1) % coords.length] = [b[0] + shift[0], b[1] + shift[1]];
+  //         coords[i] = newA;
+  //         coords[(i + 1) % coords.length] = newB;
   //         break;
   //       }
   //     }
@@ -1025,81 +992,154 @@
     const edgeKey = [p1[0], p1[1], p2[0], p2[1]]
       .map((v) => Math.round(v * 1000) / 1000)
       .join(",");
-
     const reverseKey = [p2[0], p2[1], p1[0], p1[1]]
       .map((v) => Math.round(v * 1000) / 1000)
       .join(",");
-
     const sharedKey = sharedEdges.has(edgeKey) ? edgeKey : reverseKey;
     const sharedPolys = sharedEdges.get(sharedKey);
 
-    // ✅ When toggle is OFF, move only selected polygon’s edge
-    if (!moveSharedEdgesEnabled || !sharedPolys || sharedPolys.length === 1) {
-      const coords = movingPoly.coords;
-      const a = coords[edgeIdx];
-      const b = coords[(edgeIdx + 1) % coords.length];
-      let newA = [a[0] + shift[0], a[1] + shift[1]];
-      let newB = [b[0] + shift[0], b[1] + shift[1]];
+    // === STEP 1: Calculate new potential positions ===
+    let newA = [p1[0] + shift[0], p1[1] + shift[1]];
+    let newB = [p2[0] + shift[0], p2[1] + shift[1]];
 
-      // Optional alignment snap
-      if (alignEnabled) {
-        // --- Normal vertex alignment ---
-        // newA = alignPoint(newA, movingPoly);
-        // newB = alignPoint(newB, movingPoly);
+    // === STEP 2: Alignment snapping (parallel edge) ===
+    if (alignEnabled) {
+      const dir = [newB[0] - newA[0], newB[1] - newA[1]];
+      const len = Math.hypot(dir[0], dir[1]);
+      if (len > 1e-6) {
+        const ux = dir[0] / len;
+        const uy = dir[1] / len;
+        const nx = -uy,
+          ny = ux;
+        const SNAP_DIST = 0.1;
+        const ANGLE_TOL = 0.05;
 
-        // --- Additional parallel-edge snap ---
-        const dir = [newB[0] - newA[0], newB[1] - newA[1]];
-        const len = Math.hypot(dir[0], dir[1]);
-        if (len > 1e-6) {
-          const ux = dir[0] / len;
-          const uy = dir[1] / len;
-          const nx = -uy,
-            ny = ux;
-
-          const SNAP_DIST = 0.1; // distance tolerance
-          const ANGLE_TOL = 0; // ≈ 3° in radians
-
-          for (const poly of polygons) {
-            if (poly === movingPoly || poly.isFixed) continue;
-
-            const cs = poly.coords;
-            for (let i = 0; i < cs.length; i++) {
-              const a = cs[i];
-              const b = cs[(i + 1) % cs.length];
-              const ab = [b[0] - a[0], b[1] - a[1]];
-              const abLen = Math.hypot(ab[0], ab[1]);
-              if (abLen < 1e-6) continue;
-
-              // normalized direction of neighbor edge
-              const vx = ab[0] / abLen;
-              const vy = ab[1] / abLen;
-
-              // ✅ check near-parallel
-              const dot = ux * vx + uy * vy;
-              if (Math.abs(Math.abs(dot) - 1) > ANGLE_TOL) continue;
-
-              // signed distance from moving edge to this neighbor line
-              const distA = (newA[0] - a[0]) * nx + (newA[1] - a[1]) * ny;
-              const distB = (newB[0] - a[0]) * nx + (newB[1] - a[1]) * ny;
-              const avgDist = (distA + distB) / 2;
-
-              if (Math.abs(avgDist) < SNAP_DIST) {
-                // ✅ snap both vertices to that neighbor’s line
-                newA = [newA[0] - avgDist * nx, newA[1] - avgDist * ny];
-                newB = [newB[0] - avgDist * nx, newB[1] - avgDist * ny];
-                break;
-              }
+        for (const poly of polygons) {
+          if (poly === movingPoly || poly.isFixed) continue;
+          const cs = poly.coords;
+          for (let i = 0; i < cs.length; i++) {
+            const a = cs[i];
+            const b = cs[(i + 1) % cs.length];
+            const ab = [b[0] - a[0], b[1] - a[1]];
+            const abLen = Math.hypot(ab[0], ab[1]);
+            if (abLen < 1e-6) continue;
+            const vx = ab[0] / abLen;
+            const vy = ab[1] / abLen;
+            const dot = ux * vx + uy * vy;
+            if (Math.abs(Math.abs(dot) - 1) > ANGLE_TOL) continue;
+            const distA = (newA[0] - a[0]) * nx + (newA[1] - a[1]) * ny;
+            const distB = (newB[0] - a[0]) * nx + (newB[1] - a[1]) * ny;
+            const avgDist = (distA + distB) / 2;
+            if (Math.abs(avgDist) < SNAP_DIST) {
+              newA = [newA[0] - avgDist * nx, newA[1] - avgDist * ny];
+              newB = [newB[0] - avgDist * nx, newB[1] - avgDist * ny];
+              break;
             }
           }
         }
       }
+    }
 
-      coords[edgeIdx] = newA;
-      coords[(edgeIdx + 1) % coords.length] = newB;
+    // === STEP 3: Check constraints ===
+    const name = (movingPoly.room.roomName || "").trim().toLowerCase();
+    const constraint = roomConstraints[name];
+
+    // Simulate updated polygon after move
+    const testCoords = movingCoords.map(([x, y]) => [x, y]);
+    testCoords[edgeIdx] = newA;
+    testCoords[(edgeIdx + 1) % testCoords.length] = newB;
+
+    const xs = testCoords.map(([x]) => x);
+    const ys = testCoords.map(([_, y]) => y);
+    const newWidth = Math.max(...xs) - Math.min(...xs);
+    const newHeight = Math.max(...ys) - Math.min(...ys);
+
+    const isHorizontal = Math.abs(p1[1] - p2[1]) < 0.05;
+    const isVertical = Math.abs(p1[0] - p2[0]) < 0.05;
+
+    // === NEW: Snap to minimum allowed instead of blocking ===
+    if (constraint) {
+      // Compute edge normal vector (always outward direction)
+      const edgeDir = [p2[0] - p1[0], p2[1] - p1[1]];
+      const len = Math.hypot(edgeDir[0], edgeDir[1]);
+      const nx = len > 0 ? -edgeDir[1] / len : 0;
+      const ny = len > 0 ? edgeDir[0] / len : 0;
+
+      // Horizontal edge (height restriction)
+      if (
+        isHorizontal &&
+        constraint.min_height > 0 &&
+        newHeight < constraint.min_height
+      ) {
+        const currYs = movingCoords.map(([_, y]) => y);
+        const currH = Math.max(...currYs) - Math.min(...currYs);
+        const delta = constraint.min_height - currH;
+
+        newA = [p1[0] + nx * delta, p1[1] + ny * delta];
+        newB = [p2[0] + nx * delta, p2[1] + ny * delta];
+        toast(
+          `↕️ '${movingPoly.room.roomName}' snapped to min height (${constraint.min_height}m)`
+        );
+      }
+
+      // Vertical edge (width restriction)
+      if (
+        isVertical &&
+        constraint.min_width > 0 &&
+        newWidth < constraint.min_width
+      ) {
+        const currXs = movingCoords.map(([x]) => x);
+        const currW = Math.max(...currXs) - Math.min(...currXs);
+        const delta = constraint.min_width - currW;
+
+        newA = [p1[0] + nx * delta, p1[1] + ny * delta];
+        newB = [p2[0] + nx * delta, p2[1] + ny * delta];
+        toast(
+          `↔️ '${movingPoly.room.roomName}' snapped to min width (${constraint.min_width}m)`
+        );
+      }
+    }
+
+    // 🔸 (b) Restrict going outside wardInfo bounding box
+    if (wardPolys && wardPolys.length) {
+      let minX = Infinity,
+        minY = Infinity,
+        maxX = -Infinity,
+        maxY = -Infinity;
+
+      for (const w of wardPolys) {
+        for (const [x, y] of w.coords) {
+          minX = Math.min(minX, x);
+          minY = Math.min(minY, y);
+          maxX = Math.max(maxX, x);
+          maxY = Math.max(maxY, y);
+        }
+      }
+
+      // Check if new vertices stay inside
+      for (const [x, y] of testCoords) {
+        if (
+          x < minX - 0.001 ||
+          x > maxX + 0.001 ||
+          y < minY - 0.001 ||
+          y > maxY + 0.001
+        ) {
+          toast(
+            `🚫 '${movingPoly.room.roomName}' cannot go outside ward boundary`
+          );
+          return;
+        }
+      }
+    }
+
+    // === STEP 4: Apply shift if all checks passed ===
+    if (!moveSharedEdgesEnabled || !sharedPolys || sharedPolys.length === 1) {
+      movingCoords[edgeIdx] = newA;
+      movingCoords[(edgeIdx + 1) % movingCoords.length] = newB;
       return;
     }
 
-    // ✅ When ON, move all polygons sharing this edge
+    // Apply move to all polygons sharing this edge
     for (const poly of sharedPolys) {
       const coords = poly.coords;
       for (let i = 0; i < coords.length; i++) {
@@ -1114,7 +1154,6 @@
             Math.abs(a[1] - p2[1]) < 0.01 &&
             Math.abs(b[0] - p1[0]) < 0.01 &&
             Math.abs(b[1] - p1[1]) < 0.01);
-
         if (isSameEdge) {
           coords[i] = [a[0] + shift[0], a[1] + shift[1]];
           coords[(i + 1) % coords.length] = [b[0] + shift[0], b[1] + shift[1]];
@@ -1234,69 +1273,6 @@
     ctx.setLineDash([]);
   }
 
-  // function draw() {
-  //   ctx.clearRect(0, 0, canvas.width / DPR, canvas.height / DPR);
-  //   drawGrid();
-
-  //   for (const poly of polygons) {
-  //     const isSel = poly === selected;
-
-  //     // fill
-  //     ctx.beginPath();
-  //     poly.coords.forEach(([x, y], i) => {
-  //       const s = worldToScreen(x, y);
-  //       if (i === 0) ctx.moveTo(s.x, s.y);
-  //       else ctx.lineTo(s.x, s.y);
-  //     });
-  //     ctx.closePath();
-  //     ctx.fillStyle = "rgba(56,189,248,0.08)";
-  //     ctx.fill();
-
-  //     // outline
-  //     // outline (walls)
-  //     ctx.lineWidth = isSel ? 3.5 : 2.5;
-  //     ctx.strokeStyle = isSel ? "#ef4444" : poly.color;
-  //     ctx.lineJoin = "round";
-  //     ctx.lineCap = "round";
-  //     ctx.stroke();
-
-  //     // vertices
-  //     for (const [x, y] of poly.coords) {
-  //       const s = worldToScreen(x, y);
-  //       ctx.beginPath();
-  //       ctx.arc(s.x, s.y, 3, 0, TAU);
-  //       ctx.fillStyle = "#cbd5e1";
-  //       ctx.fill();
-  //     }
-
-  //     // centroid label
-  //     const c = centroid(poly);
-  //     const sc = worldToScreen(c.x, c.y);
-  //     ctx.font = "bold 12px ui-sans-serif, system-ui, -apple-system";
-  //     ctx.textAlign = "center";
-  //     ctx.textBaseline = "middle";
-  //     ctx.fillStyle = isSel ? "#ef4444" : "#1e40af";
-  //     ctx.fillText(poly.room.roomName || "Room", sc.x, sc.y);
-  //   }
-
-  //   // hover edge highlight
-  //   if (highlightEdge.poly && highlightEdge.idx != null) {
-  //     const cs = highlightEdge.poly.coords;
-  //     const i = highlightEdge.idx;
-  //     const a = worldToScreen(cs[i][0], cs[i][1]);
-  //     const b = worldToScreen(
-  //       cs[(i + 1) % cs.length][0],
-  //       cs[(i + 1) % cs.length][1]
-  //     );
-  //     ctx.beginPath();
-  //     ctx.moveTo(a.x, a.y);
-  //     ctx.lineTo(b.x, b.y);
-  //     ctx.strokeStyle = "rgba(250,204,21,0.9)";
-  //     ctx.lineWidth = 3;
-  //     ctx.stroke();
-  //   }
-  // }
-
   function polygonArea(coords) {
     let area = 0;
     for (let i = 0; i < coords.length; i++) {
@@ -1343,22 +1319,6 @@
       ctx.fillStyle = "#cbd5e1";
       ctx.fill();
     }
-
-    // // draw edge lengths
-    // if (showRoomLengths) {
-    //   for (let i = 0; i < poly.coords.length; i++) {
-    //     const a = poly.coords[i];
-    //     const b = poly.coords[(i + 1) % poly.coords.length];
-    //     const length = Math.hypot(b[0] - a[0], b[1] - a[1]) * unitFactors[currentUnit];
-    //     const mid = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
-    //     const sm = worldToScreen(mid[0], mid[1]);
-    //     ctx.font = "bold 11px ui-sans-serif, system-ui, -apple-system";
-    //     ctx.fillStyle = "#ffffffff";
-    //     ctx.textAlign = "center";
-    //     ctx.textBaseline = "middle";
-    //     ctx.fillText(length.toFixed(2) + " " + currentUnit, sm.x, sm.y);
-    //   }
-    // }
 
     // draw edge lengths
     // draw edge lengths — skip if column
@@ -1538,13 +1498,6 @@
     view.y = minY - (vh / (2 * view.scale) - h / 2) - pad;
   }
 
-  // function randomColor() {
-  //   const h = Math.random();
-  //   const s = 0.6,
-  //     l = 0.55;
-  //   const rgb = hslToRgb(h, s, l);
-  //   return `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
-  // }
   function hslToRgb(h, s, l) {
     let r, g, b;
     if (s === 0) {

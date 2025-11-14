@@ -1,0 +1,172 @@
+[
+    {
+        "room_names": "four_bed_rooms",
+        "min_width": 0,
+        "min_height": 0
+    },
+    {
+        "room_names": "single_bed_rooms",
+        "min_width": 0,
+        "min_height": 0
+    },
+    {
+        "room_names": "dining_room",
+        "min_width": 0,
+        "min_height": 0
+    },
+    {
+        "room_names": "extra_room",
+        "min_width": 0,
+        "min_height": 0
+    },
+    {
+        "room_names": "nursing_rect",
+        "min_width": 0,
+        "min_height": 0
+    },
+    {
+        "room_names": "patient_rect",
+        "min_width": 0,
+        "min_height": 0
+    },
+    {
+        "room_names": "ev_cluster",
+        "min_width": 0,
+        "min_height": 0
+    },
+    {
+        "room_names": "corridor",
+        "min_width": 0,
+        "min_height": 0
+    },
+    {
+        "room_names": "ward_balcony",
+        "min_width": 0,
+        "min_height": 0
+    },
+    {
+        "room_names": "clinic_balcony",
+        "min_width": 0,
+        "min_height": 0
+    },
+    {
+        "room_names": "st",
+        "min_width": 0,
+        "min_height": 0
+    },
+    {
+        "room_names": "SBath + Dressing",
+        "min_width": 2.3,
+        "min_height": 2.3
+    },
+    {
+        "room_names": "HCWC",
+        "min_width": 2.5,
+        "min_height": 2.5
+    },
+    {
+        "room_names": "UnitShower + Dressing",
+        "min_width": 1.05,
+        "min_height": 1.41
+    },
+    {
+        "room_names": "Laundry",
+        "min_width": 2.5,
+        "min_height": 1.9
+    },
+    {
+        "room_names": "Waste Disposal",
+        "min_width": 0,
+        "min_height": 0
+    },
+    {
+        "room_names": "shower",
+        "min_width": 0,
+        "min_height": 0
+    },
+    {
+        "room_names": "ss",
+        "min_width": 5.5,
+        "min_height": 5.5
+    },
+    {
+        "room_names": "Examination & Treatment Room",
+        "min_width": 3.0,
+        "min_height": 3.0
+    },
+    {
+        "room_names": "Interview Room",
+        "min_width": 3.0,
+        "min_height": 3.0
+    },
+    {
+        "room_names": "Conference",
+        "min_width": 3.0,
+        "min_height": 3.0
+    },
+    {
+        "room_names": "Chemical Storage",
+        "min_width": 0,
+        "min_height": 0
+    },
+    {
+        "room_names": "Equipment Room",
+        "min_width": 2.0,
+        "min_height": 2.0
+    },
+    {
+        "room_names": "Nap Room",
+        "min_width": 3.0,
+        "min_height": 3.0
+    },
+    {
+        "room_names": "Break Room",
+        "min_width": 0,
+        "min_height": 0
+    },
+    {
+        "room_names": "Empty Room",
+        "min_width": 0,
+        "min_height": 0
+    },
+    {
+        "room_names": "Nursing Unit Corridor",
+        "min_width": 0,
+        "min_height": 0
+    },
+    {
+        "room_names": "Catering Room",
+        "min_width": 0,
+        "min_height": 0
+    },
+    {
+        "room_names": "Clean Linen Room",
+        "min_width": 8.0,
+        "min_height": 12.0
+    },
+    {
+        "room_names": "Unclean Linen Room",
+        "min_width": 8.0,
+        "min_height": 12.0
+    },
+    {
+        "room_names": "Light Garden",
+        "min_width": 3.0,
+        "min_height": 3.0
+    },
+    {
+        "room_names": "EV Hall",
+        "min_width": 2.5,
+        "min_height": 5.05
+    },
+    {
+        "room_names": "Elevator Shaft",
+        "min_width": 0,
+        "min_height": 0
+    },
+    {
+        "room_names": "Elevator Room",
+        "min_width": 0,
+        "min_height": 0
+    }
+]
