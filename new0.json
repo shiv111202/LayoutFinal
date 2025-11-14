@@ -9419,7 +9419,7 @@
                     }
                 ],
                 "zoneName": "EV CLUSTER 1",
-                "applicableFloor": 1
+                "applicableFloors": 1
             },
             {
                 "vertices": [
@@ -9445,7 +9445,7 @@
                     }
                 ],
                 "zoneName": "A1",
-                "applicableFloor": 1
+                "applicableFloors": 1
             },
             {
                 "vertices": [
@@ -9471,7 +9471,7 @@
                     }
                 ],
                 "zoneName": "B1",
-                "applicableFloor": 1
+                "applicableFloors": 1
             },
             {
                 "vertices": [
@@ -9512,7 +9512,7 @@
                     }
                 ],
                 "zoneName": "E1",
-                "applicableFloor": 1
+                "applicableFloors": 1
             },
             {
                 "vertices": [
@@ -9538,7 +9538,7 @@
                     }
                 ],
                 "zoneName": "F1",
-                "applicableFloor": 1
+                "applicableFloors": 1
             },
             {
                 "vertices": [
@@ -9564,7 +9564,7 @@
                     }
                 ],
                 "zoneName": "D1",
-                "applicableFloor": 1
+                "applicableFloors": 1
             },
             {
                 "vertices": [
@@ -9605,7 +9605,7 @@
                     }
                 ],
                 "zoneName": "C1",
-                "applicableFloor": 1
+                "applicableFloors": 1
             },
             {
                 "vertices": [
@@ -9631,7 +9631,7 @@
                     }
                 ],
                 "zoneName": "CORRIDOR 1",
-                "applicableFloor": 1
+                "applicableFloors": 1
             },
             {
                 "vertices": [
@@ -9657,7 +9657,7 @@
                     }
                 ],
                 "zoneName": "A2",
-                "applicableFloor": 2
+                "applicableFloors": 2
             },
             {
                 "vertices": [
@@ -9688,7 +9688,7 @@
                     }
                 ],
                 "zoneName": "E2",
-                "applicableFloor": 2
+                "applicableFloors": 2
             },
             {
                 "vertices": [
@@ -9714,7 +9714,7 @@
                     }
                 ],
                 "zoneName": "B2",
-                "applicableFloor": 2
+                "applicableFloors": 2
             },
             {
                 "vertices": [
@@ -9740,7 +9740,7 @@
                     }
                 ],
                 "zoneName": "D2",
-                "applicableFloor": 2
+                "applicableFloors": 2
             },
             {
                 "vertices": [
@@ -9766,7 +9766,7 @@
                     }
                 ],
                 "zoneName": "F2",
-                "applicableFloor": 2
+                "applicableFloors": 2
             },
             {
                 "vertices": [
@@ -9792,7 +9792,7 @@
                     }
                 ],
                 "zoneName": "LOBBY 2",
-                "applicableFloor": 2
+                "applicableFloors": 2
             },
             {
                 "vertices": [
@@ -9818,7 +9818,7 @@
                     }
                 ],
                 "zoneName": "C2",
-                "applicableFloor": 2
+                "applicableFloors": 2
             },
             {
                 "vertices": [
@@ -9844,7 +9844,7 @@
                     }
                 ],
                 "zoneName": "EV CLUSTER 2",
-                "applicableFloor": 2
+                "applicableFloors": 2
             },
             {
                 "vertices": [
@@ -9920,7 +9920,7 @@
                     }
                 ],
                 "zoneName": "A3",
-                "applicableFloor": 3
+                "applicableFloors": 3
             },
             {
                 "vertices": [
@@ -9966,7 +9966,7 @@
                     }
                 ],
                 "zoneName": "B3",
-                "applicableFloor": 3
+                "applicableFloors": 3
             },
             {
                 "vertices": [
@@ -10012,7 +10012,7 @@
                     }
                 ],
                 "zoneName": "C3",
-                "applicableFloor": 3
+                "applicableFloors": 3
             },
             {
                 "vertices": [
@@ -10058,7 +10058,7 @@
                     }
                 ],
                 "zoneName": "D3",
-                "applicableFloor": 3
+                "applicableFloors": 3
             }
         ],
         "rooms": [
@@ -10087,7 +10087,7 @@
                 ],
                 "roomName": "ELEVATOR",
                 "zoneName": "EV CLUSTER 1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10115,7 +10115,7 @@
                 ],
                 "roomName": "ELEVATOR",
                 "zoneName": "EV CLUSTER 1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10143,7 +10143,7 @@
                 ],
                 "roomName": "ELEVATOR",
                 "zoneName": "EV CLUSTER 1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10171,7 +10171,7 @@
                 ],
                 "roomName": "ELEVATOR",
                 "zoneName": "EV CLUSTER 1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10199,7 +10199,7 @@
                 ],
                 "roomName": "ELEVATOR SHAFT",
                 "zoneName": "EV CLUSTER 1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10227,7 +10227,7 @@
                 ],
                 "roomName": "ELEVATOR SHAFT",
                 "zoneName": "EV CLUSTER 1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10255,7 +10255,7 @@
                 ],
                 "roomName": "MRI ROOM",
                 "zoneName": "A1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10283,7 +10283,7 @@
                 ],
                 "roomName": "XRAY TV EXAMINATION ROOM",
                 "zoneName": "A1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10311,7 +10311,7 @@
                 ],
                 "roomName": "CT SCAN ROOM",
                 "zoneName": "A1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10339,7 +10339,7 @@
                 ],
                 "roomName": "corridor",
                 "zoneName": "A1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10367,7 +10367,7 @@
                 ],
                 "roomName": "XRAY ROOM",
                 "zoneName": "A1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10395,7 +10395,7 @@
                 ],
                 "roomName": "RECEPTION",
                 "zoneName": "A1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10423,7 +10423,7 @@
                 ],
                 "roomName": "WAITING ROOM",
                 "zoneName": "A1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10451,7 +10451,7 @@
                 ],
                 "roomName": "ANGIOGRAPHY ROOM",
                 "zoneName": "A1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10479,7 +10479,7 @@
                 ],
                 "roomName": "BMD AND MER ROOM",
                 "zoneName": "A1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10507,7 +10507,7 @@
                 ],
                 "roomName": "EMERGENCY ROOM",
                 "zoneName": "B1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10535,7 +10535,7 @@
                 ],
                 "roomName": "STAFF PASSAGE",
                 "zoneName": "B1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10563,7 +10563,7 @@
                 ],
                 "roomName": "RECEPTION",
                 "zoneName": "B1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10591,7 +10591,7 @@
                 ],
                 "roomName": "CONSULTATION",
                 "zoneName": "B1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10619,7 +10619,7 @@
                 ],
                 "roomName": "WAITING ROOM",
                 "zoneName": "B1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10647,7 +10647,7 @@
                 ],
                 "roomName": "CONSULTATION",
                 "zoneName": "B1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10675,7 +10675,7 @@
                 ],
                 "roomName": "CONSULTATION",
                 "zoneName": "B1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10703,7 +10703,7 @@
                 ],
                 "roomName": "CONSULTATION",
                 "zoneName": "B1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10731,7 +10731,7 @@
                 ],
                 "roomName": "RECEPTION",
                 "zoneName": "B1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10759,7 +10759,7 @@
                 ],
                 "roomName": "RECEPTION",
                 "zoneName": "B1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10787,7 +10787,7 @@
                 ],
                 "roomName": "CONSULTATION",
                 "zoneName": "B1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10815,7 +10815,7 @@
                 ],
                 "roomName": "CONSULTATION",
                 "zoneName": "B1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10843,7 +10843,7 @@
                 ],
                 "roomName": "IV ROOM",
                 "zoneName": "B1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10871,7 +10871,7 @@
                 ],
                 "roomName": "WAITING ROOM",
                 "zoneName": "B1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10899,7 +10899,7 @@
                 ],
                 "roomName": "CONSULTATION",
                 "zoneName": "B1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10927,7 +10927,7 @@
                 ],
                 "roomName": "CONSULTATION",
                 "zoneName": "B1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10955,7 +10955,7 @@
                 ],
                 "roomName": "CONSULTATION",
                 "zoneName": "B1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -10983,7 +10983,7 @@
                 ],
                 "roomName": "RECEPTION",
                 "zoneName": "B1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -11011,7 +11011,7 @@
                 ],
                 "roomName": "WAITING ROOM",
                 "zoneName": "B1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -11039,7 +11039,7 @@
                 ],
                 "roomName": "STAIRS",
                 "zoneName": "B1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -11067,7 +11067,7 @@
                 ],
                 "roomName": "SHOP",
                 "zoneName": "E1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -11095,7 +11095,7 @@
                 ],
                 "roomName": "WINDBREAK",
                 "zoneName": "E1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -11123,7 +11123,7 @@
                 ],
                 "roomName": "STAFF ROOM",
                 "zoneName": "E1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -11151,7 +11151,7 @@
                 ],
                 "roomName": "WC",
                 "zoneName": "F1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -11179,7 +11179,7 @@
                 ],
                 "roomName": "BOILER ROOM",
                 "zoneName": "D1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -11207,7 +11207,7 @@
                 ],
                 "roomName": "FIRE PUMP ROOM and SP PUMP ROOM",
                 "zoneName": "D1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -11235,7 +11235,7 @@
                 ],
                 "roomName": "CORRIDOR1",
                 "zoneName": "D1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -11263,7 +11263,7 @@
                 ],
                 "roomName": "MORTUARY ROOM",
                 "zoneName": "D1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -11291,7 +11291,7 @@
                 ],
                 "roomName": "MEDICAL GAS MANIFOLD ROOM",
                 "zoneName": "D1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -11319,7 +11319,7 @@
                 ],
                 "roomName": "MEDICAL WASTE STORAGE ROOM",
                 "zoneName": "D1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -11347,7 +11347,7 @@
                 ],
                 "roomName": "NURSERY ROOM",
                 "zoneName": "D1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -11375,7 +11375,7 @@
                 ],
                 "roomName": "CORRIDOR2",
                 "zoneName": "D1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -11403,7 +11403,7 @@
                 ],
                 "roomName": "GUARD ROOM",
                 "zoneName": "D1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -11431,7 +11431,7 @@
                 ],
                 "roomName": "LINEN STORAGE ROOM",
                 "zoneName": "D1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -11459,7 +11459,7 @@
                 ],
                 "roomName": "LAUNDRY AND DRYING ROOM",
                 "zoneName": "D1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -11487,7 +11487,7 @@
                 ],
                 "roomName": "WASTE STORAGE ROOM",
                 "zoneName": "D1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -11515,7 +11515,7 @@
                 ],
                 "roomName": "FUNCTIONAL TRAINING ROOM",
                 "zoneName": "C1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -11543,7 +11543,7 @@
                 ],
                 "roomName": "WAITING HALL",
                 "zoneName": "C1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -11571,7 +11571,7 @@
                 ],
                 "roomName": "CONSULTATION ROOM",
                 "zoneName": "C1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -11599,7 +11599,7 @@
                 ],
                 "roomName": "SPEECH THERAPY ROOM",
                 "zoneName": "C1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -11627,7 +11627,7 @@
                 ],
                 "roomName": "STAFF ROOM",
                 "zoneName": "C1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -11655,7 +11655,7 @@
                 ],
                 "roomName": "STAIRS",
                 "zoneName": "C1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -11683,7 +11683,7 @@
                 ],
                 "roomName": "CORRIDOR",
                 "zoneName": "CORRIDOR 1",
-                "applicableFloor": 1,
+                "applicableFloors": 1,
                 "doorLocation": null
             },
             {
@@ -11711,7 +11711,7 @@
                 ],
                 "roomName": "PSYCHOLOGICAL EXAMINATION WAITING ROOM",
                 "zoneName": "A2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -11739,7 +11739,7 @@
                 ],
                 "roomName": "ULTRASOUND EXAMINATION ROOM",
                 "zoneName": "A2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -11767,7 +11767,7 @@
                 ],
                 "roomName": "PHYSIOLOGICAL EXAMINATION CORRIDOR",
                 "zoneName": "A2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -11795,7 +11795,7 @@
                 ],
                 "roomName": "ELECTROMYOGRAPHY EXAMINATION ROOM",
                 "zoneName": "A2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -11823,7 +11823,7 @@
                 ],
                 "roomName": "ELECTROCARDIOGRAM EXAMINATION ROOM",
                 "zoneName": "A2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -11851,7 +11851,7 @@
                 ],
                 "roomName": "EEG EXAMINATION ROOM",
                 "zoneName": "A2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -11879,7 +11879,7 @@
                 ],
                 "roomName": "RECEPTION AND WAITING AREA",
                 "zoneName": "E2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -11907,7 +11907,7 @@
                 ],
                 "roomName": "CORRIDOR",
                 "zoneName": "E2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -11935,7 +11935,7 @@
                 ],
                 "roomName": "ENDOSCOPY ROOM",
                 "zoneName": "E2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -11963,7 +11963,7 @@
                 ],
                 "roomName": "ENDOSCOPY ROOM",
                 "zoneName": "E2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -11991,7 +11991,7 @@
                 ],
                 "roomName": "CLEANING AND PREPARATION ROOM",
                 "zoneName": "E2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12019,7 +12019,7 @@
                 ],
                 "roomName": "STAFF CORRIDOR",
                 "zoneName": "B2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12047,7 +12047,7 @@
                 ],
                 "roomName": "EXAMINATION ROOM",
                 "zoneName": "B2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12075,7 +12075,7 @@
                 ],
                 "roomName": "EXAMINATION ROOM",
                 "zoneName": "B2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12103,7 +12103,7 @@
                 ],
                 "roomName": "EXAMINATION ROOM",
                 "zoneName": "B2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12131,7 +12131,7 @@
                 ],
                 "roomName": "EXAMINATION ROOM",
                 "zoneName": "B2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12159,7 +12159,7 @@
                 ],
                 "roomName": "RECEPTION",
                 "zoneName": "B2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12187,7 +12187,7 @@
                 ],
                 "roomName": "WAITING HALL",
                 "zoneName": "B2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12215,7 +12215,7 @@
                 ],
                 "roomName": "EXAMINATION ROOM",
                 "zoneName": "B2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12243,7 +12243,7 @@
                 ],
                 "roomName": "EXAMINATION ROOM",
                 "zoneName": "B2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12271,7 +12271,7 @@
                 ],
                 "roomName": "EXAMINATION ROOM",
                 "zoneName": "B2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12299,7 +12299,7 @@
                 ],
                 "roomName": "EXAMINATION ROOM",
                 "zoneName": "B2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12327,7 +12327,7 @@
                 ],
                 "roomName": "RECEPTION",
                 "zoneName": "B2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12355,7 +12355,7 @@
                 ],
                 "roomName": "STAFF CORRIDOR",
                 "zoneName": "B2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12383,7 +12383,7 @@
                 ],
                 "roomName": "MEDICAL DEPARTMENT DIALYSIS ROOM",
                 "zoneName": "D2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12411,7 +12411,7 @@
                 ],
                 "roomName": "STOCKPILE WAREHOUSE",
                 "zoneName": "F2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12439,7 +12439,7 @@
                 ],
                 "roomName": "CENTRAL WAREHOUSE",
                 "zoneName": "F2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12467,7 +12467,7 @@
                 ],
                 "roomName": "PHARMACY DISPENSING ROOM",
                 "zoneName": "F2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12495,7 +12495,7 @@
                 ],
                 "roomName": "LOBBY",
                 "zoneName": "LOBBY 2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12523,7 +12523,7 @@
                 ],
                 "roomName": "SPECIMEN TESTING ROOM",
                 "zoneName": "C2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12551,7 +12551,7 @@
                 ],
                 "roomName": "RECEPTION AREA",
                 "zoneName": "C2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12579,7 +12579,7 @@
                 ],
                 "roomName": "ELEVATOR",
                 "zoneName": "EV CLUSTER 2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12607,7 +12607,7 @@
                 ],
                 "roomName": "ELEVATOR",
                 "zoneName": "EV CLUSTER 2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12635,7 +12635,7 @@
                 ],
                 "roomName": "ELEVATOR",
                 "zoneName": "EV CLUSTER 2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12663,7 +12663,7 @@
                 ],
                 "roomName": "ELEVATOR",
                 "zoneName": "EV CLUSTER 2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12691,7 +12691,7 @@
                 ],
                 "roomName": "ELEVATOR SHAFT",
                 "zoneName": "EV CLUSTER 2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12719,7 +12719,7 @@
                 ],
                 "roomName": "ELEVATOR SHAFT",
                 "zoneName": "EV CLUSTER 2",
-                "applicableFloor": 2,
+                "applicableFloors": 2,
                 "doorLocation": null
             },
             {
@@ -12747,7 +12747,7 @@
                 ],
                 "roomName": "EQUIPMENT/MACHINE ROOM",
                 "zoneName": "A3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -12775,7 +12775,7 @@
                 ],
                 "roomName": "OPERATING Room_",
                 "zoneName": "A3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -12803,7 +12803,7 @@
                 ],
                 "roomName": "OPERATING Room_",
                 "zoneName": "A3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -12831,7 +12831,7 @@
                 ],
                 "roomName": "OPERATING Room_",
                 "zoneName": "A3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -12859,7 +12859,7 @@
                 ],
                 "roomName": "OPERATING PRE ROOM",
                 "zoneName": "A3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -12887,7 +12887,7 @@
                 ],
                 "roomName": "OPERATING Hall Room",
                 "zoneName": "A3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -12915,7 +12915,7 @@
                 ],
                 "roomName": "OPERATING Room",
                 "zoneName": "A3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -12943,7 +12943,7 @@
                 ],
                 "roomName": "OPERATING Room",
                 "zoneName": "A3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -12986,7 +12986,7 @@
                 ],
                 "roomName": "DOCTOR/STAFF WAITING ROOM",
                 "zoneName": "A3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -13014,7 +13014,7 @@
                 ],
                 "roomName": "Central Supply Room",
                 "zoneName": "B3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -13052,7 +13052,7 @@
                 ],
                 "roomName": "PHARMACY AREA",
                 "zoneName": "C3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -13080,7 +13080,7 @@
                 ],
                 "roomName": "BOARD OF DIRECTORS ROOM",
                 "zoneName": "E3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -13108,7 +13108,7 @@
                 ],
                 "roomName": "RECEPTION ROOM",
                 "zoneName": "E3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -13136,7 +13136,7 @@
                 ],
                 "roomName": "DIRECTORS OFFICE",
                 "zoneName": "E3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -13164,7 +13164,7 @@
                 ],
                 "roomName": "DEPUTY DIRECTORS OFFICE",
                 "zoneName": "E3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -13192,7 +13192,7 @@
                 ],
                 "roomName": "DIRECTOR OF NURSING OFFICE",
                 "zoneName": "E3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -13220,7 +13220,7 @@
                 ],
                 "roomName": "OFFICE MANAGERS OFFICE",
                 "zoneName": "E3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -13248,7 +13248,7 @@
                 ],
                 "roomName": "ACCOUNTING AND GENERAL AFFAIRS ROOM",
                 "zoneName": "E3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -13276,7 +13276,7 @@
                 ],
                 "roomName": "MEDICAL OFFICE/ON-CALL PRIVATE DOCTORS ROOM",
                 "zoneName": "E3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -13304,7 +13304,7 @@
                 ],
                 "roomName": "CONFERENCE ROOM",
                 "zoneName": "E3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -13332,7 +13332,7 @@
                 ],
                 "roomName": "LIBRARY",
                 "zoneName": "E3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -13360,7 +13360,7 @@
                 ],
                 "roomName": "MEDICAL HISTORY ROOM",
                 "zoneName": "E3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -13388,7 +13388,7 @@
                 ],
                 "roomName": "SYSTEM ENGINEER ROOM",
                 "zoneName": "E3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -13416,7 +13416,7 @@
                 ],
                 "roomName": "MEN'S LOCKER ROOM",
                 "zoneName": "E3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -13444,7 +13444,7 @@
                 ],
                 "roomName": "WOMEN'S CHANGING ROOM",
                 "zoneName": "E3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -13472,7 +13472,7 @@
                 ],
                 "roomName": "WC",
                 "zoneName": "E3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -13500,7 +13500,7 @@
                 ],
                 "roomName": "WC",
                 "zoneName": "E3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -13528,7 +13528,7 @@
                 ],
                 "roomName": "SERVER/WATER HEATER ROOM",
                 "zoneName": "E3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -13556,7 +13556,7 @@
                 ],
                 "roomName": "STAFF CAFETERIA",
                 "zoneName": "E3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -13589,7 +13589,7 @@
                 ],
                 "roomName": "MAIN CONFERENCE ROOM",
                 "zoneName": "E3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             },
             {
@@ -13617,7 +13617,7 @@
                 ],
                 "roomName": "KITCHEN",
                 "zoneName": "D3",
-                "applicableFloor": 3,
+                "applicableFloors": 3,
                 "doorLocation": null
             }
         ]

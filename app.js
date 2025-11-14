@@ -209,7 +209,6 @@
         "internalRoadPolygons",
         "externalRoadPolygons",
         "footpathPolygons",
-        "clinicInfo",
       ];
 
       function collectRoomsAndGrids(obj, parentKey = "") {
