@@ -201,6 +201,15 @@
     try {
       data = JSON.parse(text);
 
+      // --- FULL RESET before loading new JSON ---
+      polygons = [];
+      wardPolys = [];
+      gridLines = [];
+      undoStack = [];
+      selected = null;
+      highlightEdge = { poly: null, idx: null };
+      roomConstraints = {};
+
       // --- Collect all rooms + grids, skipping certain zones ---
       const skipKeys = [
         "nursingZones",
@@ -375,6 +384,7 @@
       reader.onload = (e) => {
         try {
           const data = JSON.parse(e.target.result);
+          roomConstraints = {};
           data.forEach((r) => {
             const name = r.room_names?.trim().toLowerCase();
             if (!name) return;
@@ -865,8 +875,16 @@
         const SNAP_DIST = 0.1;
         const ANGLE_TOL = 0.05;
 
+        // Determine which polygons will move
+        const movingPolys =
+          moveSharedEdgesEnabled && sharedPolys && sharedPolys.length > 1
+            ? sharedPolys
+            : [movingPoly];
+
         for (const poly of polygons) {
-          if (poly === movingPoly || poly.isFixed) continue;
+          // Skip if this polygon will be moved or is fixed
+          if (movingPolys.includes(poly) || poly.isFixed) continue;
+
           const cs = poly.coords;
           for (let i = 0; i < cs.length; i++) {
             const a = cs[i];
@@ -878,9 +896,11 @@
             const vy = ab[1] / abLen;
             const dot = ux * vx + uy * vy;
             if (Math.abs(Math.abs(dot) - 1) > ANGLE_TOL) continue;
+
             const distA = (newA[0] - a[0]) * nx + (newA[1] - a[1]) * ny;
             const distB = (newB[0] - a[0]) * nx + (newB[1] - a[1]) * ny;
             const avgDist = (distA + distB) / 2;
+
             if (Math.abs(avgDist) < SNAP_DIST) {
               newA = [newA[0] - avgDist * nx, newA[1] - avgDist * ny];
               newB = [newB[0] - avgDist * nx, newB[1] - avgDist * ny];
@@ -890,6 +910,7 @@
         }
       }
     }
+
     // === STEP 3: Check constraints for ALL affected polygons ===
     const polysToCheck =
       moveSharedEdgesEnabled && sharedPolys && sharedPolys.length > 1
