@@ -111,8 +111,8 @@
     },
     {
         "room_names": "Equipment Room",
-        "min_width": 2.0,
-        "min_height": 2.0
+        "min_width": 3.0,
+        "min_height": 3.0
     },
     {
         "room_names": "Nap Room",
@@ -121,13 +121,13 @@
     },
     {
         "room_names": "Break Room",
-        "min_width": 0,
-        "min_height": 0
+        "min_width": 2.0,
+        "min_height": 2.0
     },
     {
         "room_names": "Empty Room",
-        "min_width": 0,
-        "min_height": 0
+        "min_width": 3.0,
+        "min_height": 3.0
     },
     {
         "room_names": "Nursing Unit Corridor",

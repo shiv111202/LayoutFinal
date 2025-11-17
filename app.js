@@ -209,13 +209,15 @@
         "internalRoadPolygons",
         "externalRoadPolygons",
         "footpathPolygons",
+        "zones",
       ];
+      // const skipKeys = [
+      // ];
 
       function collectRoomsAndGrids(obj, parentKey = "") {
         let rooms = [];
         for (const [key, value] of Object.entries(obj)) {
           if (skipKeys.includes(key)) continue;
-
           if (key === "horizontalGrids" || key === "verticalGrids") {
             if (Array.isArray(value)) gridLines.push(...value);
             continue;
@@ -285,7 +287,7 @@
       // --- Maintain consistent colors per room name ---
       const colorMap = {};
       function getColorForRoom(name) {
-        const key = name?.trim() || "Unnamed";
+        const key = name?.trim() || "N/A";
         if (!colorMap[key]) colorMap[key] = randomColor();
         return colorMap[key];
       }
@@ -706,7 +708,6 @@
       return;
     }
 
-    // Replace the edge movement section in mousemove event with this:
     if (selected.selected_edge != null) {
       const idx = selected.selected_edge;
       const coords = selected.coords;
@@ -889,95 +890,175 @@
         }
       }
     }
+    // === STEP 3: Check constraints for ALL affected polygons ===
+    const polysToCheck =
+      moveSharedEdgesEnabled && sharedPolys && sharedPolys.length > 1
+        ? sharedPolys
+        : [movingPoly];
 
-    // === STEP 3: Check constraints ===
-    const name = (movingPoly.room.roomName || "").trim().toLowerCase();
-    const constraint = roomConstraints[name];
-
-    // Simulate updated polygon after move
-    const testCoords = movingCoords.map(([x, y]) => [x, y]);
-    testCoords[edgeIdx] = newA;
-    testCoords[(edgeIdx + 1) % testCoords.length] = newB;
-
-    const xs = testCoords.map(([x]) => x);
-    const ys = testCoords.map(([_, y]) => y);
-    const newWidth = Math.max(...xs) - Math.min(...xs);
-    const newHeight = Math.max(...ys) - Math.min(...ys);
-
+    // Define these ONCE at the top level since they're based on the original edge
     const isHorizontal = Math.abs(p1[1] - p2[1]) < 0.05;
     const isVertical = Math.abs(p1[0] - p2[0]) < 0.05;
 
-    // === NEW: Snap to minimum allowed instead of blocking ===
-    if (constraint) {
-      // Compute edge normal vector (always outward direction)
-      const edgeDir = [p2[0] - p1[0], p2[1] - p1[1]];
-      const len = Math.hypot(edgeDir[0], edgeDir[1]);
-      const nx = len > 0 ? -edgeDir[1] / len : 0;
-      const ny = len > 0 ? edgeDir[0] / len : 0;
+    // Check each polygon that will be affected by this move
+    for (const polyToCheck of polysToCheck) {
+      // Simulate updated polygon after move for THIS specific polygon
+      const testCoords = polyToCheck.coords.map(([x, y]) => [x, y]);
 
-      // Horizontal edge (height restriction)
-      if (
-        isHorizontal &&
-        constraint.min_height > 0 &&
-        newHeight < constraint.min_height
-      ) {
-        const currYs = movingCoords.map(([_, y]) => y);
-        const currH = Math.max(...currYs) - Math.min(...currYs);
-        const delta = constraint.min_height - currH;
+      let foundEdgeIndex = -1;
+      let isReversed = false;
 
-        newA = [p1[0] + nx * delta, p1[1] + ny * delta];
-        newB = [p2[0] + nx * delta, p2[1] + ny * delta];
-        toast(
-          `↕️ '${movingPoly.room.roomName}' snapped to min height (${constraint.min_height}m)`
-        );
-      }
+      // Find and update the shared edge in this polygon's coordinates
+      for (let i = 0; i < testCoords.length; i++) {
+        const a = testCoords[i];
+        const b = testCoords[(i + 1) % testCoords.length];
 
-      // Vertical edge (width restriction)
-      if (
-        isVertical &&
-        constraint.min_width > 0 &&
-        newWidth < constraint.min_width
-      ) {
-        const currXs = movingCoords.map(([x]) => x);
-        const currW = Math.max(...currXs) - Math.min(...currXs);
-        const delta = constraint.min_width - currW;
+        // Check if edge matches in forward direction (p1->p2)
+        const isForwardEdge =
+          Math.abs(a[0] - p1[0]) < 0.01 &&
+          Math.abs(a[1] - p1[1]) < 0.01 &&
+          Math.abs(b[0] - p2[0]) < 0.01 &&
+          Math.abs(b[1] - p2[1]) < 0.01;
 
-        newA = [p1[0] + nx * delta, p1[1] + ny * delta];
-        newB = [p2[0] + nx * delta, p2[1] + ny * delta];
-        toast(
-          `↔️ '${movingPoly.room.roomName}' snapped to min width (${constraint.min_width}m)`
-        );
-      }
-    }
+        // Check if edge matches in reverse direction (p2->p1)
+        const isReverseEdge =
+          Math.abs(a[0] - p2[0]) < 0.01 &&
+          Math.abs(a[1] - p2[1]) < 0.01 &&
+          Math.abs(b[0] - p1[0]) < 0.01 &&
+          Math.abs(b[1] - p1[1]) < 0.01;
 
-    // 🔸 (b) Restrict going outside wardInfo bounding box
-    if (wardPolys && wardPolys.length) {
-      let minX = Infinity,
-        minY = Infinity,
-        maxX = -Infinity,
-        maxY = -Infinity;
+        if (isForwardEdge || isReverseEdge) {
+          foundEdgeIndex = i;
+          isReversed = isReverseEdge;
 
-      for (const w of wardPolys) {
-        for (const [x, y] of w.coords) {
-          minX = Math.min(minX, x);
-          minY = Math.min(minY, y);
-          maxX = Math.max(maxX, x);
-          maxY = Math.max(maxY, y);
+          // Apply the movement in the correct order for this polygon
+          if (isReversed) {
+            testCoords[i] = newB; // p2 becomes newB
+            testCoords[(i + 1) % testCoords.length] = newA; // p1 becomes newA
+          } else {
+            testCoords[i] = newA; // p1 becomes newA
+            testCoords[(i + 1) % testCoords.length] = newB; // p2 becomes newB
+          }
+          break;
         }
       }
 
-      // Check if new vertices stay inside
-      for (const [x, y] of testCoords) {
+      const xs = testCoords.map(([x]) => x);
+      const ys = testCoords.map(([_, y]) => y);
+      const newWidth = Math.max(...xs) - Math.min(...xs);
+      const newHeight = Math.max(...ys) - Math.min(...ys);
+
+      const name = (polyToCheck.room.roomName || "").trim().toLowerCase();
+      const constraint = roomConstraints[name];
+
+      // === FIXED: Snap to minimum allowed for EACH polygon ===
+      if (constraint && foundEdgeIndex !== -1) {
+        const currCoords = polyToCheck.coords;
+        const currXs = currCoords.map(([x]) => x);
+        const currYs = currCoords.map(([_, y]) => y);
+        const currW = Math.max(...currXs) - Math.min(...currXs);
+        const currH = Math.max(...currYs) - Math.min(...currYs);
+
+        // Horizontal edge (height restriction)
         if (
-          x < minX - 0.001 ||
-          x > maxX + 0.001 ||
-          y < minY - 0.001 ||
-          y > maxY + 0.001
+          isHorizontal &&
+          constraint.min_height > 0 &&
+          newHeight < constraint.min_height
         ) {
+          const delta = constraint.min_height - currH;
+
+          // Determine movement direction based on edge position relative to room center
+          const centerY = (Math.min(...currYs) + Math.max(...currYs)) / 2;
+          const edgeY = p1[1]; // since it's horizontal, both points have same Y
+
+          if (edgeY > centerY) {
+            // Top edge - move upward to increase height
+            newA = [p1[0], p1[1] + delta];
+            newB = [p2[0], p2[1] + delta];
+          } else {
+            // Bottom edge - move downward to increase height
+            newA = [p1[0], p1[1] - delta];
+            newB = [p2[0], p2[1] - delta];
+          }
           toast(
-            `🚫 '${movingPoly.room.roomName}' cannot go outside ward boundary`
+            `↕️ '${polyToCheck.room.roomName}' snapped to min height (${constraint.min_height}m)`
           );
-          return;
+
+          // Update testCoords with corrected positions
+          if (isReversed) {
+            testCoords[foundEdgeIndex] = newB;
+            testCoords[(foundEdgeIndex + 1) % testCoords.length] = newA;
+          } else {
+            testCoords[foundEdgeIndex] = newA;
+            testCoords[(foundEdgeIndex + 1) % testCoords.length] = newB;
+          }
+        }
+
+        // Vertical edge (width restriction)
+        if (
+          isVertical &&
+          constraint.min_width > 0 &&
+          newWidth < constraint.min_width
+        ) {
+          const delta = constraint.min_width - currW;
+
+          // Determine movement direction based on edge position relative to room center
+          const centerX = (Math.min(...currXs) + Math.max(...currXs)) / 2;
+          const edgeX = p1[0]; // since it's vertical, both points have same X
+
+          if (edgeX > centerX) {
+            // Right edge - move rightward to increase width
+            newA = [p1[0] + delta, p1[1]];
+            newB = [p2[0] + delta, p2[1]];
+          } else {
+            // Left edge - move leftward to increase width
+            newA = [p1[0] - delta, p1[1]];
+            newB = [p2[0] - delta, p2[1]];
+          }
+          toast(
+            `↔️ '${polyToCheck.room.roomName}' snapped to min width (${constraint.min_width}m)`
+          );
+
+          // Update testCoords with corrected positions
+          if (isReversed) {
+            testCoords[foundEdgeIndex] = newB;
+            testCoords[(foundEdgeIndex + 1) % testCoords.length] = newA;
+          } else {
+            testCoords[foundEdgeIndex] = newA;
+            testCoords[(foundEdgeIndex + 1) % testCoords.length] = newB;
+          }
+        }
+      }
+
+      // 🔸 Check ward boundary for EACH polygon
+      if (wardPolys && wardPolys.length) {
+        let minX = Infinity,
+          minY = Infinity,
+          maxX = -Infinity,
+          maxY = -Infinity;
+
+        for (const w of wardPolys) {
+          for (const [x, y] of w.coords) {
+            minX = Math.min(minX, x);
+            minY = Math.min(minY, y);
+            maxX = Math.max(maxX, x);
+            maxY = Math.max(maxY, y);
+          }
+        }
+
+        // Check if new vertices stay inside for THIS polygon
+        for (const [x, y] of testCoords) {
+          if (
+            x < minX - 0.001 ||
+            x > maxX + 0.001 ||
+            y < minY - 0.001 ||
+            y > maxY + 0.001
+          ) {
+            toast(
+              `🚫 '${polyToCheck.room.roomName}' cannot go outside ward boundary`
+            );
+            return;
+          }
         }
       }
     }
@@ -989,24 +1070,37 @@
       return;
     }
 
-    // Apply move to all polygons sharing this edge
+    // Apply move to all polygons sharing this edge with correct coordinate order
     for (const poly of sharedPolys) {
       const coords = poly.coords;
       for (let i = 0; i < coords.length; i++) {
         const a = coords[i];
         const b = coords[(i + 1) % coords.length];
-        const isSameEdge =
-          (Math.abs(a[0] - p1[0]) < 0.01 &&
-            Math.abs(a[1] - p1[1]) < 0.01 &&
-            Math.abs(b[0] - p2[0]) < 0.01 &&
-            Math.abs(b[1] - p2[1]) < 0.01) ||
-          (Math.abs(a[0] - p2[0]) < 0.01 &&
-            Math.abs(a[1] - p2[1]) < 0.01 &&
-            Math.abs(b[0] - p1[0]) < 0.01 &&
-            Math.abs(b[1] - p1[1]) < 0.01);
-        if (isSameEdge) {
-          coords[i] = [a[0] + shift[0], a[1] + shift[1]];
-          coords[(i + 1) % coords.length] = [b[0] + shift[0], b[1] + shift[1]];
+
+        // Check if edge matches in forward direction (p1->p2)
+        const isForwardEdge =
+          Math.abs(a[0] - p1[0]) < 0.01 &&
+          Math.abs(a[1] - p1[1]) < 0.01 &&
+          Math.abs(b[0] - p2[0]) < 0.01 &&
+          Math.abs(b[1] - p2[1]) < 0.01;
+
+        // Check if edge matches in reverse direction (p2->p1)
+        const isReverseEdge =
+          Math.abs(a[0] - p2[0]) < 0.01 &&
+          Math.abs(a[1] - p2[1]) < 0.01 &&
+          Math.abs(b[0] - p1[0]) < 0.01 &&
+          Math.abs(b[1] - p1[1]) < 0.01;
+
+        if (isForwardEdge || isReverseEdge) {
+          if (isReverseEdge) {
+            // For reversed edges, swap newA and newB to maintain winding order
+            coords[i] = newB;
+            coords[(i + 1) % coords.length] = newA;
+          } else {
+            // For forward edges, use newA->newB order
+            coords[i] = newA;
+            coords[(i + 1) % coords.length] = newB;
+          }
           break;
         }
       }
@@ -1233,7 +1327,7 @@
       const area = area_m2 * unitFactors[currentUnit] ** 2;
       const areaText = `(${area.toFixed(2)} ${currentUnit}²)`;
 
-      const displayName = poly.isFixed ? "" : poly.room.roomName || "Unnamed";
+      const displayName = poly.isFixed ? "" : poly.room.roomName || "N/A";
 
       ctx.font = "bold 12px ui-sans-serif, system-ui, -apple-system";
       ctx.textAlign = "center";
