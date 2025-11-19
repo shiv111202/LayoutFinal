@@ -29441,7 +29441,7 @@
     // fade to 0.7 after 1.2s
     t._h = setTimeout(() => (t.style.opacity = 0.7), 1200);
 
-    // fade out completely after 2.5s
+    // fade out completely after 5s
     t._h2 = setTimeout(() => (t.style.opacity = 0), 5000);
   };
 
@@ -29539,7 +29539,7 @@
   let shiftHeld = false;
   let snapEnabled = false;
   let alignEnabled = true;
-  let snapStep = 4;
+  let snapStep = 16;
   let undoStack = [];
   let addVertexMode = false;
   let showRoomNames = false;
@@ -29552,6 +29552,16 @@
   const SNAP_TOL = 0.3;
   let currentUnit = "m";
   const unitFactors = { m: 1, cm: 100, mm: 1000, ft: 3.28084 };
+  const skipKeys = [
+    "nursingZones",
+    "patientZones",
+    "evZone",
+    "internalRoadPolygons",
+    "externalRoadPolygons",
+    "footpathPolygons",
+    "zones",
+  ];
+  let immovableList = [];
 
   // Viewport
   let view = { x: 0, y: 0, scale: 1.0 };
@@ -29596,11 +29606,11 @@
 
     for (let i = 0; i < polygons.length; i++) {
       const a = polygons[i];
-      if (a.isFixed) continue; // ✅ skip columns entirely
+      if (a.isColumn) continue; // ✅ skip columns entirely
 
       for (let j = i + 1; j < polygons.length; j++) {
         const b = polygons[j];
-        if (b.isFixed) continue; // ✅ skip columns entirely
+        if (b.isColumn) continue; // ✅ skip columns entirely
 
         // Check if any vertices are close enough to be considered touching
         let shared = false;
@@ -29620,7 +29630,36 @@
         }
       }
     }
-    console.log("✅ Neighbor relationships computed (columns excluded)");
+    console.log("✅ Neighbor relationships computed");
+  }
+
+  function applyImmovableRules(rooms, data) {
+    // immovableList = Array.isArray(data.immovablePolygons)
+    //   ? data.immovablePolygons.map((s) => s.toLowerCase())
+    //   : [];
+
+    immovableList = ["stairs", "shower", "hcwc"];
+
+    if (!immovableList.length) return rooms;
+
+    for (const room of rooms) {
+      const roomNameLower = (room.roomName || "").toLowerCase();
+      const groupLower = (room.roomGroup || "").toLowerCase();
+
+      // if roomName matches
+      if (immovableList.includes(roomNameLower)) {
+        room._isFixed = true;
+      }
+
+      // if roomGroup matches
+      if (immovableList.includes(groupLower)) {
+        room._isFixed = true;
+      }
+
+      // NOTE: columnPolygons logic remains separate & untouched
+    }
+
+    return rooms;
   }
 
   document.getElementById("loadFile").addEventListener("change", async (e) => {
@@ -29641,18 +29680,6 @@
       roomConstraints = {};
 
       // --- Collect all rooms + grids, skipping certain zones ---
-      const skipKeys = [
-        "nursingZones",
-        "patientZones",
-        "evZone",
-        "internalRoadPolygons",
-        "externalRoadPolygons",
-        "footpathPolygons",
-        "zones",
-      ];
-      // const skipKeys = [
-      // ];
-
       function collectRoomsAndGrids(obj, parentKey = "") {
         let rooms = [];
         for (const [key, value] of Object.entries(obj)) {
@@ -29670,6 +29697,7 @@
               // Mark column polygons as immovable
               if (key === "columnPolygons" || parentKey === "columnPolygons") {
                 room._isFixed = true;
+                room._isColumn = true;
               }
               rooms.push(room);
             }
@@ -29683,6 +29711,8 @@
       gridLines = [];
 
       const layouts = collectRoomsAndGrids(data);
+      // Apply immovable rules from JSON without touching columnPolygons logic
+      applyImmovableRules(layouts, data);
 
       // --- Identify wardInfo boundary polygon ---
 
@@ -29742,6 +29772,7 @@
           selected_vertex: null,
           selected_edge: null,
           isFixed: !!room._isFixed, // preserve immovable property
+          isColumn: !!room._isColumn,
         };
       });
 
@@ -29760,29 +29791,33 @@
         `<option value="all" selected>All Floors</option>` +
         floors.map((f) => `<option value="${f}">Floor ${f}</option>`).join("");
 
+      function roomToPoly(room) {
+        return {
+          room,
+          coords: room.vertices.map((v) => [Number(v.X), Number(v.Y)]),
+          color: getColorForRoom(room.roomName),
+          selected_vertex: null,
+          selected_edge: null,
+          isFixed: !!room._isFixed,
+          isColumn: !!room._isColumn,
+        };
+      }
+
       // --- Add event listener to filter rooms by floor ---
       floorSelect.addEventListener("change", (e) => {
         const selectedFloor = e.target.value;
         polygons =
           selectedFloor === "all"
-            ? filteredLayouts.map((room) => ({
-                room,
-                coords: room.vertices.map((v) => [Number(v.X), Number(v.Y)]),
-                color: getColorForRoom(room.roomName),
-                selected_vertex: null,
-                selected_edge: null,
-                isFixed: !!room._isFixed,
-              }))
+            ? filteredLayouts.map(roomToPoly)
             : filteredLayouts
-                .filter((room) => room.applicableFloors == selectedFloor)
-                .map((room) => ({
-                  room,
-                  coords: room.vertices.map((v) => [Number(v.X), Number(v.Y)]),
-                  color: getColorForRoom(room.roomName),
-                  selected_vertex: null,
-                  selected_edge: null,
-                  isFixed: !!room._isFixed,
-                }));
+                .filter((room) => {
+                  // KEEP all columns ALWAYS
+                  if (room._isFixed) return true;
+
+                  // Normal rooms → filter by floor
+                  return room.applicableFloors == selectedFloor;
+                })
+                .map(roomToPoly);
 
         computeNeighbors();
         draw();
@@ -29950,7 +29985,7 @@
     } else if (e.key === "Escape") {
       if (addVertexMode) {
         addVertexMode = false;
-        canvas.style.cursor = "default";
+        canvas.style.cursor = "crosshair";
         toast("❌ Add Vertex Mode canceled");
       }
     }
@@ -29974,8 +30009,12 @@
     mouse.button = e.button;
     mouse.drag = false;
     mouse.start = { x: mouse.x, y: mouse.y, wx: w.x, wy: w.y };
-    if (selected && selected.isFixed) {
+    if (selected && selected.isColumn) {
       toast("⚠️ Column polygons are locked");
+      return;
+    }
+    else if (selected && selected.isFixed) {
+      toast("⚠️ Polygons are locked");
       return;
     }
 
@@ -30020,7 +30059,7 @@
 
       // Exit mode
       addVertexMode = false;
-      canvas.style.cursor = "default";
+      canvas.style.cursor = "crosshair";
       draw();
       return; // prevent normal selection logic from running
     }
@@ -30053,8 +30092,20 @@
 
     if (poly) {
       // If the polygon is fixed (like a column), show toast but do not lock selection permanently
-      if (poly.isFixed) {
+      if (poly.isColumn) {
         toast("⚠️ Column polygons are locked");
+        selected = poly;
+        setTimeout(() => {
+          selected = null;
+          draw();
+        }, 300);
+        // immediately clear selection
+        draw();
+        return;
+      }
+      else if (poly.isFixed) {
+        // console.log(poly.room.roomName)
+        toast(`⚠️ ${poly.room.roomName} polygon is locked`);
         selected = poly;
         setTimeout(() => {
           selected = null;
@@ -30130,7 +30181,7 @@
 
       // ✅ Skip alignment with fixed (column) polygons
       for (const poly of new Set(candidates)) {
-        if (poly === current || poly.isFixed) continue;
+        if (poly === current || poly.isColumn) continue;
         for (const [vx, vy] of poly.coords) {
           if (Math.abs(vx - x) < SNAP_TOL) x = vx;
           if (Math.abs(vy - y) < SNAP_TOL) y = vy;
@@ -30244,7 +30295,7 @@
     const sharedEdges = new Map(); // key: "x1,y1,x2,y2", value: array of polygons sharing this edge
 
     for (const poly of polygons) {
-      if (poly.isFixed) continue;
+      if (poly.isColumn) continue;
       const coords = poly.coords;
       for (let i = 0; i < coords.length; i++) {
         const p1 = coords[i];
@@ -30313,7 +30364,7 @@
 
         for (const poly of polygons) {
           // Skip if this polygon will be moved or is fixed
-          if (movingPolys.includes(poly) || poly.isFixed) continue;
+          if (movingPolys.includes(poly) || poly.isColumn) continue;
 
           const cs = poly.coords;
           for (let i = 0; i < cs.length; i++) {
@@ -30573,7 +30624,7 @@
 
     // 🔸 Avoid aligning with self or columns
     for (const poly of new Set(candidates)) {
-      if (poly === current || poly.isFixed) continue;
+      if (poly === current || poly.isColumn) continue;
 
       // ✅ 1. SNAP TO NEARBY VERTICES (as before)
       for (const [vx, vy] of poly.coords) {
@@ -30678,7 +30729,6 @@
 
   function drawPolygon(poly, isSel) {
     // fill
-    // fill with semi-transparent room color
     ctx.beginPath();
     poly.coords.forEach(([x, y], i) => {
       const s = worldToScreen(x, y);
@@ -30714,7 +30764,7 @@
 
     // draw edge lengths
     // draw edge lengths — skip if column
-    if (showRoomLengths && !poly.isFixed) {
+    if (showRoomLengths && !poly.isColumn) {
       for (let i = 0; i < poly.coords.length; i++) {
         const a = poly.coords[i];
         const b = poly.coords[(i + 1) % poly.coords.length];
@@ -30778,7 +30828,8 @@
       const area = area_m2 * unitFactors[currentUnit] ** 2;
       const areaText = `(${area.toFixed(2)} ${currentUnit}²)`;
 
-      const displayName = poly.isFixed ? "" : poly.room.roomName || "N/A";
+      const displayName =
+        poly.isColumn && poly.isFixed ? "" : poly.room.roomName || "N/A";
 
       ctx.font = "bold 12px ui-sans-serif, system-ui, -apple-system";
       ctx.textAlign = "center";
@@ -30789,7 +30840,13 @@
         ? "#ef4444"
         : "#ffffffff";
 
-      if (!poly.isFixed) {
+      // ✅ NEW CONDITION
+      // if (!poly.isColumn) {
+      //   ctx.fillText(displayName, sc.x, sc.y);
+      //   ctx.fillText(areaText, sc.x, sc.y + 12 * 1.2);
+      // }
+
+      if (!poly.isColumn) {
         ctx.fillText(displayName, sc.x, sc.y);
         ctx.fillText(areaText, sc.x, sc.y + 12 * 1.2);
       }

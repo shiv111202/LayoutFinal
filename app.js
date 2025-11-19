@@ -11,7 +11,7 @@
     // fade to 0.7 after 1.2s
     t._h = setTimeout(() => (t.style.opacity = 0.7), 1200);
 
-    // fade out completely after 2.5s
+    // fade out completely after 5s
     t._h2 = setTimeout(() => (t.style.opacity = 0), 5000);
   };
 
@@ -176,11 +176,11 @@
 
     for (let i = 0; i < polygons.length; i++) {
       const a = polygons[i];
-      if (a.isFixed) continue; // ✅ skip columns entirely
+      if (a.isColumn) continue; // ✅ skip columns entirely
 
       for (let j = i + 1; j < polygons.length; j++) {
         const b = polygons[j];
-        if (b.isFixed) continue; // ✅ skip columns entirely
+        if (b.isColumn) continue; // ✅ skip columns entirely
 
         // Check if any vertices are close enough to be considered touching
         let shared = false;
@@ -200,7 +200,7 @@
         }
       }
     }
-    console.log("✅ Neighbor relationships computed (columns excluded)");
+    console.log("✅ Neighbor relationships computed");
   }
 
   function applyImmovableRules(rooms, data) {
@@ -208,7 +208,7 @@
     //   ? data.immovablePolygons.map((s) => s.toLowerCase())
     //   : [];
 
-    immovableList = ["stairs"];
+    immovableList = ["stairs", "shower", "hcwc"];
 
     if (!immovableList.length) return rooms;
 
@@ -555,7 +555,7 @@
     } else if (e.key === "Escape") {
       if (addVertexMode) {
         addVertexMode = false;
-        canvas.style.cursor = "default";
+        canvas.style.cursor = "crosshair";
         toast("❌ Add Vertex Mode canceled");
       }
     }
@@ -629,7 +629,7 @@
 
       // Exit mode
       addVertexMode = false;
-      canvas.style.cursor = "default";
+      canvas.style.cursor = "crosshair";
       draw();
       return; // prevent normal selection logic from running
     }
@@ -751,7 +751,7 @@
 
       // ✅ Skip alignment with fixed (column) polygons
       for (const poly of new Set(candidates)) {
-        if (poly === current || poly.isFixed) continue;
+        if (poly === current || poly.isColumn) continue;
         for (const [vx, vy] of poly.coords) {
           if (Math.abs(vx - x) < SNAP_TOL) x = vx;
           if (Math.abs(vy - y) < SNAP_TOL) y = vy;
@@ -865,7 +865,7 @@
     const sharedEdges = new Map(); // key: "x1,y1,x2,y2", value: array of polygons sharing this edge
 
     for (const poly of polygons) {
-      if (poly.isFixed) continue;
+      if (poly.isColumn) continue;
       const coords = poly.coords;
       for (let i = 0; i < coords.length; i++) {
         const p1 = coords[i];
@@ -934,7 +934,7 @@
 
         for (const poly of polygons) {
           // Skip if this polygon will be moved or is fixed
-          if (movingPolys.includes(poly) || poly.isFixed) continue;
+          if (movingPolys.includes(poly) || poly.isColumn) continue;
 
           const cs = poly.coords;
           for (let i = 0; i < cs.length; i++) {
@@ -1194,7 +1194,7 @@
 
     // 🔸 Avoid aligning with self or columns
     for (const poly of new Set(candidates)) {
-      if (poly === current || poly.isFixed) continue;
+      if (poly === current || poly.isColumn) continue;
 
       // ✅ 1. SNAP TO NEARBY VERTICES (as before)
       for (const [vx, vy] of poly.coords) {
