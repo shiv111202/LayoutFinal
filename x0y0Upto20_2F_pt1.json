@@ -1,0 +1,4282 @@
+[
+  {
+    "RoomName": "Common area",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 662268.671,
+          "Y": 1035659.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 666268.671,
+          "Y": 1035659.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 666268.671,
+          "Y": 1035659.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 666268.671,
+          "Y": 1034959.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 666268.671,
+          "Y": 1034959.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 674668.671,
+          "Y": 1034959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 674668.671,
+          "Y": 1034959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 674668.671,
+          "Y": 1029759.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 674668.671,
+          "Y": 1029759.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 670118.671,
+          "Y": 1029759.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 670118.671,
+          "Y": 1029759.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 670118.671,
+          "Y": 1028259.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 670118.671,
+          "Y": 1028259.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 671668.671,
+          "Y": 1028259.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 670118.671,
+        "doorY": 1028959.603
+      },
+      {
+        "startPoint": {
+          "X": 671668.671,
+          "Y": 1028259.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 671668.671,
+          "Y": 1024309.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 671668.671,
+          "Y": 1024309.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 662968.671,
+          "Y": 1024309.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 662968.671,
+          "Y": 1024309.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 662968.671,
+          "Y": 1031659.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 662968.671,
+          "Y": 1031659.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 662268.671,
+          "Y": 1031659.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 662268.671,
+          "Y": 1031659.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 662268.671,
+          "Y": 1035659.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 662268.671,
+          "Y": 1035659.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 662268.671,
+          "Y": 1035659.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": false
+      }
+    ]
+  },
+  {
+    "RoomName": "Electrical space",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 676068.671,
+          "Y": 1034959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 686968.671,
+          "Y": 1034959.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 686968.671,
+          "Y": 1034959.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 686968.671,
+          "Y": 1035659.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 686968.671,
+          "Y": 1035659.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 690968.671,
+          "Y": 1035659.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 690968.671,
+          "Y": 1035659.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 690968.671,
+          "Y": 1031659.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 690968.671,
+          "Y": 1031659.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 690268.671,
+          "Y": 1031659.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 690268.671,
+          "Y": 1031659.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 690268.671,
+          "Y": 1025709.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 690268.671,
+          "Y": 1025709.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 682768.671,
+          "Y": 1025709.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 682768.671,
+          "Y": 1025709.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 682768.671,
+          "Y": 1030509.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 682768.671,
+          "Y": 1030509.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676068.671,
+          "Y": 1030509.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 676068.671,
+          "Y": 1030509.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676068.671,
+          "Y": 1034959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 676068.671,
+          "Y": 1034959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 676068.671,
+          "Y": 1034959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": false
+      }
+    ]
+  },
+  {
+    "RoomName": "Unit",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 662968.671,
+          "Y": 1024309.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 671668.671,
+          "Y": 1024309.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 671668.671,
+          "Y": 1024309.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 671668.671,
+          "Y": 1021859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 671668.671,
+          "Y": 1021859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 670118.671,
+          "Y": 1021859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 670118.671,
+          "Y": 1021859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 670118.671,
+          "Y": 1018859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 670118.671,
+          "Y": 1018859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 668468.671,
+          "Y": 1018859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 670118.671,
+        "doorY": 1019709.603
+      },
+      {
+        "startPoint": {
+          "X": 668468.671,
+          "Y": 1018859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 668468.671,
+          "Y": 1013659.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 668468.671,
+          "Y": 1013659.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "endPoint": {
+          "X": 666268.671,
+          "Y": 1013659.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 666268.671,
+          "Y": 1013659.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "endPoint": {
+          "X": 666268.671,
+          "Y": 1012959.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 666268.671,
+          "Y": 1012959.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "endPoint": {
+          "X": 662268.671,
+          "Y": 1012959.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 662268.671,
+          "Y": 1012959.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "endPoint": {
+          "X": 662268.671,
+          "Y": 1016959.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 662268.671,
+          "Y": 1016959.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "endPoint": {
+          "X": 662968.671,
+          "Y": 1016959.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 662968.671,
+          "Y": 1016959.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "endPoint": {
+          "X": 662968.671,
+          "Y": 1024309.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 662968.671,
+          "Y": 1024309.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 662968.671,
+          "Y": 1024309.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      }
+    ]
+  },
+  {
+    "RoomName": "Unit",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 668468.671,
+          "Y": 1018859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 672968.671,
+          "Y": 1018859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 672968.671,
+          "Y": 1018859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 672968.671,
+          "Y": 1017959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 672968.671,
+          "Y": 1017959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 675468.671,
+          "Y": 1017959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 675468.671,
+          "Y": 1017959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 675468.671,
+          "Y": 1018109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 675468.671,
+          "Y": 1018109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 677675.65,
+          "Y": 1018109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 677675.65,
+          "Y": 1018109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 683968.671,
+          "Y": 1018109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 676468.671,
+        "doorY": 1018109.603
+      },
+      {
+        "startPoint": {
+          "X": 683968.671,
+          "Y": 1018109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 683968.671,
+          "Y": 1013659.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 683968.671,
+          "Y": 1013659.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "endPoint": {
+          "X": 668468.671,
+          "Y": 1013659.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 668468.671,
+          "Y": 1013659.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "endPoint": {
+          "X": 668468.671,
+          "Y": 1018859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 668468.671,
+          "Y": 1018859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "endPoint": {
+          "X": 668468.671,
+          "Y": 1018859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      }
+    ]
+  },
+  {
+    "RoomName": "Unit",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 682768.671,
+          "Y": 1024309.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 690268.671,
+          "Y": 1024309.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 690268.671,
+          "Y": 1024309.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 690268.671,
+          "Y": 1016959.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 690268.671,
+          "Y": 1016959.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "endPoint": {
+          "X": 690968.671,
+          "Y": 1016959.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 690968.671,
+          "Y": 1016959.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "endPoint": {
+          "X": 690968.671,
+          "Y": 1012959.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 690968.671,
+          "Y": 1012959.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "endPoint": {
+          "X": 686968.671,
+          "Y": 1012959.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 686968.671,
+          "Y": 1012959.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "endPoint": {
+          "X": 686968.671,
+          "Y": 1013659.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 686968.671,
+          "Y": 1013659.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "endPoint": {
+          "X": 683968.671,
+          "Y": 1013659.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 683968.671,
+          "Y": 1013659.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "endPoint": {
+          "X": 683968.671,
+          "Y": 1018109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 683968.671,
+          "Y": 1018109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 684718.671,
+          "Y": 1018109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 684718.671,
+          "Y": 1018109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 684718.671,
+          "Y": 1020809.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 684718.671,
+          "Y": 1020809.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 682768.671,
+          "Y": 1020809.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 684718.671,
+        "doorY": 1018859.603
+      },
+      {
+        "startPoint": {
+          "X": 682768.671,
+          "Y": 1020809.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 682768.671,
+          "Y": 1024309.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 682768.671,
+          "Y": 1024309.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 682768.671,
+          "Y": 1024309.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      }
+    ]
+  },
+  {
+    "RoomName": "Hall",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 682768.671,
+          "Y": 1029009.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 682768.671,
+          "Y": 1030509.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 682768.671,
+          "Y": 1030509.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 674668.671,
+          "Y": 1030509.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 674668.671,
+          "Y": 1030509.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 674668.671,
+          "Y": 1029759.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 675368.671,
+        "doorY": 1030509.603
+      },
+      {
+        "startPoint": {
+          "X": 674668.671,
+          "Y": 1029759.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 670118.671,
+          "Y": 1029759.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 670118.671,
+          "Y": 1029759.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 670118.671,
+          "Y": 1028259.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 670118.671,
+          "Y": 1028259.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 674368.671,
+          "Y": 1028259.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 670118.671,
+        "doorY": 1028959.603
+      },
+      {
+        "startPoint": {
+          "X": 674368.671,
+          "Y": 1028259.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 674368.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 672793.671,
+        "doorY": 1028245.473
+      },
+      {
+        "startPoint": {
+          "X": 674368.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676968.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 674368.671,
+        "doorY": 1026334.603
+      },
+      {
+        "startPoint": {
+          "X": 676968.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676970.678,
+          "Y": 1026359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 675668.671,
+        "doorY": 1025209.603
+      },
+      {
+        "startPoint": {
+          "X": 676970.678,
+          "Y": 1026359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676970.678,
+          "Y": 1029009.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 676971.566,
+        "doorY": 1025784.603
+      },
+      {
+        "startPoint": {
+          "X": 676970.678,
+          "Y": 1029009.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 679868.671,
+          "Y": 1029009.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 676968.671,
+        "doorY": 1026834.603
+      },
+      {
+        "startPoint": {
+          "X": 679868.671,
+          "Y": 1029009.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 682768.671,
+          "Y": 1029009.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 677968.671,
+        "doorY": 1029009.603
+      },
+      {
+        "startPoint": {
+          "X": 682768.671,
+          "Y": 1029009.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 682768.671,
+          "Y": 1029009.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      }
+    ]
+  },
+  {
+    "RoomName": "Corridor",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 670118.671,
+          "Y": 1020359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 670118.671,
+          "Y": 1018859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 670118.671,
+          "Y": 1018859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 675468.671,
+          "Y": 1018859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 670118.671,
+        "doorY": 1019709.603
+      },
+      {
+        "startPoint": {
+          "X": 675468.671,
+          "Y": 1018859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 675468.671,
+          "Y": 1018109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 674668.671,
+        "doorY": 1018859.603
+      },
+      {
+        "startPoint": {
+          "X": 675468.671,
+          "Y": 1018109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 684718.671,
+          "Y": 1018109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 684718.671,
+          "Y": 1018109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 684718.671,
+          "Y": 1019609.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 676468.671,
+        "doorY": 1018109.603
+      },
+      {
+        "startPoint": {
+          "X": 684718.671,
+          "Y": 1019609.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 682622.449,
+          "Y": 1019594.58,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 684718.671,
+        "doorY": 1018859.603
+      },
+      {
+        "startPoint": {
+          "X": 682622.449,
+          "Y": 1019594.58,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676968.671,
+          "Y": 1019609.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 684043.671,
+        "doorY": 1019609.603
+      },
+      {
+        "startPoint": {
+          "X": 676968.671,
+          "Y": 1019609.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676968.671,
+          "Y": 1020359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 677968.671,
+        "doorY": 1019609.603
+      },
+      {
+        "startPoint": {
+          "X": 676968.671,
+          "Y": 1020359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 674368.671,
+          "Y": 1020359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 674368.671,
+          "Y": 1020359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 671668.671,
+          "Y": 1020359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 675243.671,
+        "doorY": 1020359.603
+      },
+      {
+        "startPoint": {
+          "X": 671668.671,
+          "Y": 1020359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 670118.671,
+          "Y": 1020359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 673768.671,
+        "doorY": 1020359.603
+      },
+      {
+        "startPoint": {
+          "X": 670118.671,
+          "Y": 1020359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 670118.671,
+          "Y": 1020359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 671143.671,
+        "doorY": 1020359.603
+      }
+    ]
+  },
+  {
+    "RoomName": "Passenger lobby",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 674368.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676968.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 676968.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676968.671,
+          "Y": 1020359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 675668.671,
+        "doorY": 1025209.603
+      },
+      {
+        "startPoint": {
+          "X": 676968.671,
+          "Y": 1020359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 674368.671,
+          "Y": 1020359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 674368.671,
+          "Y": 1020359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 674368.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 675243.671,
+        "doorY": 1020359.603
+      },
+      {
+        "startPoint": {
+          "X": 674368.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 674368.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 674368.671,
+        "doorY": 1023659.603
+      }
+    ]
+  },
+  {
+    "RoomName": "Attachment",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 676979.016,
+          "Y": 1020959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 679874.305,
+          "Y": 1020959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 679874.305,
+          "Y": 1020959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 679874.305,
+          "Y": 1019609.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 679874.305,
+          "Y": 1019609.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676968.671,
+          "Y": 1019609.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 679868.671,
+        "doorY": 1020284.603
+      },
+      {
+        "startPoint": {
+          "X": 676968.671,
+          "Y": 1019609.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676979.016,
+          "Y": 1020959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 677968.671,
+        "doorY": 1019609.603
+      },
+      {
+        "startPoint": {
+          "X": 676979.016,
+          "Y": 1020959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676979.016,
+          "Y": 1020959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      }
+    ]
+  },
+  {
+    "RoomName": "Attachment",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 676968.671,
+          "Y": 1029009.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 679868.671,
+          "Y": 1029009.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 679868.671,
+          "Y": 1029009.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 679874.305,
+          "Y": 1027659.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 677968.671,
+        "doorY": 1029009.603
+      },
+      {
+        "startPoint": {
+          "X": 679874.305,
+          "Y": 1027659.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676968.678,
+          "Y": 1027655.117,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 679868.671,
+        "doorY": 1028334.603
+      },
+      {
+        "startPoint": {
+          "X": 676968.678,
+          "Y": 1027655.117,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676968.671,
+          "Y": 1029009.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 676968.671,
+          "Y": 1029009.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676968.671,
+          "Y": 1029009.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      }
+    ]
+  },
+  {
+    "RoomName": "DS",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 678468.671,
+          "Y": 1027659.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 679868.671,
+          "Y": 1027659.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 679868.671,
+          "Y": 1027659.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 679868.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 679868.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 678468.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 678468.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 678468.671,
+          "Y": 1027659.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 678468.671,
+          "Y": 1027659.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 678468.671,
+          "Y": 1027659.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      }
+    ]
+  },
+  {
+    "RoomName": "DS",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 676975.928,
+          "Y": 1022959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 679868.671,
+          "Y": 1022959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 679868.671,
+          "Y": 1022959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 679868.671,
+          "Y": 1020959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 679868.671,
+          "Y": 1020959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676968.671,
+          "Y": 1020959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 676968.671,
+          "Y": 1020959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676968.671,
+          "Y": 1022959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 676968.671,
+          "Y": 1022959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676975.928,
+          "Y": 1022959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      }
+    ]
+  },
+  {
+    "RoomName": "PS.EPS",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 676970.678,
+          "Y": 1026359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 678468.671,
+          "Y": 1026359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 678468.671,
+          "Y": 1026359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 678468.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 678468.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 679868.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 679868.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 679868.671,
+          "Y": 1022959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 679868.671,
+          "Y": 1022959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 677468.671,
+          "Y": 1022959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 677468.671,
+          "Y": 1022959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 677468.671,
+          "Y": 1024159.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 677468.671,
+          "Y": 1024159.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676968.671,
+          "Y": 1024159.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 676968.671,
+          "Y": 1024159.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676970.678,
+          "Y": 1026359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 676970.678,
+          "Y": 1026359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676970.678,
+          "Y": 1026359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 676968.671,
+        "doorY": 1025784.603
+      }
+    ]
+  },
+  {
+    "RoomName": "S",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 671668.671,
+          "Y": 1028259.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 674368.671,
+          "Y": 1028259.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 674368.671,
+          "Y": 1028259.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 674368.671,
+          "Y": 1027459.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 672793.671,
+        "doorY": 1028245.473
+      },
+      {
+        "startPoint": {
+          "X": 674368.671,
+          "Y": 1027459.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 671668.671,
+          "Y": 1027459.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 671668.671,
+          "Y": 1027459.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 671668.671,
+          "Y": 1028259.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 671668.671,
+          "Y": 1028259.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 671668.671,
+          "Y": 1028259.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      }
+    ]
+  },
+  {
+    "RoomName": "EV",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 671668.671,
+          "Y": 1027459.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 674368.671,
+          "Y": 1027459.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 674368.671,
+          "Y": 1027459.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 674368.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 674368.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 671668.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 674368.671,
+        "doorY": 1026334.603
+      },
+      {
+        "startPoint": {
+          "X": 671668.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 671668.671,
+          "Y": 1027459.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 671668.671,
+          "Y": 1027459.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 671668.671,
+          "Y": 1027459.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      }
+    ]
+  },
+  {
+    "RoomName": "EEV",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 671668.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 674368.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 674368.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 674368.671,
+          "Y": 1022109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 674368.671,
+          "Y": 1022109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 671668.671,
+          "Y": 1022109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 674368.671,
+        "doorY": 1023659.603
+      },
+      {
+        "startPoint": {
+          "X": 671668.671,
+          "Y": 1022109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 671668.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 671668.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 671668.671,
+          "Y": 1025209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      }
+    ]
+  },
+  {
+    "RoomName": "PS",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 671668.671,
+          "Y": 1022109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 672868.671,
+          "Y": 1022109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 672868.671,
+          "Y": 1022109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 672868.671,
+          "Y": 1021209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 672868.671,
+          "Y": 1021209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 671668.671,
+          "Y": 1021209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 671668.671,
+          "Y": 1021209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 671668.671,
+          "Y": 1022109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 671668.671,
+          "Y": 1022109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 671668.671,
+          "Y": 1022109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      }
+    ]
+  },
+  {
+    "RoomName": "Rubbish Disposal area",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 672868.671,
+          "Y": 1022109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 674368.671,
+          "Y": 1022109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 674368.671,
+          "Y": 1022109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 674368.671,
+          "Y": 1020359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 674368.671,
+          "Y": 1020359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 671668.671,
+          "Y": 1020359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 671668.671,
+          "Y": 1020359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 671668.671,
+          "Y": 1021209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 673768.671,
+        "doorY": 1020359.603
+      },
+      {
+        "startPoint": {
+          "X": 671668.671,
+          "Y": 1021209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 672868.671,
+          "Y": 1021209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 672868.671,
+          "Y": 1021209.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 672868.671,
+          "Y": 1022109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 672868.671,
+          "Y": 1022109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 672868.671,
+          "Y": 1022109.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      }
+    ]
+  },
+  {
+    "RoomName": "MB",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 670118.671,
+          "Y": 1021859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 671668.671,
+          "Y": 1021859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 671668.671,
+          "Y": 1021859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 671668.671,
+          "Y": 1020359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 671668.671,
+          "Y": 1020359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 670118.671,
+          "Y": 1020359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 670118.671,
+          "Y": 1020359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 670118.671,
+          "Y": 1021859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 671143.671,
+        "doorY": 1020359.603
+      },
+      {
+        "startPoint": {
+          "X": 670118.671,
+          "Y": 1021859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 670118.671,
+          "Y": 1021859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      }
+    ]
+  },
+  {
+    "RoomName": "Alarm",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 676968.671,
+          "Y": 1027659.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 678468.671,
+          "Y": 1027659.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 678468.671,
+          "Y": 1027659.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 678468.671,
+          "Y": 1026359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 678468.671,
+          "Y": 1026359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676968.671,
+          "Y": 1026359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 676968.671,
+          "Y": 1026359.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676968.671,
+          "Y": 1027659.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 676968.671,
+          "Y": 1027659.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676968.671,
+          "Y": 1027659.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 676969.945,
+        "doorY": 1026834.603
+      }
+    ]
+  },
+  {
+    "RoomName": "PS",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 676974.075,
+          "Y": 1024159.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 677468.671,
+          "Y": 1024159.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 677468.671,
+          "Y": 1024159.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 677468.671,
+          "Y": 1022959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 677468.671,
+          "Y": 1022959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676968.671,
+          "Y": 1022959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 676968.671,
+          "Y": 1022959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676968.671,
+          "Y": 1024159.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 676968.671,
+          "Y": 1024159.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 676974.075,
+          "Y": 1024159.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      }
+    ]
+  },
+  {
+    "RoomName": "MB",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 682768.671,
+          "Y": 1020809.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 684718.671,
+          "Y": 1020809.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 684718.671,
+          "Y": 1020809.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 684718.671,
+          "Y": 1019609.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 684718.671,
+          "Y": 1019609.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 682768.671,
+          "Y": 1019609.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 682768.671,
+          "Y": 1019609.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 682768.671,
+          "Y": 1020809.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 682768.671,
+          "Y": 1020809.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 682768.671,
+          "Y": 1020809.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      }
+    ]
+  },
+  {
+    "RoomName": "MB",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 673868.671,
+          "Y": 1018859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 675468.671,
+          "Y": 1018859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 675468.671,
+          "Y": 1018859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 675468.671,
+          "Y": 1017959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 674668.671,
+        "doorY": 1018859.603
+      },
+      {
+        "startPoint": {
+          "X": 675468.671,
+          "Y": 1017959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 673868.671,
+          "Y": 1017959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 673868.671,
+          "Y": 1017959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 673868.671,
+          "Y": 1018859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 673868.671,
+          "Y": 1018859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 673868.671,
+          "Y": 1018859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      }
+    ]
+  },
+  {
+    "RoomName": "MB",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 672968.671,
+          "Y": 1018859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 673868.671,
+          "Y": 1018859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 673868.671,
+          "Y": 1018859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 673868.671,
+          "Y": 1017959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 673868.671,
+          "Y": 1017959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 672968.671,
+          "Y": 1017959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 672968.671,
+          "Y": 1017959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 672968.671,
+          "Y": 1018859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 672968.671,
+          "Y": 1018859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 672968.671,
+          "Y": 1018859.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      }
+    ]
+  },
+  {
+    "RoomName": "Corridor",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 682768.671,
+          "Y": 1025709.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 690268.671,
+          "Y": 1025709.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 690268.671,
+          "Y": 1025709.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 690268.671,
+          "Y": 1024309.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 690268.671,
+          "Y": 1024309.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 682768.671,
+          "Y": 1024309.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 682768.671,
+          "Y": 1024309.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 682768.671,
+          "Y": 1025709.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 682768.671,
+          "Y": 1025709.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 682768.671,
+          "Y": 1025709.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      }
+    ]
+  },
+  {
+    "RoomName": "Stairs",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 679868.671,
+          "Y": 1029009.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 682768.671,
+          "Y": 1029009.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 682768.671,
+          "Y": 1029009.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 682768.671,
+          "Y": 1019609.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 682768.671,
+          "Y": 1019609.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 679868.671,
+          "Y": 1019609.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 679868.671,
+          "Y": 1019609.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 679874.305,
+          "Y": 1020959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 679874.305,
+          "Y": 1020959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 679874.305,
+          "Y": 1027659.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 679868.671,
+        "doorY": 1020284.603
+      },
+      {
+        "startPoint": {
+          "X": 679874.305,
+          "Y": 1027659.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 679874.305,
+          "Y": 1029009.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 679874.305,
+          "Y": 1029009.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 679868.671,
+          "Y": 1029009.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": true,
+        "doorX": 679868.671,
+        "doorY": 1028334.603
+      }
+    ]
+  },
+  {
+    "RoomName": "Corridor",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 674668.671,
+          "Y": 1034959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 676068.671,
+          "Y": 1034959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 676068.671,
+          "Y": 1034959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 676068.671,
+          "Y": 1030509.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 676068.671,
+          "Y": 1030509.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 674668.671,
+          "Y": 1030509.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 674668.671,
+          "Y": 1030509.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": false,
+          "yDirection": ""
+        },
+        "endPoint": {
+          "X": 674668.671,
+          "Y": 1034959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": true,
+        "doorX": 675368.671,
+        "doorY": 1030509.603
+      },
+      {
+        "startPoint": {
+          "X": 674668.671,
+          "Y": 1034959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 674668.671,
+          "Y": 1034959.603,
+          "canTranslateX": false,
+          "xDirection": "",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": false
+      }
+    ]
+  },
+  {
+    "RoomName": "Balcony",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 666268.671,
+          "Y": 1034980.573,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 666268.671,
+          "Y": 1036759.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 666268.671,
+          "Y": 1036759.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 686968.671,
+          "Y": 1036759.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 686968.671,
+          "Y": 1036759.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 686968.671,
+          "Y": 1034959.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 686968.671,
+          "Y": 1034959.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 666268.671,
+          "Y": 1034959.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 666268.671,
+          "Y": 1034959.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 666268.671,
+          "Y": 1034980.573,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": false
+      }
+    ]
+  },
+  {
+    "RoomName": "Balcony",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 690268.671,
+          "Y": 1031659.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 692068.671,
+          "Y": 1031659.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 692068.671,
+          "Y": 1031659.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 692068.671,
+          "Y": 1016959.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 692068.671,
+          "Y": 1016959.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "endPoint": {
+          "X": 690268.671,
+          "Y": 1016959.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 690268.671,
+          "Y": 1016959.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "endPoint": {
+          "X": 690268.671,
+          "Y": 1031659.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 690268.671,
+          "Y": 1031659.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 690268.671,
+          "Y": 1031659.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": false
+      }
+    ]
+  },
+  {
+    "RoomName": "Balcony",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 666268.671,
+          "Y": 1013659.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "endPoint": {
+          "X": 666268.671,
+          "Y": 1011859.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 666268.671,
+          "Y": 1011859.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "endPoint": {
+          "X": 686968.671,
+          "Y": 1011859.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 686968.671,
+          "Y": 1011859.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "endPoint": {
+          "X": 686968.671,
+          "Y": 1013659.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 686968.671,
+          "Y": 1013659.603,
+          "canTranslateX": true,
+          "xDirection": "+",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "endPoint": {
+          "X": 666268.671,
+          "Y": 1013659.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 666268.671,
+          "Y": 1013659.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "endPoint": {
+          "X": 666268.671,
+          "Y": 1013659.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "hasDoor": false
+      }
+    ]
+  },
+  {
+    "RoomName": "Balcony",
+    "Segments": [
+      {
+        "startPoint": {
+          "X": 661168.671,
+          "Y": 1016959.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "endPoint": {
+          "X": 662968.671,
+          "Y": 1016959.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 662968.671,
+          "Y": 1016959.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "endPoint": {
+          "X": 662968.671,
+          "Y": 1031659.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 662968.671,
+          "Y": 1031659.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 661168.671,
+          "Y": 1031659.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 661168.671,
+          "Y": 1031659.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "+"
+        },
+        "endPoint": {
+          "X": 661168.671,
+          "Y": 1016959.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "hasDoor": false
+      },
+      {
+        "startPoint": {
+          "X": 661168.671,
+          "Y": 1016959.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "endPoint": {
+          "X": 661168.671,
+          "Y": 1016959.603,
+          "canTranslateX": true,
+          "xDirection": "-",
+          "canTranslateY": true,
+          "yDirection": "-"
+        },
+        "hasDoor": false
+      }
+    ]
+  }
+]

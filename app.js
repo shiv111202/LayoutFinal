@@ -1,4 +1,3 @@
-// app.js - modulelet
 (() => {
   /*** Utility ***/
   const TAU = Math.PI * 2;
@@ -582,8 +581,7 @@
     if (selected && selected.isColumn) {
       toast("⚠️ Column polygons are locked");
       return;
-    }
-    else if (selected && selected.isFixed) {
+    } else if (selected && selected.isFixed) {
       toast("⚠️ Polygons are locked");
       return;
     }
@@ -672,8 +670,7 @@
         // immediately clear selection
         draw();
         return;
-      }
-      else if (poly.isFixed) {
+      } else if (poly.isFixed) {
         // console.log(poly.room.roomName)
         toast(`⚠️ ${poly.room.roomName} polygon is locked`);
         selected = poly;
@@ -1485,6 +1482,28 @@
       ctx.lineWidth = 3;
       ctx.stroke();
     }
+    // === DRAW CROSSHAIR LINES ===
+    ctx.save();
+    ctx.lineWidth = 1.2;
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
+    ctx.setLineDash([6, 4]);
+
+    const mx = mouse.x;
+    const my = mouse.y;
+
+    // Vertical line
+    ctx.beginPath();
+    ctx.moveTo(mx, 0);
+    ctx.lineTo(mx, canvas.height / DPR);
+    ctx.stroke();
+
+    // Horizontal line
+    ctx.beginPath();
+    ctx.moveTo(0, my);
+    ctx.lineTo(canvas.width / DPR, my);
+    ctx.stroke();
+
+    ctx.restore();
   }
 
   function fitView() {
