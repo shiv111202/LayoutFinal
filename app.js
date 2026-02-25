@@ -231,6 +231,23 @@
     return rooms;
   }
 
+  // allow drop
+  document.addEventListener("dragover", (e) => e.preventDefault());
+
+  document.addEventListener("drop", (e) => {
+      e.preventDefault();
+
+      const input = document.getElementById("loadFile");
+      const files = e.dataTransfer?.files;
+      if (!files?.length) return;
+
+      // put dropped files into the input
+      input.files = files;
+
+      // trigger SAME existing change listener
+      input.dispatchEvent(new Event("change", { bubbles: true }));
+  });
+
   document.getElementById("loadFile").addEventListener("change", async (e) => {
     const f = e.target.files?.[0];
     if (!f) return;
