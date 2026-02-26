@@ -231,7 +231,7 @@
     return rooms;
   }
 
-  // allow drop
+  // allow drop esf
   document.addEventListener("dragover", (e) => e.preventDefault());
 
   document.addEventListener("drop", (e) => {
