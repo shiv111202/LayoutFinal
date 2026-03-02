@@ -256,6 +256,8 @@
     try {
       data = JSON.parse(text);
 
+      console.log(data)
+
       // --- FULL RESET before loading new JSON ---
       polygons = [];
       wardPolys = [];
@@ -366,7 +368,7 @@
       const floors = [
         ...new Set(
           filteredLayouts
-            .map((r) => r.applicableFloors)
+            .map((r) => r.applicableFloors ?? r.applicableFloor)
             .filter((f) => f != null)
         ),
       ].sort((a, b) => a - b);
@@ -401,7 +403,9 @@
                   if (room._isFixed) return true;
 
                   // Normal rooms → filter by floor
-                  return room.applicableFloors == selectedFloor;
+                  // return room.applicableFloors == selectedFloor;
+                  const floorValue = room.applicableFloors ?? room.applicableFloor;
+                  return floorValue == selectedFloor;
                 })
                 .map(roomToPoly);
 
