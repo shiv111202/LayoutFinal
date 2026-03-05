@@ -402,7 +402,6 @@
                   // KEEP all columns ALWAYS
                   if (room._isFixed) return true;
 
-                  // Normal rooms → filter by floor
                   // return room.applicableFloors == selectedFloor;
                   const floorValue = room.applicableFloors ?? room.applicableFloor;
                   return floorValue == selectedFloor;
