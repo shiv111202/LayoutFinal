@@ -1,6 +1,6 @@
 // loader.js — JSON floor-plan loader, restriction loader, saveJSON
 
-import { toast, pointInPoly, centroid } from "./utils.js";
+import { toast } from "./utils.js";
 import {
   state, skipKeys,
   computeNeighbors, applyImmovableRules,
@@ -136,11 +136,13 @@ document.getElementById("loadFile").addEventListener("change", async (e) => {
     state.data         = loadedData;
     state.polygons     = [];
     state.wardPolys    = [];
+    state.clinicPolys  = [];
     state.gridLines    = [];
     state.undoStack    = [];
     state.selected     = null;
     state.highlightEdge = { poly: null, idx: null };
     state.roomConstraints = {};
+    state.currentFloor = "all";
 
     // Collect rooms & grid lines from the JSON tree
     function collectRoomsAndGrids(obj, parentKey = "") {
@@ -181,26 +183,24 @@ document.getElementById("loadFile").addEventListener("change", async (e) => {
           state.wardPolys.push({
             room:   r,
             coords: r.vertices.map((v) => [Number(v.X), Number(v.Y)]),
+            floor: r.applicableFloors ?? r.applicableFloor ?? null,
           });
         }
       }
     }
 
-    function isInsideWard(poly) {
-      if (!state.wardPolys.length) return true;
-      const c = centroid(poly);
-      return state.wardPolys.some((w) => pointInPoly(c, w));
+    if (loadedData.clinicInfo?.zones) {
+      const valid = loadedData.clinicInfo.zones.filter((z) => z && z.vertices && z.vertices.length);
+      for (const z of valid) {
+        state.clinicPolys.push({
+          room: z,
+          coords: z.vertices.map((v) => [Number(v.X), Number(v.Y)]),
+          floor: z.applicableFloors ?? z.applicableFloor ?? null,
+        });
+      }
     }
 
-    const filteredLayouts = layouts.filter((room) => {
-      const coords = room.vertices.map((v) => [Number(v.X), Number(v.Y)]);
-      const inside = isInsideWard({ coords });
-      const isChildOfWard =
-        room._parentKey?.includes("wardInfo") ||
-        room.roomGroup?.includes("wardInfo");
-      if (room._isFixed && !inside && !isChildOfWard) return false;
-      return true;
-    });
+    const filteredLayouts = layouts;
 
     // Build ONE poly object per room — never recreated after this point.
     // Floor switching only shows/hides entries from this map, so all
@@ -213,17 +213,30 @@ document.getElementById("loadFile").addEventListener("change", async (e) => {
     }
     const polyMap = state.polyMap; // local alias
 
+    function roomMatchesFloor(room, selectedFloor) {
+      if (selectedFloor === "all") return true;
+
+      const floorValue = room.applicableFloors ?? room.applicableFloor;
+      if (floorValue == null) {
+        // Keep legacy behavior only for shapes with no floor metadata at all.
+        return !!room._isColumn;
+      }
+
+      if (Array.isArray(floorValue)) {
+        return floorValue.some((floor) => String(floor) === String(selectedFloor));
+      }
+
+      return String(floorValue) === String(selectedFloor);
+    }
+
     // Apply a floor filter by picking from polyMap (no recreation)
     function applyFloor(selectedFloor) {
+      state.currentFloor = selectedFloor;
       state.polygons =
         selectedFloor === "all"
           ? filteredLayouts.map((r) => polyMap.get(r))
           : filteredLayouts
-              .filter((room) => {
-                if (room._isFixed) return true; // columns always visible
-                const fv = room.applicableFloors ?? room.applicableFloor;
-                return fv == selectedFloor;
-              })
+              .filter((room) => roomMatchesFloor(room, selectedFloor))
               .map((r) => polyMap.get(r));
     }
 

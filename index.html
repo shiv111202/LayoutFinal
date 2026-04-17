@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>
-      🏗 - Layout Editor 
+      JSON Editor 
     </title>
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -12,13 +12,14 @@
   <body>
     <div class="app">
       <aside class="sidebar">
-        <h1>🏗 - Layout Editor</h1>
+        <h1>🏗 - JSON Editor</h1>
         <div class="row">
           <input id="loadFile" type="file" accept=".json" hidden />
           <label for="loadFile">📂 Load JSON</label>
           <button id="saveBtn">💾 Save</button>
           <button id="resetViewBtn">🧭 Reset View</button>
           <button id="addVertexBtn" class="tool-btn">✂️ Add Vertex</button>
+          <button id="swapRoomsBtn" class="tool-btn">🔀 Swap Rooms</button>
           <select id="unitSelect">
             <option value="m" selected>m</option>
             <option value="cm">cm</option>
@@ -93,7 +94,8 @@
               <li><b>G</b> — Toggle grid snap</li>
               <li><b>R</b> — Rename selected room</li>
               <li><b>S</b> — Save edited layout</li>
-              <li><b>U</b> / <b>Ctrl+Z</b> — Undo last change</li>
+              <li><b>Ctrl+Z</b> — Undo last change</li>
+              <li><b>Ctrl+Y</b> — Redo last change</li>
               <li><b>C</b> — ✂️ Add Vertex mode (click edge to insert)</li>
               <li><b>Esc</b> — Cancel Add Vertex or current action</li>
               <li><b>A</b> — Align selected edge to another (coming soon)</li>
@@ -121,7 +123,7 @@
               <li>
                 Selected room label turns <b style="color: #ef4444">red</b>
               </li>
-              <li>Use <b>Undo</b> freely — all edits are reversible</li>
+              <li>Use <b>Undo/Redo</b> freely — all edits are reversible</li>
               <li>Zoom in for precise vertex editing</li>
             </ul>
           </div>

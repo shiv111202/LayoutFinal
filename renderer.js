@@ -4,6 +4,21 @@ import { centroid, pointInPoly, polygonArea } from "./utils.js";
 import { getJapaneseName } from "./namemap.js";
 import { TAU, canvas, ctx, state, worldToScreen, screenToWorld, unitFactors } from "./state.js";
 
+function getActiveBoundaryPolys() {
+  if (state.currentFloor === "all") {
+    return [...state.wardPolys, ...state.clinicPolys];
+  }
+
+  const matchesFloor = (poly) => String(poly.floor) === String(state.currentFloor);
+  const clinicMatches = state.clinicPolys.filter(matchesFloor);
+  if (clinicMatches.length) return clinicMatches;
+
+  const wardMatches = state.wardPolys.filter(matchesFloor);
+  if (wardMatches.length) return wardMatches;
+
+  return state.wardPolys.length ? state.wardPolys : state.clinicPolys;
+}
+
 // ── Canvas resize ─────────────────────────────────────────────────────────────
 export function resizeCanvas() {
   const r = canvas.getBoundingClientRect();
@@ -29,12 +44,14 @@ export function fitView() {
     }
   }
   const pad = 1;
+  minX -= pad; minY -= pad;
+  maxX += pad; maxY += pad;
   const w = maxX - minX || 1, h = maxY - minY || 1;
   const vw = canvas.width / state.DPR, vh = canvas.height / state.DPR;
   const scale = 0.9 * Math.min(vw / w, vh / h);
   state.view.scale = isFinite(scale) ? scale : 20;
-  state.view.x = minX - (vw / (2 * state.view.scale) - w / 2) - pad;
-  state.view.y = minY - (vh / (2 * state.view.scale) - h / 2) - pad;
+  state.view.x = minX - (vw / state.view.scale - w) / 2;
+  state.view.y = maxY + (vh / state.view.scale - h) / 2;
 }
 
 // ── Background grid ───────────────────────────────────────────────────────────
@@ -42,8 +59,10 @@ function drawGrid() {
   if (!state.grid.show) return;
   const xlim  = screenToWorld(0, 0).x;
   const xhi   = screenToWorld(canvas.width  / state.DPR, 0).x;
-  const ylim  = screenToWorld(0, 0).y;
-  const yhi   = screenToWorld(0, canvas.height / state.DPR).y;
+  const y0    = screenToWorld(0, 0).y;
+  const y1    = screenToWorld(0, canvas.height / state.DPR).y;
+  const ylim  = Math.min(y0, y1);
+  const yhi   = Math.max(y0, y1);
   const step  = Math.max(0.2, state.snapStep);
   const startX = Math.floor(xlim / step) * step;
   const endX   = Math.ceil(xhi  / step) * step;
@@ -68,7 +87,8 @@ function drawGrid() {
 
 // ── JSON structural grid lines ────────────────────────────────────────────────
 function drawGrids() {
-  if (!state.gridLines.length || !state.wardPolys.length) return;
+  const boundaryPolys = getActiveBoundaryPolys();
+  if (!state.gridLines.length || !boundaryPolys.length) return;
   ctx.lineWidth   = 1.2;
   ctx.strokeStyle = "rgba(180,180,180,0.6)";
   ctx.setLineDash([4, 4]);
@@ -77,7 +97,7 @@ function drawGrids() {
   for (const g of state.gridLines) {
     const midX = (g.startPoint.X + g.endPoint.X) / 2;
     const midY = (g.startPoint.Y + g.endPoint.Y) / 2;
-    const inside = state.wardPolys.some((w) => pointInPoly({ x: midX, y: midY }, w));
+    const inside = boundaryPolys.some((w) => pointInPoly({ x: midX, y: midY }, w));
 
     if (inside) {
       const s = worldToScreen(g.startPoint.X, g.startPoint.Y);
@@ -201,22 +221,29 @@ export function draw() {
   drawGrid();
   drawGrids();
 
-  // Red bounding box around wardInfo
-  if (state.wardPolys && state.wardPolys.length) {
+  const boundaryPolys = getActiveBoundaryPolys();
+
+  // Red bounding box around the active floor boundary
+  if (boundaryPolys.length) {
     let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-    for (const w of state.wardPolys) {
+    for (const w of boundaryPolys) {
       for (const [x, y] of w.coords) {
         minX = Math.min(minX, x); minY = Math.min(minY, y);
         maxX = Math.max(maxX, x); maxY = Math.max(maxY, y);
       }
     }
-    const sMin = worldToScreen(minX, minY);
-    const sMax = worldToScreen(maxX, maxY);
+    const sTopLeft = worldToScreen(minX, maxY);
+    const sBottomRight = worldToScreen(maxX, minY);
     ctx.save();
     ctx.lineWidth   = 2;
     ctx.strokeStyle = "rgba(255,0,0,0.9)";
     ctx.setLineDash([5, 3]);
-    ctx.strokeRect(sMin.x, sMax.y, sMax.x - sMin.x, sMin.y - sMax.y);
+    ctx.strokeRect(
+      sTopLeft.x,
+      sTopLeft.y,
+      sBottomRight.x - sTopLeft.x,
+      sBottomRight.y - sTopLeft.y
+    );
     ctx.restore();
   }
 

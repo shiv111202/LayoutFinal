@@ -36,6 +36,8 @@ export function getJapaneseName(rawName) {
 // ── Lookup table ──────────────────────────────────────────────────────────────
 const NAME_MAP = {
   'account_waiting_area': '会計待合',
+  'four_bed_rooms': '4床室',
+  'single_bed_rooms': '1床室',
   'accounting_and_general_affairs_room': '経理・総務部室',
   'accounting_and_general_affairs_room1': '経理・総務部室',
   'accounting_and_general_affairs_room2': '経理・総務部室',
@@ -118,7 +120,7 @@ const NAME_MAP = {
   'medical_department_dialysis_room': '人工透析室',
   'medical_gas_manifold_room': '医療ガスマニホールド室',
   'medical_history_room': '病歴室',
-  'medical_office_on-call_private_doctors_room': '医局・医師個室・当直室',
+  'medical_office_on_call_private_doctors_room': '医局・医師個室・当直室',
   'medical_office_room': '医療事務室',
   'medical_record_room': '病歴室',
   'medical_waste_storage_room': '医療廃棄物保管庫',

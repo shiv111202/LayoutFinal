@@ -28,15 +28,19 @@ export const state = {
   undoStack: [],
   redoStack: [],
   addVertexMode: false,
+  swapMode: false,
+  swapSource: null,
   showRoomNames: false,
   showRoomLengths: false,
   moveSharedEdgesEnabled: false,
   gridLines: [],
   wardPolys: [],
+  clinicPolys: [],
   roomConstraints: {},
   grid: { show: true },
   currentUnit: "m",
   currentLanguage: "eng", // 'jpn' | 'eng'
+  currentFloor: "all",
   immovableList: [],
 
   // Viewport
@@ -60,12 +64,12 @@ export const skipKeys = [
 // ── Viewport helpers ──────────────────────────────────────────────────────────
 export function worldToScreen(wx, wy) {
   const { view } = state;
-  return { x: (wx - view.x) * view.scale, y: (wy - view.y) * view.scale };
+  return { x: (wx - view.x) * view.scale, y: (view.y - wy) * view.scale };
 }
 
 export function screenToWorld(sx, sy) {
   const { view } = state;
-  return { x: sx / view.scale + view.x, y: sy / view.scale + view.y };
+  return { x: sx / view.scale + view.x, y: view.y - sy / view.scale };
 }
 
 // ── Undo ──────────────────────────────────────────────────────────────────────

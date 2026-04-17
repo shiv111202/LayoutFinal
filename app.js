@@ -29,6 +29,16 @@ document.getElementById("addVertexBtn").addEventListener("click", () => {
   toast("✂️ Add Vertex Mode: click on an edge to insert");
 });
 
+document.getElementById("swapRoomsBtn").addEventListener("click", () => {
+  if (!state.selected) {
+    toast("⚠️ Select a room first");
+    return;
+  }
+  state.swapMode = true;
+  state.swapSource = state.selected;
+  toast("🔀 Swap Mode: click another room to swap names (click again to cancel)");
+});
+
 // ── Toggle controls ───────────────────────────────────────────────────────────
 document.getElementById("showNamesToggle").addEventListener("change", (e) => {
   state.showRoomNames = e.target.checked;

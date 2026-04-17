@@ -1,0 +1,4 @@
+run following command in cmd 
+
+pm2 start server.js --name my-node-app
+

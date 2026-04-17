@@ -9,6 +9,32 @@ import {
 import { draw } from "./renderer.js";
 import { saveJSON } from "./loader.js";
 
+function getActiveBoundaryPolys() {
+  if (state.currentFloor === "all") {
+    return {
+      polys: [...state.wardPolys, ...state.clinicPolys],
+      label: "layout boundary",
+    };
+  }
+
+  const matchesFloor = (poly) => String(poly.floor) === String(state.currentFloor);
+  const clinicMatches = state.clinicPolys.filter(matchesFloor);
+  if (clinicMatches.length) {
+    return { polys: clinicMatches, label: "clinic boundary" };
+  }
+
+  const wardMatches = state.wardPolys.filter(matchesFloor);
+  if (wardMatches.length) {
+    return { polys: wardMatches, label: "ward boundary" };
+  }
+
+  if (state.wardPolys.length) {
+    return { polys: state.wardPolys, label: "ward boundary" };
+  }
+
+  return { polys: state.clinicPolys, label: "clinic boundary" };
+}
+
 // ── Picking helpers ───────────────────────────────────────────────────────────
 function nearestVertex(poly, p, tol = 0.4) {
   let best = -1, bestd = Infinity;
@@ -108,7 +134,7 @@ function moveSharedEdge(movingPoly, edgeIdx, shift) {
           const distA   = (newA[0] - a[0]) * nx + (newA[1] - a[1]) * ny;
           const distB   = (newB[0] - a[0]) * nx + (newB[1] - a[1]) * ny;
           const avgDist = (distA + distB) / 2;
-          if (Math.abs(avgDist) < SNAP_DIST) {
+          if (Math.abs(avgDist) < 0.1) {
             newA = [newA[0] - avgDist * nx, newA[1] - avgDist * ny];
             newB = [newB[0] - avgDist * nx, newB[1] - avgDist * ny];
             break;
@@ -219,17 +245,25 @@ function moveSharedEdge(movingPoly, edgeIdx, shift) {
       }
     }
 
-    // Ward boundary check
-    if (state.wardPolys && state.wardPolys.length) {
+    // Active floor boundary check
+    const { polys: boundaryPolys, label: boundaryLabel } = getActiveBoundaryPolys();
+    if (boundaryPolys.length) {
       let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-      for (const w of state.wardPolys) {
+      for (const w of boundaryPolys) {
         for (const [x, y] of w.coords) {
           minX = Math.min(minX, x); minY = Math.min(minY, y);
           maxX = Math.max(maxX, x); maxY = Math.max(maxY, y);
         }
       }
       for (const [x, y] of testCoords) {
-        if (x < minX - 0.001 || x > maxX + 0.001 || y < minY - 0.001 || y > maxY + 0.001) {
+        const outsideBoundary =
+          x < minX - 0.001 || x > maxX + 0.001 ||
+          y < minY - 0.001 || y > maxY + 0.001;
+        if (outsideBoundary) {
+          toast(`Blocked: '${polyToCheck.room.roomName}' cannot go outside ${boundaryLabel}`);
+          return;
+        }
+        if (false && (x < minX - 0.001 || x > maxX + 0.001 || y < minY - 0.001 || y > maxY + 0.001)) {
           toast(`🚫 '${polyToCheck.room.roomName}' cannot go outside ward boundary`);
           return;
         }
@@ -341,6 +375,12 @@ window.addEventListener("keydown", (e) => {
       canvas.style.cursor = "crosshair";
       toast("❌ Add Vertex Mode canceled");
     }
+    if (state.swapMode) {
+      state.swapMode = false;
+      state.swapSource = null;
+      canvas.style.cursor = "crosshair";
+      toast("❌ Room swapp event canceled");
+    }
   }
 });
 
@@ -420,6 +460,31 @@ canvas.addEventListener("mousedown", (e) => {
   const poly = state.polygons.find((p) => pointInPoly({ x: w.x, y: w.y }, p));
 
   if (poly) {
+    // If we're in swap mode, perform name swap with the previously selected room
+    if (state.swapMode) {
+      if (!state.swapSource) {
+        toast("⚠️ No source room for swap");
+        state.swapMode = false;
+        draw();
+        return;
+      }
+      if (poly === state.swapSource) {
+        toast("⚠️ Click another room to swap names");
+        state.selected = poly;
+        draw();
+        return;
+      }
+      pushState();
+      const tmp = poly.room.roomName;
+      poly.room.roomName = state.swapSource.room.roomName;
+      state.swapSource.room.roomName = tmp;
+      state.swapMode = false;
+      state.swapSource = null;
+      toast("✅ Room swapped");
+      state.selected = poly;
+      draw();
+      return;
+    }
     if (poly.isColumn) {
       toast("⚠️ Column polygons are locked");
       state.selected = poly;
@@ -470,7 +535,7 @@ canvas.addEventListener("mousemove", (e) => {
     const dx = (state.mouse.x - state.mouse.start.x) / state.view.scale;
     const dy = (state.mouse.y - state.mouse.start.y) / state.view.scale;
     state.view.x -= dx;
-    state.view.y -= dy;
+    state.view.y += dy;
     state.mouse.start.x = state.mouse.x;
     state.mouse.start.y = state.mouse.y;
     draw();
@@ -500,7 +565,7 @@ canvas.addEventListener("mousemove", (e) => {
 
   if (state.selected.selected_vertex != null) {
     let x = snapped(state.mouse.wx), y = snapped(state.mouse.wy);
-    [x, y] = align(x, y, state.selected);
+    // [x, y] = align(x, y, state.selected);
     state.selected.coords[state.selected.selected_vertex] = [x, y];
     draw();
     return;
