@@ -31,6 +31,7 @@ export const state = {
   swapMode: false,
   swapSource: null,
   showRoomNames: false,
+  showDoorLocation: false,
   showRoomLengths: false,
   moveSharedEdgesEnabled: false,
   gridLines: [],
@@ -42,6 +43,13 @@ export const state = {
   currentLanguage: "eng", // 'jpn' | 'eng'
   currentFloor: "all",
   immovableList: [],
+
+  // ── Dimension tool ─────────────────────────────────────
+  dimensionMode: false,
+  dimPoint1: null,
+  dimPreview: null,
+  dimensions: [], // { p1, p2, floor }
+  dimHover: null, // preview before first click
 
   // Viewport
   view: { x: 0, y: 0, scale: 1.0 },

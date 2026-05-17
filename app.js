@@ -39,6 +39,14 @@ document.getElementById("swapRoomsBtn").addEventListener("click", () => {
   toast("🔀 Swap Mode: click another room to swap names (click again to cancel)");
 });
 
+document.getElementById("getDistanceBtn").addEventListener("click", () => {
+  state.dimensionMode = !state.dimensionMode;
+  state.dimPoint1 = null;
+  state.dimPreview = null;
+
+  toast(`📏 Dimension Mode: ${state.dimensionMode ? "ON" : "OFF"}`);
+});
+
 // ── Toggle controls ───────────────────────────────────────────────────────────
 document.getElementById("showNamesToggle").addEventListener("change", (e) => {
   state.showRoomNames = e.target.checked;
@@ -47,6 +55,11 @@ document.getElementById("showNamesToggle").addEventListener("change", (e) => {
 
 document.getElementById("showLengthsToggle").addEventListener("change", (e) => {
   state.showRoomLengths = e.target.checked;
+  draw();
+});
+
+document.getElementById("showDoorLocationToggle").addEventListener("change", (e) => {
+  state.showDoorLocation = e.target.checked;
   draw();
 });
 
@@ -65,7 +78,8 @@ document.getElementById("alignToggle").addEventListener("change", (e) => {
 });
 
 document.getElementById("snapStep").addEventListener("input", (e) => {
-  state.snapStep = Number(e.target.value) || 1;
+  // state.snapStep = Number(e.target.value) || 16;
+  state.snapStep = 16;
   draw();
 });
 

@@ -54,8 +54,105 @@ export function fitView() {
   state.view.y = maxY + (vh / state.view.scale - h) / 2;
 }
 
+function drawDimensions() {
+  const dims = state.dimensions.filter(d => d.floor === state.currentFloor);
+
+  ctx.save();
+  ctx.lineWidth = 1.5;
+  ctx.strokeStyle = "red";
+  ctx.fillStyle = "red";
+  ctx.font = "12px sans-serif";
+
+  function drawDim(p1, p2) {
+    if (!p1 || !p2) return;
+
+    const dx = Math.abs(p2[0] - p1[0]);
+    const dy = Math.abs(p2[1] - p1[1]);
+
+    // Orthogonal logic
+    let proj1, proj2;
+    let isHorizontal = dy < 0.001;
+    let isVertical = dx < 0.001;
+
+    if (isHorizontal) {
+      // Horizontal
+      proj1 = [p1[0], p1[1]];
+      proj2 = [p2[0], p1[1]];
+    } else if (isVertical) {
+      // Vertical
+      proj1 = [p1[0], p1[1]];
+      proj2 = [p1[0], p2[1]];
+    } else {
+      // Diagonal (no projection)
+      proj1 = p1;
+      proj2 = p2;
+    }
+
+    const s1 = worldToScreen(p1[0], p1[1]);
+    const s2 = worldToScreen(p2[0], p2[1]);
+    const sp1 = worldToScreen(proj1[0], proj1[1]);
+    const sp2 = worldToScreen(proj2[0], proj2[1]);
+
+    // Projection lines
+    ctx.beginPath();
+    ctx.moveTo(s1.x, s1.y);
+    ctx.lineTo(sp1.x, sp1.y);
+    ctx.moveTo(s2.x, s2.y);
+    ctx.lineTo(sp2.x, sp2.y);
+    ctx.stroke();
+
+    // Dimension line
+    ctx.beginPath();
+    ctx.moveTo(sp1.x, sp1.y);
+    ctx.lineTo(sp2.x, sp2.y);
+    ctx.stroke();
+
+    // Red dots
+    ctx.beginPath();
+    ctx.arc(s1.x, s1.y, 4, 0, Math.PI * 2);
+    ctx.arc(s2.x, s2.y, 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Distance
+    let dist;
+    if (isHorizontal) dist = dx;
+    else if (isVertical) dist = dy;
+    else dist = Math.hypot(dx, dy); // diagonal distance
+    
+    const mid = [(proj1[0] + proj2[0]) / 2, (proj1[1] + proj2[1]) / 2];
+
+    const sm = worldToScreen(mid[0], mid[1]);
+
+    ctx.fillText(dist.toFixed(2), sm.x + 5, sm.y - 5);
+  }
+
+  // Draw stored dimensions
+  for (const d of dims) {
+    drawDim(d.p1, d.p2);
+  }
+
+  // Draw preview
+  if (state.dimPoint1 && state.dimPreview) {
+    drawDim(state.dimPoint1, state.dimPreview);
+  }
+
+  // Hover preview (before first click)
+  if (state.dimensionMode && state.dimHover && !state.dimPoint1) {
+    const s = worldToScreen(state.dimHover[0], state.dimHover[1]);
+
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, 4, 0, Math.PI * 2);
+    ctx.fillStyle = "red";
+    ctx.fill();
+
+    ctx.fillText("P1", s.x + 6, s.y - 6);
+  }
+
+  ctx.restore();
+}
+
 // ── Background grid ───────────────────────────────────────────────────────────
-function drawGrid() {
+function drawGridsInBackgraound() {
   if (!state.grid.show) return;
   const xlim  = screenToWorld(0, 0).x;
   const xhi   = screenToWorld(canvas.width  / state.DPR, 0).x;
@@ -70,7 +167,7 @@ function drawGrid() {
   const endY   = Math.ceil(yhi  / step) * step;
 
   ctx.lineWidth   = 1;
-  ctx.strokeStyle = "rgba(148, 163, 184, 0.04)";
+  ctx.strokeStyle = "rgba(148, 163, 184, 0.08)";
   ctx.beginPath();
   for (let x = startX; x <= endX; x += step) {
     const s = worldToScreen(x, 0);
@@ -86,7 +183,7 @@ function drawGrid() {
 }
 
 // ── JSON structural grid lines ────────────────────────────────────────────────
-function drawGrids() {
+function drawGridsFromJSON() {
   const boundaryPolys = getActiveBoundaryPolys();
   if (!state.gridLines.length || !boundaryPolys.length) return;
   ctx.lineWidth   = 1.2;
@@ -142,6 +239,23 @@ function drawPolygon(poly, isSel) {
     ctx.arc(s.x, s.y, 3, 0, TAU);
     ctx.fillStyle = "#cbd5e1";
     ctx.fill();
+  }
+
+  // Door Location
+  let doorPt = poly.room.doorLocation
+
+  if (doorPt && state.showDoorLocation && doorPt.X != 0 && doorPt.Y != 0) {
+    const s = worldToScreen(doorPt.X, doorPt.Y)
+
+    ctx.beginPath()
+    ctx.arc(s.x, s.y, 6, 0, TAU)
+    ctx.fillStyle = "#3b82f6"
+    ctx.fill()
+
+    // optional outline
+    ctx.strokeStyle = "#1e40af"
+    ctx.lineWidth = 2
+    ctx.stroke()
   }
 
   // Edge length labels
@@ -218,8 +332,8 @@ function drawPolygon(poly, isSel) {
 // ── Main draw ─────────────────────────────────────────────────────────────────
 export function draw() {
   ctx.clearRect(0, 0, canvas.width / state.DPR, canvas.height / state.DPR);
-  drawGrid();
-  drawGrids();
+  drawGridsInBackgraound();
+  drawGridsFromJSON();
 
   const boundaryPolys = getActiveBoundaryPolys();
 
@@ -281,4 +395,6 @@ export function draw() {
   ctx.lineTo(canvas.width / state.DPR, state.mouse.y);
   ctx.stroke();
   ctx.restore();
+
+  drawDimensions();
 }
