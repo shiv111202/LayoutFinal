@@ -242,20 +242,24 @@ function drawPolygon(poly, isSel) {
   }
 
   // Door Location
-  let doorPt = poly.room.doorLocation
+  let doorAvailable = poly.room.doorInformation
 
-  if (doorPt && state.showDoorLocation && doorPt.X != 0 && doorPt.Y != 0) {
-    const s = worldToScreen(doorPt.X, doorPt.Y)
+  if (doorAvailable && state.showDoorLocation) {
+    let doorPt = poly.room.doorInformation
+    if (doorPt.length > 0){
+      let temp = doorPt[0].doorLocation
+      const s = worldToScreen(temp.X, temp.Y)
 
-    ctx.beginPath()
-    ctx.arc(s.x, s.y, 6, 0, TAU)
-    ctx.fillStyle = "#3b82f6"
-    ctx.fill()
+      ctx.beginPath()
+      ctx.arc(s.x, s.y, 6, 0, TAU)
+      ctx.fillStyle = "#3b82f6"
+      ctx.fill()
 
-    // optional outline
-    ctx.strokeStyle = "#1e40af"
-    ctx.lineWidth = 2
-    ctx.stroke()
+      // optional outline
+      ctx.strokeStyle = "#1e40af"
+      ctx.lineWidth = 2
+      ctx.stroke()
+    }
   }
 
   // Edge length labels
