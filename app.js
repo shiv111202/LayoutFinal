@@ -89,6 +89,12 @@ document.getElementById("unitSelect").addEventListener("change", (e) => {
   draw();
 });
 
+document.getElementById("fontSelect").addEventListener("change", (e) => {
+  state.currentFont = e.target.value;
+  toast(`Font Size: ${state.currentFont}`);
+  draw();
+});
+
 document.getElementById("languageSelect").addEventListener("change", (e) => {
   state.currentLanguage = e.target.value;
   toast(`Language: ${e.target.value === "jpn" ? "Japanese" : "English"}`);

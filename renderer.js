@@ -233,32 +233,46 @@ function drawPolygon(poly, isSel) {
   if (poly.isFixed) ctx.strokeStyle = "rgba(160,160,160,0.9)";
 
   // Vertices
-  for (const [x, y] of poly.coords) {
-    const s = worldToScreen(x, y);
-    ctx.beginPath();
-    ctx.arc(s.x, s.y, 3, 0, TAU);
-    ctx.fillStyle = "#cbd5e1";
-    ctx.fill();
+  if (poly.isFixed == false){
+    for (const [x, y] of poly.coords) {
+      const s = worldToScreen(x, y);
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, 3, 0, TAU);
+      ctx.fillStyle = "#cbd5e1";
+      ctx.fill();
+    }
   }
 
   // Door Location
   let doorAvailable = poly.room.doorInformation
 
   if (doorAvailable && state.showDoorLocation) {
-    let doorPt = poly.room.doorInformation
-    if (doorPt.length > 0){
-      let temp = doorPt[0].doorLocation
-      const s = worldToScreen(temp.X, temp.Y)
+    let doorPts = poly.room.doorInformation
+    if (doorPts.length > 0){
+      doorPts.forEach(doorPt => {
+        let temp = doorPt.doorLocation
+        const s = worldToScreen(temp.X, temp.Y)
 
-      ctx.beginPath()
-      ctx.arc(s.x, s.y, 6, 0, TAU)
-      ctx.fillStyle = "#3b82f6"
-      ctx.fill()
+        ctx.beginPath()
+        ctx.arc(s.x, s.y, 6, 0, TAU)
+        ctx.fillStyle =
+          poly.room.isEvacuationPassed === true
+              ? "#3b82f6"   // Passed
+              : poly.room.isEvacuationPassed === false
+                  ? "#ed4a4a"   // Failed
+                  : "gray"; // Not evaluated (null/undefined)
+        ctx.fill()
 
-      // optional outline
-      ctx.strokeStyle = "#1e40af"
-      ctx.lineWidth = 2
-      ctx.stroke()
+        // optional outline
+        ctx.strokeStyle = poly.room.isEvacuationPassed === true
+              ? "#1e40af"   // Passed
+              : poly.room.isEvacuationPassed === false
+                  ? "#f90000"   // Failed
+                  : "gray"; // Not evaluated (null/undefined)
+        ctx.lineWidth = 2
+        ctx.stroke()
+      });
+
     }
   }
 
@@ -300,35 +314,128 @@ function drawPolygon(poly, isSel) {
     }
   }
 
+  // // Room name + area label
+  // if (state.showRoomNames) {
+  //   const c      = centroid(poly);
+  //   const sc     = worldToScreen(c.x, c.y);
+  //   const factor = unitFactors[state.currentUnit];
+  //   const area   = polygonArea(poly.coords) * factor ** 2;
+  //   const areaText = `(${area.toFixed(2)} ${state.currentUnit}\u00b2)`;
+
+  //   // Pick English or Japanese display name based on language setting
+  //   let displayName = "";
+  //   if (!(poly.isColumn && poly.isFixed)) {
+  //     const engName = poly.room.roomName || "N/A";
+  //     if (state.currentLanguage === "jpn") {
+  //       const jpn = getJapaneseName(engName);
+  //       displayName = jpn || engName; // fall back to English if no translation found
+  //     } else {
+  //       displayName = engName;
+  //     }
+  //   }
+
+  //   // Use a font that supports Japanese characters
+  //   ctx.font         = "bold 12px \'Noto Sans JP\', \'Hiragino Sans\', \'Meiryo\', ui-sans-serif, system-ui";
+  //   ctx.textAlign    = "center";
+  //   ctx.textBaseline = "middle";
+  //   ctx.fillStyle    = poly.isFixed ? "rgba(0, 0, 0, 0.85)" : isSel ? "#ef4444" : "rgba(0, 0, 0, 0.85)";
+
+  //   if (!poly.isColumn) {
+  //     ctx.fillText(displayName, sc.x, sc.y);
+  //     ctx.fillText(areaText,    sc.x, sc.y + 12 * 1.2);
+  //   }
+  // }
+
   // Room name + area label
   if (state.showRoomNames) {
-    const c      = centroid(poly);
-    const sc     = worldToScreen(c.x, c.y);
+    const c = centroid(poly);
+    const sc = worldToScreen(c.x, c.y);
     const factor = unitFactors[state.currentUnit];
-    const area   = polygonArea(poly.coords) * factor ** 2;
+    const area = polygonArea(poly.coords) * factor ** 2;
     const areaText = `(${area.toFixed(2)} ${state.currentUnit}\u00b2)`;
 
-    // Pick English or Japanese display name based on language setting
+    // Pick English or Japanese display name
     let displayName = "";
     if (!(poly.isColumn && poly.isFixed)) {
       const engName = poly.room.roomName || "N/A";
       if (state.currentLanguage === "jpn") {
         const jpn = getJapaneseName(engName);
-        displayName = jpn || engName; // fall back to English if no translation found
+        displayName = jpn || engName;
       } else {
         displayName = engName;
       }
     }
 
-    // Use a font that supports Japanese characters
-    ctx.font         = "bold 12px \'Noto Sans JP\', \'Hiragino Sans\', \'Meiryo\', ui-sans-serif, system-ui";
-    ctx.textAlign    = "center";
+    ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillStyle    = poly.isFixed ? "rgba(0, 0, 0, 0.85)" : isSel ? "#ef4444" : "rgba(0, 0, 0, 0.85)";
+    ctx.fillStyle =
+      poly.isFixed
+        ? "rgba(0,0,0,0.85)"
+        : isSel
+        ? "#ef4444"
+        : "rgba(0,0,0,0.85)";
 
     if (!poly.isColumn) {
-      ctx.fillText(displayName, sc.x, sc.y);
-      ctx.fillText(areaText,    sc.x, sc.y + 12 * 1.2);
+
+      // Bounding box in screen coordinates
+      let minX = Infinity,
+        minY = Infinity,
+        maxX = -Infinity,
+        maxY = -Infinity;
+
+      for (const [x, y] of poly.coords) {
+        const s = worldToScreen(x, y);
+        minX = Math.min(minX, s.x);
+        minY = Math.min(minY, s.y);
+        maxX = Math.max(maxX, s.x);
+        maxY = Math.max(maxY, s.y);
+      }
+
+      const availWidth = (maxX - minX) * 0.85;
+      const availHeight = (maxY - minY) * 0.80;
+
+      // One word per line
+      const lines = displayName.trim().split(/[\s_]+/);
+
+      let fontSize = state.currentFont;
+
+      while (fontSize >= 4) {
+
+        ctx.font = `bold ${fontSize}px 'Noto Sans JP','Hiragino Sans','Meiryo',ui-sans-serif,system-ui`;
+
+        let widest = 0;
+
+        for (const line of lines) {
+          widest = Math.max(widest, ctx.measureText(line).width);
+        }
+
+        const lineHeight = fontSize * 1.2;
+
+        // Room name + area
+        const totalHeight = lines.length * lineHeight + lineHeight;
+
+        if (widest <= availWidth && totalHeight <= availHeight)
+          break;
+
+        fontSize--;
+      }
+
+      const lineHeight = fontSize * 1.2;
+
+      ctx.font = `bold ${fontSize}px 'Noto Sans JP','Hiragino Sans','Meiryo',ui-sans-serif,system-ui`;
+
+      const totalHeight = lines.length * lineHeight + lineHeight;
+      let y = sc.y - totalHeight / 2 + lineHeight / 2;
+
+      // Draw room name
+      for (const line of lines) {
+        ctx.fillText(line, sc.x, y);
+        y += lineHeight;
+      }
+
+      // Draw area
+      ctx.font = `${Math.max(fontSize - 1, 6)}px 'Noto Sans JP','Hiragino Sans','Meiryo',ui-sans-serif,system-ui`;
+      ctx.fillText(areaText, sc.x, y);
     }
   }
 }

@@ -255,19 +255,19 @@ function moveSharedEdge(movingPoly, edgeIdx, shift) {
           maxX = Math.max(maxX, x); maxY = Math.max(maxY, y);
         }
       }
-      for (const [x, y] of testCoords) {
-        const outsideBoundary =
-          x < minX - 0.001 || x > maxX + 0.001 ||
-          y < minY - 0.001 || y > maxY + 0.001;
-        if (outsideBoundary) {
-          toast(`Blocked: '${polyToCheck.room.roomName}' cannot go outside ${boundaryLabel}`);
-          return;
-        }
-        if (false && (x < minX - 0.001 || x > maxX + 0.001 || y < minY - 0.001 || y > maxY + 0.001)) {
-          toast(`🚫 '${polyToCheck.room.roomName}' cannot go outside ward boundary`);
-          return;
-        }
-      }
+      // for (const [x, y] of testCoords) {
+      //   const outsideBoundary =
+      //     x < minX - 0.001 || x > maxX + 0.001 ||
+      //     y < minY - 0.001 || y > maxY + 0.001;
+      //   if (outsideBoundary) {
+      //     toast(`Blocked: '${polyToCheck.room.roomName}' cannot go outside ${boundaryLabel}`);
+      //     return;
+      //   }
+      //   if (false && (x < minX - 0.001 || x > maxX + 0.001 || y < minY - 0.001 || y > maxY + 0.001)) {
+      //     toast(`🚫 '${polyToCheck.room.roomName}' cannot go outside ward boundary`);
+      //     return;
+      //   }
+      // }
     }
   }
 
@@ -336,6 +336,44 @@ function alignPoint([x, y], current) {
   return [x, y];
 }
 
+function alignPointGlobal([x, y]) {
+  const SNAP_TOL = 0.3;
+  const EDGE_TOL = 0.25;
+
+  for (const poly of state.polygons) {
+    if (poly.isColumn) continue;
+
+    // Snap to vertices
+    for (const [vx, vy] of poly.coords) {
+      if (Math.abs(vx - x) < SNAP_TOL) x = vx;
+      if (Math.abs(vy - y) < SNAP_TOL) y = vy;
+    }
+
+    // Snap to edges
+    const cs = poly.coords;
+    for (let i = 0; i < cs.length; i++) {
+      const a = cs[i];
+      const b = cs[(i + 1) % cs.length];
+
+      const ab = [b[0] - a[0], b[1] - a[1]];
+      const len = Math.hypot(ab[0], ab[1]);
+      if (len < 1e-6) continue;
+
+      const nx = ab[1] / len;
+      const ny = -ab[0] / len;
+
+      const dist = (x - a[0]) * nx + (y - a[1]) * ny;
+
+      if (Math.abs(dist) < EDGE_TOL) {
+        x -= dist * nx;
+        y -= dist * ny;
+      }
+    }
+  }
+
+  return [x, y];
+}
+
 // ── Keyboard ──────────────────────────────────────────────────────────────────
 window.addEventListener("keydown", (e) => {
   if (e.key === "Shift") {
@@ -369,6 +407,12 @@ window.addEventListener("keydown", (e) => {
     state.addVertexMode = true;
     canvas.style.cursor = "crosshair";
     toast("✂️ Add Vertex Mode: click on an edge to insert");
+  } else if (e.key === "d" || e.key === "D") {
+    state.dimensionMode = !state.dimensionMode;
+    state.dimPoint1 = null;
+    state.dimPreview = null;
+
+    toast(`📏 Dimension Mode: ${state.dimensionMode ? "ON" : "OFF"}`);
   } else if (e.key === "Escape") {
     if (state.addVertexMode) {
       state.addVertexMode = false;
@@ -381,6 +425,16 @@ window.addEventListener("keydown", (e) => {
       canvas.style.cursor = "crosshair";
       toast("❌ Room swapp event canceled");
     }
+    if (state.dimensionMode) {
+      state.dimensionMode = !state.dimensionMode;
+      state.dimPoint1 = null;
+      state.dimPreview = null;
+
+      toast(`📏 Dimension Mode: ${state.dimensionMode ? "ON" : "OFF"}`);
+    }
+    state.dimensions = [];
+    state.dimPoint1 = null;
+    state.dimPreview = null;
   }
 });
 
@@ -408,6 +462,46 @@ canvas.addEventListener("mousedown", (e) => {
     return;
   } else if (state.selected && state.selected.isFixed) {
     toast("⚠️ Polygons are locked");
+    return;
+  }
+
+  if (e.button === 1 || e.button === 2) {
+    state.panning = true;
+    return;
+  }
+
+  // ── Dimension Mode Click Handling ─────────────────────
+  if (state.dimensionMode && e.button === 0) {
+    const wx = state.mouse.wx;
+    const wy = state.mouse.wy;
+
+    // let [x, y] = alignPoint([wx, wy], state.selected || {});
+    let [x, y] = alignPointGlobal([state.mouse.wx, state.mouse.wy]);
+    state.dimHover = null;
+
+    if (!state.dimPoint1) {
+      state.dimPoint1 = [x, y];
+      return;
+    }
+
+    const p1 = state.dimPoint1;
+    const p2 = [x, y];
+
+    state.dimensions.push({
+      p1,
+      p2,
+      floor: state.currentFloor
+    });
+
+    // Reset everything
+    state.dimPoint1 = null;
+    state.dimPreview = null;
+    state.dimHover = null;
+
+    // 🔥 TURN OFF DIMENSION MODE
+    state.dimensionMode = false;
+
+    draw();
     return;
   }
 
@@ -445,10 +539,7 @@ canvas.addEventListener("mousedown", (e) => {
     return;
   }
 
-  if (e.button === 1 || e.button === 2) {
-    state.panning = true;
-    return;
-  }
+
 
   const edgeIdx = state.selected ? nearestEdge(state.selected, [w.x, w.y]) : null;
   if (state.selected && edgeIdx != null) {
@@ -516,6 +607,23 @@ canvas.addEventListener("mousemove", (e) => {
   state.mouse.wy = w.y;
 
   if (state.selected?.isFixed) return;
+
+  // ── Dimension Preview ────────────────────────────────
+  if (state.dimensionMode) {
+    // let [x, y] = alignPoint([state.mouse.wx, state.mouse.wy], state.selected || {});
+    let [x, y] = alignPointGlobal([state.mouse.wx, state.mouse.wy]);
+
+    if (!state.dimPoint1) {
+      // BEFORE first click → just hover preview
+      state.dimHover = [x, y];
+    } else {
+      // AFTER first click → full preview
+      state.dimPreview = [x, y];
+    }
+
+    draw();
+    return;
+  }
 
   if (state.selected) {
     state.highlightEdge.idx  = nearestEdge(state.selected, [w.x, w.y]);

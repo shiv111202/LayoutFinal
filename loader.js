@@ -122,6 +122,31 @@ document.addEventListener("drop", (e) => {
   input.dispatchEvent(new Event("change", { bubbles: true }));
 });
 
+document.addEventListener("keydown", (ev) => {
+  // Ignore if typing in an input, textarea, or select
+  const tag = document.activeElement.tagName;
+  if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") {
+    return;
+  }
+
+  if (["1", "2", "3", "4", "5"].includes(ev.key)) {
+    const floorSelect = document.getElementById("floorSelect");
+
+    // Update the dropdown
+    floorSelect.value = ev.key;
+
+    // Trigger the existing change handler
+    floorSelect.dispatchEvent(new Event("change"));
+  }
+
+  // Optional: Press 0 or A to show all floors
+  if (ev.key === "0" || ev.key.toLowerCase() === "a") {
+    const floorSelect = document.getElementById("floorSelect");
+    floorSelect.value = "all";
+    floorSelect.dispatchEvent(new Event("change"));
+  }
+});
+
 // ── Floor-plan JSON loader ────────────────────────────────────────────────────
 document.getElementById("loadFile").addEventListener("change", async (e) => {
   const f = e.target.files?.[0];
@@ -266,6 +291,9 @@ document.getElementById("loadFile").addEventListener("change", async (e) => {
     newFloorSelect.addEventListener("change", (ev) => {
       const selectedFloor = ev.target.value;
       state.selected = null; // clear selection when switching floors
+      state.dimensions = [];
+      state.dimPoint1 = null;
+      state.dimPreview = null;
       applyFloor(selectedFloor);
       computeNeighbors();
       draw();

@@ -30,7 +30,7 @@ export const state = {
   addVertexMode: false,
   swapMode: false,
   swapSource: null,
-  showRoomNames: false,
+  showRoomNames: true,
   showDoorLocation: false,
   showRoomLengths: false,
   moveSharedEdgesEnabled: false,
@@ -40,6 +40,7 @@ export const state = {
   roomConstraints: {},
   grid: { show: true },
   currentUnit: "m",
+  currentFont: 12,
   currentLanguage: "eng", // 'jpn' | 'eng'
   currentFloor: "all",
   immovableList: [],
